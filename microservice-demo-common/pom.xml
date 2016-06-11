@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>practices</groupId>
+		<artifactId>microservice-parent</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>microservice-demo-common</artifactId>
+	<packaging>jar</packaging>
+	<name>${project.artifactId}</name>
+	<description>The demo common of microservice project</description>
+	<properties>
+		<skip_maven_deploy>true</skip_maven_deploy>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<extensions>
+			<extension>
+				<groupId>kr.motd.maven</groupId>
+				<artifactId>os-maven-plugin</artifactId>
+				<version>1.4.1.Final</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<plugin>
+				<groupId>org.xolstice.maven.plugins</groupId>
+				<artifactId>protobuf-maven-plugin</artifactId>
+				<version>0.5.0</version>
+				<configuration>
+					<!-- Either protoc executable has to be in the PATH or the protocExecutable 
+						parameter has to be set to the correct location. An alternative configuration 
+						involves toolchains (described in plugin examples). -->
+					<!--<protocExecutable>/usr/local/bin/protoc</protocExecutable> -->
+					<!-- The version of protoc must match protobuf-java. If you don't depend 
+						on protobuf-java directly, you will be transitively depending on the protobuf-java 
+						version that grpc depends on. -->
+					<checkStaleness>true</checkStaleness>
+					<writeDescriptorSet>true</writeDescriptorSet>
+					<descriptorSetFileName>protos.desc</descriptorSetFileName>
+					<!--<descriptorSetOutputDirectory>true</descriptorSetOutputDirectory> -->
+					<protocArtifact>com.google.protobuf:protoc:3.0.0-beta-3:exe:${os.detected.classifier}</protocArtifact>
+					<pluginId>grpc-java</pluginId>
+					<pluginArtifact>io.grpc:protoc-gen-grpc-java:0.14.0:exe:${os.detected.classifier}</pluginArtifact>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>compile-custom</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

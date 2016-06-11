@@ -23,5 +23,5 @@ Source Building
 
     cd ~/dubbo
     mvn clean install -Dmaven.test.skip
-    cd practices-microservice/target
+    cd dubbo/target
     ls

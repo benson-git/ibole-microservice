@@ -1,0 +1,7 @@
+1. Introduce zookeeper
+   1.1 registry
+   1.2 loadbalance
+   
+2. Client API encapsulation
+
+3. Introduce OAuth

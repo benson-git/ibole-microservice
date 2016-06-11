@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+	<groupId>practices</groupId>
+	<artifactId>microservice-parent</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+	<description>The parent project of practices microservice framework</description>
+	<url>http://code</url>
+	<inceptionYear>2016</inceptionYear>
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+	<organization>
+		<name>practices</name>
+		<url>http://www.practices.com</url>
+	</organization>
+	<modules>
+		<module>microservice-common</module>
+		<module>microservice-remoting</module>
+		<module>microservice-rpc</module>
+		<module>microservice-registry</module>
+		<module>microservice-test</module>
+		<module>microservice-demo-client</module>
+		<module>microservice-demo-common</module>
+		<module>microservice-demo-server</module>
+        <module>microservice-all</module>
+  </modules>
+	<profiles>
+		<profile>
+			<id>test</id>
+			<activation>
+				<file>
+					<missing>.project</missing>
+				</file>
+			</activation>
+			<modules>
+				<module>microservice-test</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>Jenkins</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<testFailureIgnore>true</testFailureIgnore>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<properties>
+		<!-- Common libs -->
+		<slf4j_log4j12_version>1.7.5</slf4j_log4j12_version>
+		<commons_logging_api_version>1.1</commons_logging_api_version>
+		<log4j_version>1.2.17</log4j_version>
+		<netty_tcnative_boringssl_static_version>1.1.33.Fork17</netty_tcnative_boringssl_static_version>
+		<netty_tcnative_version>1.1.33.Fork17</netty_tcnative_version>
+	    <javassist_version>3.18.0-GA</javassist_version>
+		<grpc_all_version>0.14.0</grpc_all_version>
+		<protobuf_java_version>3.0.0-beta-3</protobuf_java_version>
+		<guava_version>18.0</guava_version>
+		<gson_version>2.3</gson_version>
+		<springframework_version>4.2.6.RELEASE</springframework_version>
+		<zookeeper_version>3.4.8</zookeeper_version>
+		<junit_version>4.11</junit_version>
+		<mockito_all_version>1.10.19</mockito_all_version>	
+
+		<!-- Build args -->
+		<argline>-server -Xms64m -Xmx64m -XX:PermSize=64m -XX:MaxPermSize=64m</argline>
+		<skip_maven_deploy>false</skip_maven_deploy>
+		<updateReleaseInfo>true</updateReleaseInfo>
+		<project.build.sourceEncoding>${file_encoding}</project.build.sourceEncoding>
+
+		<!-- generate idea copyright -->
+		<copyright>Copyright 2016 XXX.&#10; &#10;Licensed under
+			the Apache License, Version 2.0 (the &quot;License&quot;);&#10;you
+			may not use this file except in compliance with the License.&#10;You
+			may obtain a copy of the License at&#10; &#10;
+			http://www.apache.org/licenses/LICENSE-2.0&#10; &#10;Unless required
+			by applicable law or agreed to in writing, software&#10;distributed
+			under the License is distributed on an &quot;AS IS&quot;
+			BASIS,&#10;WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+			express or implied.&#10;See the License for the specific language
+			governing permissions and&#10;limitations under the License.</copyright>
+		<profile.name>oss</profile.name>
+		
+		<!-- for maven compiler plugin -->
+		<maven_compiler_plugin_version>3.5.1</maven_compiler_plugin_version>
+		<java_source_version>1.8</java_source_version>
+		<java_target_version>1.8</java_target_version>
+		<file_encoding>UTF-8</file_encoding>
+		<maven_source_plugin_version>3.0.0</maven_source_plugin_version>
+		<maven_jar_plugin_version>2.6</maven_jar_plugin_version>
+		<maven_war_plugin_version>2.2</maven_war_plugin_version>
+		<maven_install_plugin_version>2.5.2</maven_install_plugin_version>
+		<maven_deploy_plugin_version>2.8.2</maven_deploy_plugin_version>
+        <maven-surefire-plugin_version>2.19.1</maven-surefire-plugin_version>
+
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Common libs -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson_version}</version>
+			</dependency>
+			<!-- Byte code tool -->
+			<dependency>
+				<groupId>org.javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>${javassist_version}</version>
+			</dependency>
+			<!-- Spring framework -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${springframework_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${springframework_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${springframework_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${springframework_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${springframework_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${springframework_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${springframework_version}</version>
+			</dependency>
+			<!-- Distribution system management -->
+			<dependency>
+				<groupId>org.apache.zookeeper</groupId>
+				<artifactId>zookeeper</artifactId>
+				<version>${zookeeper_version}</version>
+			</dependency>
+			<!-- Netty ssl -->
+			<dependency>
+				<groupId>io.netty</groupId>
+				<artifactId>netty-tcnative-boringssl-static</artifactId>
+				<version>${netty_tcnative_boringssl_static_version}</version>
+			</dependency>
+			<!-- <dependency> <groupId>io.netty</groupId> <artifactId>netty-tcnative</artifactId> 
+				<version>${netty_tcnative_version}</version> </dependency> -->
+			<!-- gRPC and Protobuf -->
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-all</artifactId>
+				<version>${grpc_all_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>${protobuf_java_version}</version>
+			</dependency>
+			<!-- Log libs -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j_log4j12_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${slf4j_log4j12_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging-api</artifactId>
+				<version>${commons_logging_api_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j_version}</version>
+			</dependency>
+			<!-- Test libs -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit_version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>${mockito_all_version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>true</addMavenDescriptor>
+						<index>true</index>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven_source_plugin_version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin_version}</version>
+				<configuration>
+					<useSystemClassLoader>true</useSystemClassLoader>
+					<forkMode>once</forkMode>
+					<argLine>${argline}</argLine>
+					<systemProperties>
+						<!-- server side -->
+						<property>
+							<name>port</name>
+							<value>${port}</value>
+						</property>
+						<!-- client side -->
+						<property>
+							<name>server</name>
+							<value>${server}</value>
+						</property>
+						<property>
+							<name>timeout</name>
+							<value>${timeout}</value>
+						</property>
+					</systemProperties>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>${skip_maven_deploy}</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven_jar_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven_war_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${maven_install_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${maven_deploy_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven_compiler_plugin_version}</version>
+					<configuration>
+                        <fork>true</fork>
+						<source>${java_source_version}</source>
+						<target>${java_target_version}</target>
+						<encoding>${file_encoding}</encoding>
+                      <!--<compilerArgs>
+                            <arg>-XX:MaxPermSize=512M</arg>
+                        </compilerArgs>  -->  
+					</configuration>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings
+					only. It has no influence on the Maven build itself. 
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-dependency-plugin
+										</artifactId>
+										<versionRange>
+											[2.8,)
+										</versionRange>
+										<goals>
+											<goal>unpack</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore/>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>-->
+			</plugins>
+		</pluginManagement>
+
+	</build>
+
+
+</project>
