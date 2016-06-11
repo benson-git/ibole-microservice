@@ -25,7 +25,7 @@
 		<module>microservice-common</module>
 		<module>microservice-remoting</module>
 		<module>microservice-rpc</module>
-		<module>microservice-registry</module>
+		<module>microservice-discovery</module>
 		<module>microservice-test</module>
 		<module>microservice-demo-client</module>
 		<module>microservice-demo-common</module>
@@ -73,6 +73,7 @@
 		<gson_version>2.3</gson_version>
 		<springframework_version>4.2.6.RELEASE</springframework_version>
 		<zookeeper_version>3.4.8</zookeeper_version>
+		<curator_version>2.10.0</curator_version>
 		<junit_version>4.11</junit_version>
 		<mockito_all_version>1.10.19</mockito_all_version>	
 
@@ -163,11 +164,36 @@
 				<artifactId>spring-orm</artifactId>
 				<version>${springframework_version}</version>
 			</dependency>
-			<!-- Distribution system management -->
+			<!-- Client/server system for distributed coordination. -->
 			<dependency>
 				<groupId>org.apache.zookeeper</groupId>
 				<artifactId>zookeeper</artifactId>
 				<version>${zookeeper_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-framework</artifactId>
+				<version>${curator_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-recipes</artifactId>
+				<version>${curator_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-client</artifactId>
+				<version>${curator_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-x-discovery</artifactId>
+				<version>${curator_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-test</artifactId>
+				<version>${curator_version}</version>
 			</dependency>
 			<!-- Netty ssl -->
 			<dependency>
@@ -335,7 +361,7 @@
 					</configuration>
 				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings
-					only. It has no influence on the Maven build itself. 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -365,7 +391,7 @@
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
-				</plugin>-->
+				</plugin>
 			</plugins>
 		</pluginManagement>
 

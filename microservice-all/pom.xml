@@ -7,7 +7,7 @@
     <artifactId>microservice-parent</artifactId>
     <version>0.0.1</version>
   </parent>
-	<artifactId>microservice</artifactId>
+	<artifactId>microservice-all</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	<description>The all in one project of microservice</description>
@@ -38,7 +38,7 @@
 		</dependency>
 		<dependency>
 			<groupId>practices</groupId>
-			<artifactId>microservice-registry</artifactId>
+			<artifactId>microservice-discovery</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
@@ -93,7 +93,7 @@
 								    <include>practices:microservice-common</include>
 								    <include>practices:microservice-remoting</include>
 								    <include>practices:microservice-rpc</include>
-								    <include>practices:microservice-registry</include>
+								    <include>practices:microservice-discovery</include>
 
 								</includes>
 							</artifactSet>

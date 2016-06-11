@@ -28,7 +28,7 @@
 		</dependency>
 		<dependency>
 			<groupId>practices</groupId>
-			<artifactId>microservice-registry</artifactId>
+			<artifactId>microservice-discovery</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
