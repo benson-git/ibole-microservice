@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+  <classpathentry kind="src" path="/microservice-common"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/guava/guava/18.0/guava-18.0.jar" sourcepath="M2_REPO/com/google/guava/guava/18.0/guava-18.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/code/gson/gson/2.3/gson-2.3.jar" sourcepath="M2_REPO/com/google/code/gson/gson/2.3/gson-2.3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/javassist/javassist/3.18.0-GA/javassist-3.18.0-GA.jar"/>
+  <classpathentry kind="src" path="/microservice-remoting"/>
+  <classpathentry kind="src" path="/microservice-rpc"/>
+  <classpathentry kind="src" path="/microservice-registry"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.7.5/slf4j-log4j12-1.7.5.jar"/>
+  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/4.2.6.RELEASE/spring-beans-4.2.6.RELEASE.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/4.2.6.RELEASE/spring-core-4.2.6.RELEASE.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-context/4.2.6.RELEASE/spring-context-4.2.6.RELEASE.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-aop/4.2.6.RELEASE/spring-aop-4.2.6.RELEASE.jar"/>
+  <classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-expression/4.2.6.RELEASE/spring-expression-4.2.6.RELEASE.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-tx/4.2.6.RELEASE/spring-tx-4.2.6.RELEASE.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-jdbc/4.2.6.RELEASE/spring-jdbc-4.2.6.RELEASE.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-orm/4.2.6.RELEASE/spring-orm-4.2.6.RELEASE.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/grpc/grpc-all/0.14.0/grpc-all-0.14.0.jar" sourcepath="M2_REPO/io/grpc/grpc-all/0.14.0/grpc-all-0.14.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/grpc/grpc-netty/0.14.0/grpc-netty-0.14.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/netty/netty-codec-http2/4.1.0.CR7/netty-codec-http2-4.1.0.CR7.jar" sourcepath="M2_REPO/io/netty/netty-codec-http2/4.1.0.CR7/netty-codec-http2-4.1.0.CR7-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/netty/netty-codec-http/4.1.0.CR7/netty-codec-http-4.1.0.CR7.jar" sourcepath="M2_REPO/io/netty/netty-codec-http/4.1.0.CR7/netty-codec-http-4.1.0.CR7-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/netty/netty-codec/4.1.0.CR7/netty-codec-4.1.0.CR7.jar" sourcepath="M2_REPO/io/netty/netty-codec/4.1.0.CR7/netty-codec-4.1.0.CR7-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/netty/netty-transport/4.1.0.CR7/netty-transport-4.1.0.CR7.jar" sourcepath="M2_REPO/io/netty/netty-transport/4.1.0.CR7/netty-transport-4.1.0.CR7-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/netty/netty-buffer/4.1.0.CR7/netty-buffer-4.1.0.CR7.jar" sourcepath="M2_REPO/io/netty/netty-buffer/4.1.0.CR7/netty-buffer-4.1.0.CR7-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/netty/netty-common/4.1.0.CR7/netty-common-4.1.0.CR7.jar" sourcepath="M2_REPO/io/netty/netty-common/4.1.0.CR7/netty-common-4.1.0.CR7-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/netty/netty-resolver/4.1.0.CR7/netty-resolver-4.1.0.CR7.jar" sourcepath="M2_REPO/io/netty/netty-resolver/4.1.0.CR7/netty-resolver-4.1.0.CR7-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/netty/netty-handler/4.1.0.CR7/netty-handler-4.1.0.CR7.jar" sourcepath="M2_REPO/io/netty/netty-handler/4.1.0.CR7/netty-handler-4.1.0.CR7-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/grpc/grpc-core/0.14.0/grpc-core-0.14.0.jar" sourcepath="M2_REPO/io/grpc/grpc-core/0.14.0/grpc-core-0.14.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/code/findbugs/jsr305/3.0.0/jsr305-3.0.0.jar" sourcepath="M2_REPO/com/google/code/findbugs/jsr305/3.0.0/jsr305-3.0.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/grpc/grpc-okhttp/0.14.0/grpc-okhttp-0.14.0.jar" sourcepath="M2_REPO/io/grpc/grpc-okhttp/0.14.0/grpc-okhttp-0.14.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/squareup/okio/okio/1.6.0/okio-1.6.0.jar" sourcepath="M2_REPO/com/squareup/okio/okio/1.6.0/okio-1.6.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/squareup/okhttp/okhttp/2.5.0/okhttp-2.5.0.jar" sourcepath="M2_REPO/com/squareup/okhttp/okhttp/2.5.0/okhttp-2.5.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/grpc/grpc-protobuf-nano/0.14.0/grpc-protobuf-nano-0.14.0.jar" sourcepath="M2_REPO/io/grpc/grpc-protobuf-nano/0.14.0/grpc-protobuf-nano-0.14.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/protobuf/nano/protobuf-javanano/3.0.0-alpha-5/protobuf-javanano-3.0.0-alpha-5.jar" sourcepath="M2_REPO/com/google/protobuf/nano/protobuf-javanano/3.0.0-alpha-5/protobuf-javanano-3.0.0-alpha-5-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/grpc/grpc-protobuf/0.14.0/grpc-protobuf-0.14.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/protobuf/protobuf-java/3.0.0-beta-3/protobuf-java-3.0.0-beta-3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/protobuf/protobuf-java-util/3.0.0-beta-2/protobuf-java-util-3.0.0-beta-2.jar" sourcepath="M2_REPO/com/google/protobuf/protobuf-java-util/3.0.0-beta-2/protobuf-java-util-3.0.0-beta-2-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/grpc/grpc-protobuf-lite/0.14.0/grpc-protobuf-lite-0.14.0.jar" sourcepath="M2_REPO/io/grpc/grpc-protobuf-lite/0.14.0/grpc-protobuf-lite-0.14.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/grpc/grpc-auth/0.14.0/grpc-auth-0.14.0.jar" sourcepath="M2_REPO/io/grpc/grpc-auth/0.14.0/grpc-auth-0.14.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/auth/google-auth-library-oauth2-http/0.3.0/google-auth-library-oauth2-http-0.3.0.jar" sourcepath="M2_REPO/com/google/auth/google-auth-library-oauth2-http/0.3.0/google-auth-library-oauth2-http-0.3.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/auth/google-auth-library-credentials/0.3.0/google-auth-library-credentials-0.3.0.jar" sourcepath="M2_REPO/com/google/auth/google-auth-library-credentials/0.3.0/google-auth-library-credentials-0.3.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/http-client/google-http-client/1.19.0/google-http-client-1.19.0.jar" sourcepath="M2_REPO/com/google/http-client/google-http-client/1.19.0/google-http-client-1.19.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpclient/4.0.1/httpclient-4.0.1.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpclient/4.0.1/httpclient-4.0.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpcore/4.0.1/httpcore-4.0.1.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpcore/4.0.1/httpcore-4.0.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-codec/commons-codec/1.3/commons-codec-1.3.jar" sourcepath="M2_REPO/commons-codec/commons-codec/1.3/commons-codec-1.3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/http-client/google-http-client-jackson2/1.19.0/google-http-client-jackson2-1.19.0.jar" sourcepath="M2_REPO/com/google/http-client/google-http-client-jackson2/1.19.0/google-http-client-jackson2-1.19.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/core/jackson-core/2.1.3/jackson-core-2.1.3.jar" sourcepath="M2_REPO/com/fasterxml/jackson/core/jackson-core/2.1.3/jackson-core-2.1.3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/grpc/grpc-stub/0.14.0/grpc-stub-0.14.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/zookeeper/zookeeper/3.4.8/zookeeper-3.4.8.jar"/>
+  <classpathentry kind="var" path="M2_REPO/jline/jline/0.9.94/jline-0.9.94.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/4.11/junit-4.11.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/netty/netty/3.7.0.Final/netty-3.7.0.Final.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/netty/netty-tcnative-boringssl-static/1.1.33.Fork17/netty-tcnative-boringssl-static-1.1.33.Fork17.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19.jar"/>
+</classpath>

@@ -21,7 +21,7 @@ Source Building
 
 3. Build the practices-microservice binary package:
 
-    cd ~/dubbo
+    cd ~/practices-microservice
     mvn clean install -Dmaven.test.skip
     cd practices-microservice/target
     ls
