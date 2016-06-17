@@ -8,19 +8,20 @@ import java.util.ServiceLoader;
 import practices.microservice.common.exception.ProviderNotFoundException;
 
 /**
+ * Lookup the business service instance from somewhere.
  * @author bwang
  *
  */
-public abstract class ServiceInstanceProvider {
-	private static final ServiceInstanceProvider provider = load(Thread
+public abstract class BuzzServiceInstanceProvider {
+	private static final BuzzServiceInstanceProvider provider = load(Thread
 			.currentThread().getContextClassLoader());
 
-	static final ServiceInstanceProvider load(ClassLoader cl) {
-		ServiceLoader<ServiceInstanceProvider> providers = ServiceLoader.load(
-				ServiceInstanceProvider.class, cl);
-		ServiceInstanceProvider best = null;
+	static final BuzzServiceInstanceProvider load(ClassLoader cl) {
+		ServiceLoader<BuzzServiceInstanceProvider> providers = ServiceLoader.load(
+				BuzzServiceInstanceProvider.class, cl);
+		BuzzServiceInstanceProvider best = null;
 
-		for (ServiceInstanceProvider current : providers) {
+		for (BuzzServiceInstanceProvider current : providers) {
 			if (!current.isAvailable()) {
 				continue;
 			} else if (best == null) {
@@ -54,7 +55,7 @@ public abstract class ServiceInstanceProvider {
 	 * @throws ProviderNotFoundException
 	 *             if no provider is available
 	 */
-	public static ServiceInstanceProvider provider() {
+	public static BuzzServiceInstanceProvider provider() {
 		if (provider == null) {
 			throw new ProviderNotFoundException("No functional server found. "
 					+ "Try adding a dependency on the rpc framework artifact");

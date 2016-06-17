@@ -5,3 +5,6 @@
 2. Client API encapsulation
 
 3. Introduce OAuth
+
+
+provider是可以独立运行的，dubbo.jar里面有assembly目录，运行mvn assembly:directory就可以生成能直接运行的provider目录

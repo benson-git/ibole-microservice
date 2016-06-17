@@ -50,7 +50,7 @@ import java.util.logging.Logger;
 
 import javax.net.ssl.SSLException;
 
-import practices.microservice.common.SSLUtils;
+import practices.microservice.common.utils.SSLUtils;
 import practices.microservice.demo.protos.Feature;
 import practices.microservice.demo.protos.Point;
 import practices.microservice.demo.protos.Rectangle;

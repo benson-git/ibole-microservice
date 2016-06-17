@@ -48,8 +48,9 @@ import java.util.logging.Logger;
 
 import javax.net.ssl.SSLException;
 
-import practices.microservice.common.SSLUtils;
+import practices.microservice.common.utils.SSLUtils;
 import practices.microservice.demo.protos.GreeterGrpc;
+import practices.microservice.demo.protos.GreeterGrpc.GreeterBlockingStub;
 import practices.microservice.demo.protos.Helloworld.HelloReply;
 import practices.microservice.demo.protos.Helloworld.HelloRequest;
 
@@ -61,7 +62,7 @@ public class HelloWorldClient {
 			.getLogger(HelloWorldClient.class.getName());
 
 	private final ManagedChannel channel;
-	private final GreeterGrpc.GreeterBlockingStub blockingStub;
+	private final GreeterBlockingStub blockingStub;
 	
 	/** Construct client connecting to HelloWorld server at {@code host:port}. 
 	 * @throws IOException */

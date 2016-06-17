@@ -3,6 +3,7 @@
  */
 package practices.microservice.registry.grpc;
 
+import io.grpc.ServerServiceDefinition;
 import practices.microservice.registry.ServiceRegistry;
 import practices.microservice.registry.ServiceRegistryProvider;
 
@@ -33,10 +34,11 @@ public class GrpcServiceRegistryProvider extends ServiceRegistryProvider {
 	/* (non-Javadoc)
 	 * @see practices.rpc.service.registry.ServiceRegistryProvider#createServiceRegistry()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public ServiceRegistry createServiceRegistry() {
-		
-		return new GrpcServiceRegistry();
+	public ServiceRegistry<ServerServiceDefinition> createServiceRegistry() {
+		//TODO
+		return null;
 	}
 
 }

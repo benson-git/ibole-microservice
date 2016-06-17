@@ -6,17 +6,17 @@ package practices.microservice.registry.spring;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import practices.microservice.registry.ServiceInstanceProvider;
+import practices.microservice.registry.BuzzServiceInstanceProvider;
 
 /**
  * @author bwang
  *
  */
-public class SpringServiceInstanceProvider extends ServiceInstanceProvider {
+public class SpringBuzzServiceInstanceProvider extends BuzzServiceInstanceProvider {
 	
 	private static ApplicationContext ctx;
 	
-	public SpringServiceInstanceProvider(){
+	public SpringBuzzServiceInstanceProvider(){
 	     ctx = new ClassPathXmlApplicationContext(
 				"beans-annotation.xml");
 	}

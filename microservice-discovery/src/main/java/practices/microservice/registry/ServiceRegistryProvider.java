@@ -56,5 +56,5 @@ public abstract class ServiceRegistryProvider {
 		return provider;
 	}
 
-	public abstract ServiceRegistry createServiceRegistry();
+	public abstract <T> ServiceRegistry<T> createServiceRegistry();
 }

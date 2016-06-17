@@ -1,4 +1,4 @@
-package practices.microservice.registry;
+package practices.microservice.discovery;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

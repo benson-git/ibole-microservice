@@ -5,8 +5,6 @@ package practices.microservice.rpc.server;
 
 import java.io.IOException;
 
-import practices.microservice.registry.ServiceRegistry;
-
 /**
  * @author bwang
  *
@@ -33,9 +31,8 @@ public interface RpcServer {
 	 */
 	public void blockUntilShutdown() throws InterruptedException;
 	/**
-	 * Look up services and bind to RPC server.
-	 * @return the instance of ServiceRegistry.
+	 * Register service to service register center.
 	 */
-	public ServiceRegistry lookupServices();
+	public void registerService();
 	
 }

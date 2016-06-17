@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import practices.microservice.common.Constants;
+import practices.microservice.common.utils.Constants;
 
 
 /**

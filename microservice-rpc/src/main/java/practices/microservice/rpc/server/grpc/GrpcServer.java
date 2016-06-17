@@ -13,11 +13,9 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import practices.microservice.common.Constants;
-import practices.microservice.common.SSLUtils;
-import practices.microservice.registry.RegisterEntry;
-import practices.microservice.registry.ServiceRegistry;
-import practices.microservice.registry.ServiceRegistryProvider;
+import practices.microservice.common.utils.Constants;
+import practices.microservice.common.utils.SSLUtils;
+import practices.microservice.registry.grpc.GrpcServiceDefinitionLoader;
 import practices.microservice.rpc.server.RpcServer;
 
 
@@ -52,19 +50,21 @@ public class GrpcServer implements RpcServer {
 					SSLUtils.loadCert("server.key")).build();
 			serverBuilder.sslContext(sslContext);
 		}
-		serverBuilder = bindServices(serverBuilder);
+		serverBuilder = bindService(serverBuilder);
 		server = serverBuilder.flowControlWindow(65 * 1024)
-		// .addService(GreeterGrpc.bindService(new GreeterImpl())).
 				.build().start();
 	}
-
-	private NettyServerBuilder bindServices(NettyServerBuilder serverBuilder)
+    /**
+     * Load gRPC specified service definition and then add to gRPC registry.
+     * 
+     * @param serverBuilder
+     * @return the instance of NettyServerBuilder
+     */
+	public NettyServerBuilder bindService(NettyServerBuilder serverBuilder)
 	{
-		ServiceRegistry serviceRegister = lookupServices();
-		serviceRegister.loadService();
-		List<RegisterEntry> services = serviceRegister.getServiceList();
-		for(RegisterEntry service : services){
-			serverBuilder.addService((ServerServiceDefinition) service.getServiceDefinition().getServiceObj());
+		List<ServerServiceDefinition> services = GrpcServiceDefinitionLoader.load().getServiceList();
+		for(ServerServiceDefinition service : services){
+			serverBuilder.addService(service);
 		}
 		return serverBuilder;
 	}
@@ -89,8 +89,8 @@ public class GrpcServer implements RpcServer {
 	}
 
 	@Override
-	public ServiceRegistry lookupServices() {
-		return ServiceRegistryProvider.provider().createServiceRegistry();
+	public void registerService() {
+		//TODO
 
 	}
 

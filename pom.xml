@@ -67,7 +67,7 @@
 		<netty_tcnative_boringssl_static_version>1.1.33.Fork17</netty_tcnative_boringssl_static_version>
 		<netty_tcnative_version>1.1.33.Fork17</netty_tcnative_version>
 	    <javassist_version>3.18.0-GA</javassist_version>
-		<grpc_all_version>0.14.0</grpc_all_version>
+		<grpc_all_version>0.15.0-SNAPSHOT</grpc_all_version>
 		<protobuf_java_version>3.0.0-beta-3</protobuf_java_version>
 		<guava_version>18.0</guava_version>
 		<gson_version>2.3</gson_version>
@@ -76,6 +76,7 @@
 		<curator_version>2.10.0</curator_version>
 		<junit_version>4.11</junit_version>
 		<mockito_all_version>1.10.19</mockito_all_version>	
+		<servlet-api_version>2.5</servlet-api_version>	
 
 		<!-- Build args -->
 		<argline>-server -Xms64m -Xmx64m -XX:PermSize=64m -XX:MaxPermSize=64m</argline>
@@ -121,6 +122,11 @@
 				<groupId>com.google.code.gson</groupId>
 				<artifactId>gson</artifactId>
 				<version>${gson_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>${servlet-api_version}</version>
 			</dependency>
 			<!-- Byte code tool -->
 			<dependency>
