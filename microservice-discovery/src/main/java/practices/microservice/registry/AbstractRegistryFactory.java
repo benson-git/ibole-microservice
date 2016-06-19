@@ -20,20 +20,20 @@ import com.google.common.collect.Maps;
  * @author bwang
  *
  */
-public abstract class AbstractRegistryFactory implements RegistryFactory<RegisterEntry>{
+public abstract class AbstractRegistryFactory implements RegistryFactory<InstanceMetadata>{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRegistryFactory.class);
 	
 	private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private static final Map<ServerIdentifier, ServiceRegistry<RegisterEntry>> REGISTRY = Maps.newConcurrentMap();
+    private static final Map<ServerIdentifier, ServiceRegistry<InstanceMetadata>> REGISTRY = Maps.newConcurrentMap();
     
     /**
      * Retrieve all registry center handler
      * 
      * @return the collection of ServiceRegistry
      */
-    public static Collection<ServiceRegistry<RegisterEntry>> getServiceRegistries() {
+    public static Collection<ServiceRegistry<InstanceMetadata>> getServiceRegistries() {
         return Collections.unmodifiableCollection(REGISTRY.values());
     }
 
@@ -47,7 +47,7 @@ public abstract class AbstractRegistryFactory implements RegistryFactory<Registe
         // lock the whole close process
         LOCK.lock();
         try {
-            for (ServiceRegistry<RegisterEntry> registry : getServiceRegistries()) {
+            for (ServiceRegistry<InstanceMetadata> registry : getServiceRegistries()) {
                 try {
                     registry.destroy();
                 } catch (Throwable e) {
@@ -61,12 +61,12 @@ public abstract class AbstractRegistryFactory implements RegistryFactory<Registe
         }
     }
 
-    public ServiceRegistry<RegisterEntry> getServiceRegistry(ServerIdentifier identifier) {;
+    public ServiceRegistry<InstanceMetadata> getServiceRegistry(ServerIdentifier identifier) {;
   
         // lock retrieve process
         LOCK.lock();
         try {
-        	ServiceRegistry<RegisterEntry> registry = REGISTRY.get(identifier);
+        	ServiceRegistry<InstanceMetadata> registry = REGISTRY.get(identifier);
             if (registry != null) {
                 return registry;
             }
@@ -82,5 +82,5 @@ public abstract class AbstractRegistryFactory implements RegistryFactory<Registe
         }
     }
 
-    protected abstract ServiceRegistry<RegisterEntry> createRegistry(ServerIdentifier identifier);
+    protected abstract ServiceRegistry<InstanceMetadata> createRegistry(ServerIdentifier identifier);
 }

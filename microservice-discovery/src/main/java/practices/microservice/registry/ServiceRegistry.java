@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import practices.microservice.common.ServerIdentifier;
+import practices.microservice.registry.RegisterEntry.ServiceType;
 /**
  * 
  * @author bwang
@@ -14,22 +15,18 @@ public interface ServiceRegistry<T> extends Closeable{
 	
 	void start() throws IOException;
 	
-	void register(T instance);
+	void register(RegisterEntry entry);
 	
-	void registerList(List<T> instanceList);
+	List<T> listAll(ServiceType type, String serviceName, String serviceContract);
 	
-	List<T> listAll();
-	
-	//T getInstanceWithStrategy(String path, String serviceName, ProviderStrategy<T> strategy);
-	
-	T getInstance(String path, String serviceName);
-	
-	void delete(T entry);
-	
-	void deleteAll(List<T> instanceList);
+	T getInstance(ServiceType type, String serviceName, String serviceContract);
 	
 	void destroy();
 	
 	ServerIdentifier getIdentifier();
+
+	void updateService(RegisterEntry entry);
+
+	void unregisterService(RegisterEntry entry);
 	
 }

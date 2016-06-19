@@ -3,9 +3,7 @@
  */
 package practices.microservice.registry;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import practices.microservice.common.to.TransferObject;
 import practices.microservice.common.utils.EqualsUtil;
@@ -17,17 +15,21 @@ import practices.microservice.common.utils.ToStringUtil;
  * RegistryEntry is the minimum unit for registry center.
  * 
  * The hierarchical structure of registry center shows as below:
- * 
- *  				   Root Node---Application---
- *            							|
+ *                         Root
+ *                         -----
+ *                           |
  *		---------------------------------------------------------------------
  *      |										 |							|
  *      Service Type(RPC)               		 Service Type (RPC)		    Service Type (MYSQL)
  *          |										|
  *      ---------------------                 -----------------------
  *      |                   |				  |						|
- *      Service Details     Service Details   Service Details       Service Details
- *            |                   
+ *      Service Name     	Service Name   	  Service Name          Service Name
+ *            |
+ *      --------------------
+ *      |                  |
+ *      Service Contract   Service Contract
+ *              |
  *      ---------------------------------     
  *      |             					| 
  *      Instance      					Instance
@@ -35,7 +37,7 @@ import practices.microservice.common.utils.ToStringUtil;
  *            
  *  A fully-qualified ZooKeeper name used to construct a gRPC channel will look as follows:
  *
- * 		zookeeper://host:port/application/serviceType/serviceDetails/instance
+ * 		zookeeper://host:port/serviceType/serviceName/serviceContract/instance
  * 
  *  Here zookeeper is the scheme identifying the name-system.
  *	host:port identifies an authoritative name-server for this scheme (i.e., a Zookeeper server). 
@@ -68,27 +70,13 @@ public class RegisterEntry implements TransferObject {
 	}
 	
 	private static final long serialVersionUID = 1L;
-	private String application;
 	private ServiceType serviceType;
 	private String serviceName;
-	private List<InstanceDetails> instanceDetails = Collections.emptyList();
+	private String serviceContract;
+	private InstanceMetadata instanceMetadata;
 	//Service description, like simple API docs
 	private String description;
 	private Date lastUpdated;
-
-	/**
-	 * @return the application
-	 */
-	public String getApplication() {
-		return application;
-	}
-
-	/**
-	 * @param application the application to set
-	 */
-	public void setApplication(String application) {
-		this.application = application;
-	}
 
 	/**
 	 * @return the serviceName
@@ -105,6 +93,20 @@ public class RegisterEntry implements TransferObject {
 	}
 
 
+
+	/**
+	 * @return the serviceContract
+	 */
+	public String getServiceContract() {
+		return serviceContract;
+	}
+
+	/**
+	 * @param serviceContract the serviceContract to set
+	 */
+	public void setServiceContract(String serviceContract) {
+		this.serviceContract = serviceContract;
+	}
 
 	/**
 	 * @return the serviceType
@@ -134,18 +136,19 @@ public class RegisterEntry implements TransferObject {
 		this.description = description;
 	}
 
+
 	/**
-	 * @return the instanceDetails
+	 * @return the instanceMetadata
 	 */
-	public List<InstanceDetails> getInstanceDetails() {
-		return instanceDetails;
+	public InstanceMetadata getInstanceMetadata() {
+		return instanceMetadata;
 	}
 
 	/**
-	 * @param instanceDetails the instanceDetails to set
+	 * @param instanceMetadata the instanceMetadata to set
 	 */
-	public void setInstanceDetails(List<InstanceDetails> instanceDetails) {
-		this.instanceDetails = instanceDetails;
+	public void setInstanceMetadata(InstanceMetadata instanceMetadatum) {
+		this.instanceMetadata = instanceMetadatum;
 	}
 
 	/**
@@ -185,10 +188,10 @@ public class RegisterEntry implements TransferObject {
 			return false;
 		}
 		final RegisterEntry other = (RegisterEntry) obj;
-		return EqualsUtil.equal(application, other.application)
-				&& EqualsUtil.equal(serviceType, other.serviceType)
+		return  EqualsUtil.equal(serviceType, other.serviceType)
 				&& EqualsUtil.equal(serviceName, other.serviceName)
-				&& EqualsUtil.equal(instanceDetails, other.instanceDetails)
+				&& EqualsUtil.equal(serviceContract, other.serviceContract)
+				&& EqualsUtil.equal(instanceMetadata, other.instanceMetadata)
 				&& EqualsUtil.equal(lastUpdated, other.lastUpdated);
 
 	}
@@ -204,10 +207,10 @@ public class RegisterEntry implements TransferObject {
 	@Override
 	public int hashCode() {
 		int result = HashCodeUtil.SEED;
-		result = HashCodeUtil.hash(result, application);
-		result = HashCodeUtil.hash(result, serviceName);
 		result = HashCodeUtil.hash(result, serviceType);;
-		result = HashCodeUtil.hash(result, instanceDetails);
+		result = HashCodeUtil.hash(result, serviceName);
+		result = HashCodeUtil.hash(result, serviceContract);
+		result = HashCodeUtil.hash(result, instanceMetadata);
 		result = HashCodeUtil.hash(result, lastUpdated);
 		return result;
 	}
@@ -221,10 +224,10 @@ public class RegisterEntry implements TransferObject {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		final StringBuilder sb = ToStringUtil.start("application", application);
+		final StringBuilder sb = ToStringUtil.start("serviceType", serviceType);
 		ToStringUtil.append(sb, "serviceName", serviceName);
-		ToStringUtil.append(sb, "serviceType", serviceType);
-		ToStringUtil.append(sb, "instanceDetails", instanceDetails);
+		ToStringUtil.append(sb, "serviceContract", serviceContract);
+		ToStringUtil.append(sb, "instanceMetadata", instanceMetadata);
 		ToStringUtil.append(sb, "lastUpdated", lastUpdated);
 		return ToStringUtil.end(sb);
 	}

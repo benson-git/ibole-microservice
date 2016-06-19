@@ -5,6 +5,7 @@ package practices.microservice.registry.zookeeper;
 
 import practices.microservice.common.ServerIdentifier;
 import practices.microservice.registry.AbstractRegistryFactory;
+import practices.microservice.registry.InstanceMetadata;
 import practices.microservice.registry.ServiceRegistry;
 
 /**
@@ -17,9 +18,9 @@ public class ZkRegistryFactory extends AbstractRegistryFactory {
 	 * @see practices.microservice.registry.AbstractRegistryFactory#createRegistry(practices.microservice.registry.ServerIdentifier)
 	 */
 	@Override
-	protected ServiceRegistry createRegistry(ServerIdentifier identifier) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ServiceRegistry<InstanceMetadata> createRegistry(ServerIdentifier identifier) {
+		
+		return new ZkServiceRegistry(identifier);
 	}
 
 }
