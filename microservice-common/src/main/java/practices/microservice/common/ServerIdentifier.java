@@ -28,8 +28,26 @@ public class ServerIdentifier  implements TransferObject{
 	private static final long serialVersionUID = 1L;
 
 	private String identifier;
+	//for zookeeper, it will be the basePath, like "/rpc/serviceName"
+	//for Redis, it will be the key prefix, like rpc.serviceName
+	private String baseKey;
 	
 	private List<HostAndPort> hostAndPortList;
+	
+	
+
+	/**
+	 * @param identifier
+	 * @param baseKey
+	 * @param hostAndPortList
+	 */
+	public ServerIdentifier(String identifier, String baseKey,
+			List<HostAndPort> hostAndPortList) {
+		super();
+		this.identifier = identifier;
+		this.baseKey = baseKey;
+		this.hostAndPortList = hostAndPortList;
+	}
 
 	/**
 	 * @return the identifier
@@ -60,6 +78,20 @@ public class ServerIdentifier  implements TransferObject{
 		this.hostAndPortList = hostAndPortList;
 	}
 	
+	/**
+	 * @return the baseKey
+	 */
+	public String getBaseKey() {
+		return baseKey;
+	}
+
+	/**
+	 * @param baseKey the baseKey to set
+	 */
+	public void setBaseKey(String baseKey) {
+		this.baseKey = baseKey;
+	}
+
 	public String getConnectionString(){
 		
 		StringBuilder conn = new StringBuilder();
@@ -92,6 +124,7 @@ public class ServerIdentifier  implements TransferObject{
 		}
 		final ServerIdentifier other = (ServerIdentifier) obj;
 		return EqualsUtil.equal(identifier, other.identifier)
+				&& EqualsUtil.equal(baseKey, other.baseKey)
 				&& EqualsUtil.equal(hostAndPortList, other.hostAndPortList);
 	}
 
@@ -107,6 +140,7 @@ public class ServerIdentifier  implements TransferObject{
 	public int hashCode() {
 		int result = HashCodeUtil.SEED;
 		result = HashCodeUtil.hash(result, identifier);
+		result = HashCodeUtil.hash(result, baseKey);
 		result = HashCodeUtil.hash(result, hostAndPortList);
 		return result;
 	}
@@ -121,7 +155,8 @@ public class ServerIdentifier  implements TransferObject{
 	@Override
 	public String toString() {
 		final StringBuilder sb = ToStringUtil.start("identifier", identifier);
-		ToStringUtil.append(sb, "HostAndPortList", hostAndPortList);
+		ToStringUtil.append(sb, "baseKey", baseKey);
+		ToStringUtil.append(sb, "hostAndPortList", hostAndPortList);
 		return ToStringUtil.end(sb);
 	}
 }

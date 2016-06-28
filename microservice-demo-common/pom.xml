@@ -38,18 +38,11 @@
 				<groupId>org.xolstice.maven.plugins</groupId>
 				<artifactId>protobuf-maven-plugin</artifactId>
 				<version>0.5.0</version>
-				<configuration>
-					<!-- Either protoc executable has to be in the PATH or the protocExecutable 
-						parameter has to be set to the correct location. An alternative configuration 
-						involves toolchains (described in plugin examples). -->
-					<!--<protocExecutable>/usr/local/bin/protoc</protocExecutable> -->
-					<!-- The version of protoc must match protobuf-java. If you don't depend 
-						on protobuf-java directly, you will be transitively depending on the protobuf-java 
-						version that grpc depends on. -->
-					<checkStaleness>true</checkStaleness>
+				<configuration> 
+							<checkStaleness>true</checkStaleness>
 					<writeDescriptorSet>true</writeDescriptorSet>
 					<descriptorSetFileName>protos.desc</descriptorSetFileName>
-					<!--<descriptorSetOutputDirectory>true</descriptorSetOutputDirectory> -->
+					<javaNanoOptions>ignore_services=true</javaNanoOptions>
 					<protocArtifact>com.google.protobuf:protoc:3.0.0-beta-3:exe:${os.detected.classifier}</protocArtifact>
 					<pluginId>grpc-java</pluginId>
 					<pluginArtifact>io.grpc:protoc-gen-grpc-java:0.14.0:exe:${os.detected.classifier}</pluginArtifact>

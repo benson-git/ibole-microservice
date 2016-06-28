@@ -17,7 +17,7 @@ public class InstanceMetadata implements TransferObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	@JsonProperty("id")
-	private final UUID id = UUID.randomUUID();
+	private UUID id = UUID.randomUUID();
     @JsonProperty("port")
 	private int port;
     @JsonProperty("hostname")
@@ -37,8 +37,8 @@ public class InstanceMetadata implements TransferObject {
 	 * @param useTls
 	 */
 	@JsonCreator
-	public InstanceMetadata(@JsonProperty("id") String id, @JsonProperty("hostname") String hostname, @JsonProperty("port") int port,  @JsonProperty("useTls") boolean useTls) {
-		super();
+	public InstanceMetadata(@JsonProperty("id") UUID id, @JsonProperty("hostname") String hostname, @JsonProperty("port") int port,  @JsonProperty("useTls") boolean useTls) {
+		this.id = id;
 		this.port = port;
 		this.hostname = hostname;
 		this.useTls = useTls;

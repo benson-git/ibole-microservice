@@ -19,8 +19,6 @@ public abstract class AbstractServiceRegistry<T> implements ServiceRegistry<T> {
 	
 	protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
-	protected static final String PATH = "/discovery/example";
-	
 	private ServerIdentifier identifier;
 	
 	protected AbstractServiceRegistry (ServerIdentifier identifier){

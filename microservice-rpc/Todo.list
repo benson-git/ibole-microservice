@@ -6,5 +6,10 @@
 
 3. Introduce OAuth
 
+JSON Web Tokens (JWTs)
+Authentication is proving that a user is who they say they are.
 
-provider是可以独立运行的，dubbo.jar里面有assembly目录，运行mvn assembly:directory就可以生成能直接运行的provider目录
+OAuth2 isn’t meant to do stuff like validate a user’s identity — that’s taken care of by an Authentication service. Authentication is when you validate a user’s identity (like asking for a username / password to log in), 
+whereas authorization is when you check to see what permissions an existing user already has.
+
+provider是可以独立运行的，jar里面有assembly目录，运行mvn assembly:directory就可以生成能直接运行的provider目录
