@@ -10,7 +10,10 @@ import practices.microservice.common.utils.EqualsUtil;
 import practices.microservice.common.utils.HashCodeUtil;
 import practices.microservice.common.utils.ToStringUtil;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.net.HostAndPort;
+
 
 /**
  *  Representation of host and port for target server.
@@ -22,47 +25,61 @@ import com.google.common.net.HostAndPort;
  */
 public class ServerIdentifier  implements TransferObject{
 	
-	/**
-	 * 
-	 */
+	public final static String BASE_KEY = "Toprank";
+	
 	private static final long serialVersionUID = 1L;
 
-	private String identifier;
-	//for zookeeper, it will be the basePath, like "/rpc/serviceName"
-	//for Redis, it will be the key prefix, like rpc.serviceName
-	private String baseKey;
-	
-	private List<HostAndPort> hostAndPortList;
-	
-	
+	private ServiceType serviceType;
 
+	private List<HostAndPort> hostAndPortList;
+
+	public enum ServiceType{
+		RPC("rpc"),
+		DB("mysql");
+		
+		private String value;
+		
+		ServiceType(String type){
+			value = type;
+		}
+		
+		public String getValue(){
+			return value;
+		}
+	}
 	/**
-	 * @param identifier
+	 * @param serviceType
 	 * @param baseKey
 	 * @param hostAndPortList
 	 */
-	public ServerIdentifier(String identifier, String baseKey,
-			List<HostAndPort> hostAndPortList) {
-		super();
-		this.identifier = identifier;
-		this.baseKey = baseKey;
+	public ServerIdentifier(ServiceType serviceType, List<HostAndPort> hostAndPortList) {
+		this.serviceType = serviceType;
 		this.hostAndPortList = hostAndPortList;
 	}
 
 	/**
-	 * @return the identifier
+	 * @param serviceType
+	 * @param baseKey
+	 * @param hostAndPortList
 	 */
-	public String getIdentifier() {
-		return identifier;
+	public ServerIdentifier(ServiceType serviceType, String hostAndPortList) {
+		this.serviceType = serviceType;
+		setConnectionString(hostAndPortList);
 	}
 
 	/**
-	 * @param identifier the identifier to set
+	 * @return the serviceType
 	 */
-	public void setIdentifier(String name) {
-		this.identifier = name;
+	public ServiceType getServiceType() {
+		return serviceType;
 	}
 
+	/**
+	 * @param serviceType the serviceType to set
+	 */
+	public void setServiceType(ServiceType name) {
+		this.serviceType = name;
+	}
 
 	/**
 	 * @return the hostAndPortList
@@ -78,20 +95,6 @@ public class ServerIdentifier  implements TransferObject{
 		this.hostAndPortList = hostAndPortList;
 	}
 	
-	/**
-	 * @return the baseKey
-	 */
-	public String getBaseKey() {
-		return baseKey;
-	}
-
-	/**
-	 * @param baseKey the baseKey to set
-	 */
-	public void setBaseKey(String baseKey) {
-		this.baseKey = baseKey;
-	}
-
 	public String getConnectionString(){
 		
 		StringBuilder conn = new StringBuilder();
@@ -101,7 +104,18 @@ public class ServerIdentifier  implements TransferObject{
 		conn = conn.deleteCharAt(conn.length()-1);
 		return conn.toString();
 	}
-    
+	
+	public void setConnectionString(String connectionString){
+		hostAndPortList = Lists.newArrayList();
+		String[] tokens = connectionString.split(",");
+		for (String token : tokens){
+			if(!Strings.isNullOrEmpty(token))
+			{
+				hostAndPortList.add(HostAndPort.fromString(token));
+			}
+		}
+	} 
+	
 	/**
 	 * Indicates whether some other object is "equal to" this
 	 * {@code ServerIdentifier}. The result is {@code true} if and only if the
@@ -123,8 +137,7 @@ public class ServerIdentifier  implements TransferObject{
 			return false;
 		}
 		final ServerIdentifier other = (ServerIdentifier) obj;
-		return EqualsUtil.equal(identifier, other.identifier)
-				&& EqualsUtil.equal(baseKey, other.baseKey)
+		return EqualsUtil.equal(serviceType, other.serviceType)
 				&& EqualsUtil.equal(hostAndPortList, other.hostAndPortList);
 	}
 
@@ -139,8 +152,7 @@ public class ServerIdentifier  implements TransferObject{
 	@Override
 	public int hashCode() {
 		int result = HashCodeUtil.SEED;
-		result = HashCodeUtil.hash(result, identifier);
-		result = HashCodeUtil.hash(result, baseKey);
+		result = HashCodeUtil.hash(result, serviceType.getValue());
 		result = HashCodeUtil.hash(result, hostAndPortList);
 		return result;
 	}
@@ -154,8 +166,7 @@ public class ServerIdentifier  implements TransferObject{
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		final StringBuilder sb = ToStringUtil.start("identifier", identifier);
-		ToStringUtil.append(sb, "baseKey", baseKey);
+		final StringBuilder sb = ToStringUtil.start("serviceType", serviceType.getValue());
 		ToStringUtil.append(sb, "hostAndPortList", hostAndPortList);
 		return ToStringUtil.end(sb);
 	}

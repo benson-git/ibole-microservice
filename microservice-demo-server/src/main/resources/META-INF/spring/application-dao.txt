@@ -1,0 +1,882 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+		<!--A_ADInfo dao配置-->
+	<bean id="a_ADInfoDBO" class="cc.toprank.byd.dao.A_ADInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--A_ApplyInfo dao配置-->
+	<bean id="a_ApplyInfoDBO" class="cc.toprank.byd.dao.A_ApplyInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--A_PositionCatalogInfo dao配置-->
+	<bean id="a_PositionCatalogInfoDBO" class="cc.toprank.byd.dao.A_PositionCatalogInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--A_PositionInfo dao配置-->
+	<bean id="a_PositionInfoDBO" class="cc.toprank.byd.dao.A_PositionInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--AppColumns dao配置-->
+	<bean id="appColumnsDBO" class="cc.toprank.byd.dao.AppColumnsDBO"
+		parent="baseDao">
+	</bean>
+	<!--AppTables dao配置-->
+	<bean id="appTablesDBO" class="cc.toprank.byd.dao.AppTablesDBO"
+		parent="baseDao">
+	</bean>
+	<!--B_AttachmentInfo dao配置-->
+	<bean id="b_AttachmentInfoDBO" class="cc.toprank.byd.dao.B_AttachmentInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--B_AttachmentMapping dao配置-->
+	<bean id="b_AttachmentMappingDBO" class="cc.toprank.byd.dao.B_AttachmentMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--B_DinningTableInfo dao配置-->
+	<bean id="b_DinningTableInfoDBO" class="cc.toprank.byd.dao.B_DinningTableInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--B_ShopAreaInfo dao配置-->
+	<bean id="b_ShopAreaInfoDBO" class="cc.toprank.byd.dao.B_ShopAreaInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_AttachmentInfo dao配置-->
+	<bean id="c_AttachmentInfoDBO" class="cc.toprank.byd.dao.C_AttachmentInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_AttachmentMapping dao配置-->
+	<bean id="c_AttachmentMappingDBO" class="cc.toprank.byd.dao.C_AttachmentMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_CountryInfo dao配置-->
+	<bean id="c_CountryInfoDBO" class="cc.toprank.byd.dao.C_CountryInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_CountryLanguageMapping dao配置-->
+	<bean id="c_CountryLanguageMappingDBO" class="cc.toprank.byd.dao.C_CountryLanguageMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_CurrencyInfo dao配置-->
+	<bean id="c_CurrencyInfoDBO" class="cc.toprank.byd.dao.C_CurrencyInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_DictionaryCatalogInfo dao配置-->
+	<bean id="c_DictionaryCatalogInfoDBO" class="cc.toprank.byd.dao.C_DictionaryCatalogInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_DictionaryInfo dao配置-->
+	<bean id="c_DictionaryInfoDBO" class="cc.toprank.byd.dao.C_DictionaryInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_EmailAccountInfo dao配置-->
+	<bean id="c_EmailAccountInfoDBO" class="cc.toprank.byd.dao.C_EmailAccountInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_LanguageInfo dao配置-->
+	<bean id="c_LanguageInfoDBO" class="cc.toprank.byd.dao.C_LanguageInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_LocaleStringInfo dao配置-->
+	<bean id="c_LocaleStringInfoDBO" class="cc.toprank.byd.dao.C_LocaleStringInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_LocalizedPropertyInfo dao配置-->
+	<bean id="c_LocalizedPropertyInfoDBO" class="cc.toprank.byd.dao.C_LocalizedPropertyInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_LogInfo dao配置-->
+	<bean id="c_LogInfoDBO" class="cc.toprank.byd.dao.C_LogInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_LogTypeInfo dao配置-->
+	<bean id="c_LogTypeInfoDBO" class="cc.toprank.byd.dao.C_LogTypeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_MeasureDimensionInfo dao配置-->
+	<bean id="c_MeasureDimensionInfoDBO" class="cc.toprank.byd.dao.C_MeasureDimensionInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_MeasureWeightInfo dao配置-->
+	<bean id="c_MeasureWeightInfoDBO" class="cc.toprank.byd.dao.C_MeasureWeightInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_PaymentMethodInfo dao配置-->
+	<bean id="c_PaymentMethodInfoDBO" class="cc.toprank.byd.dao.C_PaymentMethodInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_QueuedEmailInfo dao配置-->
+	<bean id="c_QueuedEmailInfoDBO" class="cc.toprank.byd.dao.C_QueuedEmailInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_StatIPInfo dao配置-->
+	<bean id="c_StatIPInfoDBO" class="cc.toprank.byd.dao.C_StatIPInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--C_StateProvinceInfo dao配置-->
+	<bean id="c_StateProvinceInfoDBO" class="cc.toprank.byd.dao.C_StateProvinceInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_BadgeInfo dao配置-->
+	<bean id="e_BadgeInfoDBO" class="cc.toprank.byd.dao.E_BadgeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_BonusChangeInfo dao配置-->
+	<bean id="e_BonusChangeInfoDBO" class="cc.toprank.byd.dao.E_BonusChangeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_ContactHistoryInfo dao配置-->
+	<bean id="e_ContactHistoryInfoDBO" class="cc.toprank.byd.dao.E_ContactHistoryInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerAddressInfo dao配置-->
+	<bean id="e_CustomerAddressInfoDBO" class="cc.toprank.byd.dao.E_CustomerAddressInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerAttachmentInfo dao配置-->
+	<bean id="e_CustomerAttachmentInfoDBO" class="cc.toprank.byd.dao.E_CustomerAttachmentInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerAttachmentMapping dao配置-->
+	<bean id="e_CustomerAttachmentMappingDBO" class="cc.toprank.byd.dao.E_CustomerAttachmentMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerBadgeDealInfo dao配置-->
+	<bean id="e_CustomerBadgeDealInfoDBO" class="cc.toprank.byd.dao.E_CustomerBadgeDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerBadgeInfo dao配置-->
+	<bean id="e_CustomerBadgeInfoDBO" class="cc.toprank.byd.dao.E_CustomerBadgeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerExtPropertyInfo dao配置-->
+	<bean id="e_CustomerExtPropertyInfoDBO" class="cc.toprank.byd.dao.E_CustomerExtPropertyInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerInfo dao配置-->
+	<bean id="e_CustomerInfoDBO" class="cc.toprank.byd.dao.E_CustomerInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerLogInfo dao配置-->
+	<bean id="e_CustomerLogInfoDBO" class="cc.toprank.byd.dao.E_CustomerLogInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerMapping dao配置-->
+	<bean id="e_CustomerMappingDBO" class="cc.toprank.byd.dao.E_CustomerMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerModuleInfo dao配置-->
+	<bean id="e_CustomerModuleInfoDBO" class="cc.toprank.byd.dao.E_CustomerModuleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerPrivilegeInfo dao配置-->
+	<bean id="e_CustomerPrivilegeInfoDBO" class="cc.toprank.byd.dao.E_CustomerPrivilegeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerRoleLoginInfo dao配置-->
+	<bean id="e_CustomerRoleLoginInfoDBO" class="cc.toprank.byd.dao.E_CustomerRoleLoginInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerRoleMapping dao配置-->
+	<bean id="e_CustomerRoleMappingDBO" class="cc.toprank.byd.dao.E_CustomerRoleMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerRoleModuleInfo dao配置-->
+	<bean id="e_CustomerRoleModuleInfoDBO" class="cc.toprank.byd.dao.E_CustomerRoleModuleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_CustomerRolePrivilegeInfo dao配置-->
+	<bean id="e_CustomerRolePrivilegeInfoDBO" class="cc.toprank.byd.dao.E_CustomerRolePrivilegeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_GetPasswordAnswer dao配置-->
+	<bean id="e_GetPasswordAnswerDBO" class="cc.toprank.byd.dao.E_GetPasswordAnswerDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_GetinfoHistory dao配置-->
+	<bean id="e_GetinfoHistoryDBO" class="cc.toprank.byd.dao.E_GetinfoHistoryDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_InnerMessageInfo dao配置-->
+	<bean id="e_InnerMessageInfoDBO" class="cc.toprank.byd.dao.E_InnerMessageInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_LoginInfo dao配置-->
+	<bean id="e_LoginInfoDBO" class="cc.toprank.byd.dao.E_LoginInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_QuestionForForget dao配置-->
+	<bean id="e_QuestionForForgetDBO" class="cc.toprank.byd.dao.E_QuestionForForgetDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_RegistrationInfo dao配置-->
+	<bean id="e_RegistrationInfoDBO" class="cc.toprank.byd.dao.E_RegistrationInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_RegistrationLogInfo dao配置-->
+	<bean id="e_RegistrationLogInfoDBO" class="cc.toprank.byd.dao.E_RegistrationLogInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_RegistrationMoneyDealInfo dao配置-->
+	<bean id="e_RegistrationMoneyDealInfoDBO" class="cc.toprank.byd.dao.E_RegistrationMoneyDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_RoleInfo dao配置-->
+	<bean id="e_RoleInfoDBO" class="cc.toprank.byd.dao.E_RoleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_SMSInfo dao配置-->
+	<bean id="e_SMSInfoDBO" class="cc.toprank.byd.dao.E_SMSInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--E_SMSSettingInfo dao配置-->
+	<bean id="e_SMSSettingInfoDBO" class="cc.toprank.byd.dao.E_SMSSettingInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_AccountCardMapping dao配置-->
+	<bean id="f_AccountCardMappingDBO" class="cc.toprank.byd.dao.F_AccountCardMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_AccountInfo dao配置-->
+	<bean id="f_AccountInfoDBO" class="cc.toprank.byd.dao.F_AccountInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_ActivationCodeDealInfo dao配置-->
+	<bean id="f_ActivationCodeDealInfoDBO" class="cc.toprank.byd.dao.F_ActivationCodeDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_ActivationCodeInfo dao配置-->
+	<bean id="f_ActivationCodeInfoDBO" class="cc.toprank.byd.dao.F_ActivationCodeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_CardDealInfo dao配置-->
+	<bean id="f_CardDealInfoDBO" class="cc.toprank.byd.dao.F_CardDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_CertificateDealInfo dao配置-->
+	<bean id="f_CertificateDealInfoDBO" class="cc.toprank.byd.dao.F_CertificateDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_CertificateInfo dao配置-->
+	<bean id="f_CertificateInfoDBO" class="cc.toprank.byd.dao.F_CertificateInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_CommissionRatioDealInfo dao配置-->
+	<bean id="f_CommissionRatioDealInfoDBO" class="cc.toprank.byd.dao.F_CommissionRatioDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_CommissionRatioInfo dao配置-->
+	<bean id="f_CommissionRatioInfoDBO" class="cc.toprank.byd.dao.F_CommissionRatioInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_DepositDealInfo dao配置-->
+	<bean id="f_DepositDealInfoDBO" class="cc.toprank.byd.dao.F_DepositDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_DepositInfo dao配置-->
+	<bean id="f_DepositInfoDBO" class="cc.toprank.byd.dao.F_DepositInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_FrozenInfo dao配置-->
+	<bean id="f_FrozenInfoDBO" class="cc.toprank.byd.dao.F_FrozenInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_FundChangeDetailInfo dao配置-->
+	<bean id="f_FundChangeDetailInfoDBO" class="cc.toprank.byd.dao.F_FundChangeDetailInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_FundChangeInfo dao配置-->
+	<bean id="f_FundChangeInfoDBO" class="cc.toprank.byd.dao.F_FundChangeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_MemberCardInfo dao配置-->
+	<bean id="f_MemberCardInfoDBO" class="cc.toprank.byd.dao.F_MemberCardInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_MemberCardRequestInfo dao配置-->
+	<bean id="f_MemberCardRequestInfoDBO" class="cc.toprank.byd.dao.F_MemberCardRequestInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_PayBankInfo dao配置-->
+	<bean id="f_PayBankInfoDBO" class="cc.toprank.byd.dao.F_PayBankInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_PayMerchantMapping dao配置-->
+	<bean id="f_PayMerchantMappingDBO" class="cc.toprank.byd.dao.F_PayMerchantMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_PayOrganizationInfo dao配置-->
+	<bean id="f_PayOrganizationInfoDBO" class="cc.toprank.byd.dao.F_PayOrganizationInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_SettlementAccountInfo dao配置-->
+	<bean id="f_SettlementAccountInfoDBO" class="cc.toprank.byd.dao.F_SettlementAccountInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_SettlementDealInfo dao配置-->
+	<bean id="f_SettlementDealInfoDBO" class="cc.toprank.byd.dao.F_SettlementDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_SettlementDetailInfo dao配置-->
+	<bean id="f_SettlementDetailInfoDBO" class="cc.toprank.byd.dao.F_SettlementDetailInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_SettlementFundChangeInfo dao配置-->
+	<bean id="f_SettlementFundChangeInfoDBO" class="cc.toprank.byd.dao.F_SettlementFundChangeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_SettlementInfo dao配置-->
+	<bean id="f_SettlementInfoDBO" class="cc.toprank.byd.dao.F_SettlementInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_SysDrawalSettingInfo dao配置-->
+	<bean id="f_SysDrawalSettingInfoDBO" class="cc.toprank.byd.dao.F_SysDrawalSettingInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_ViceFundHisProductCategoryMapping dao配置-->
+	<bean id="f_ViceFundHisProductCategoryMappingDBO" class="cc.toprank.byd.dao.F_ViceFundHisProductCategoryMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_ViceFundHistoryInfo dao配置-->
+	<bean id="f_ViceFundHistoryInfoDBO" class="cc.toprank.byd.dao.F_ViceFundHistoryInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_ViceFundInfo dao配置-->
+	<bean id="f_ViceFundInfoDBO" class="cc.toprank.byd.dao.F_ViceFundInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_ViceFundProductCategoryMapping dao配置-->
+	<bean id="f_ViceFundProductCategoryMappingDBO" class="cc.toprank.byd.dao.F_ViceFundProductCategoryMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_VirtualAccountInfo dao配置-->
+	<bean id="f_VirtualAccountInfoDBO" class="cc.toprank.byd.dao.F_VirtualAccountInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_VirtualFrozenInfo dao配置-->
+	<bean id="f_VirtualFrozenInfoDBO" class="cc.toprank.byd.dao.F_VirtualFrozenInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_VirtualFundChangeDetailInfo dao配置-->
+	<bean id="f_VirtualFundChangeDetailInfoDBO" class="cc.toprank.byd.dao.F_VirtualFundChangeDetailInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_VirtualFundChangeInfo dao配置-->
+	<bean id="f_VirtualFundChangeInfoDBO" class="cc.toprank.byd.dao.F_VirtualFundChangeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_VirtualViceFundHistoryInfo dao配置-->
+	<bean id="f_VirtualViceFundHistoryInfoDBO" class="cc.toprank.byd.dao.F_VirtualViceFundHistoryInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_VirtualViceFundInfo dao配置-->
+	<bean id="f_VirtualViceFundInfoDBO" class="cc.toprank.byd.dao.F_VirtualViceFundInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_WithDrawalBankCardInfo dao配置-->
+	<bean id="f_WithDrawalBankCardInfoDBO" class="cc.toprank.byd.dao.F_WithDrawalBankCardInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_WithDrawalDealInfo dao配置-->
+	<bean id="f_WithDrawalDealInfoDBO" class="cc.toprank.byd.dao.F_WithDrawalDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_WithDrawalSettingInfo dao配置-->
+	<bean id="f_WithDrawalSettingInfoDBO" class="cc.toprank.byd.dao.F_WithDrawalSettingInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--F_WithdrawalInfo dao配置-->
+	<bean id="f_WithdrawalInfoDBO" class="cc.toprank.byd.dao.F_WithdrawalInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--L_TerminalBranchInfo dao配置-->
+	<bean id="l_TerminalBranchInfoDBO" class="cc.toprank.byd.dao.L_TerminalBranchInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityBranchMapping dao配置-->
+	<bean id="m_ActivityBranchMappingDBO" class="cc.toprank.byd.dao.M_ActivityBranchMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityCouponDetailInfo dao配置-->
+	<bean id="m_ActivityCouponDetailInfoDBO" class="cc.toprank.byd.dao.M_ActivityCouponDetailInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityCouponProductCategoryMapping dao配置-->
+	<bean id="m_ActivityCouponProductCategoryMappingDBO" class="cc.toprank.byd.dao.M_ActivityCouponProductCategoryMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityCurrencyMapping dao配置-->
+	<bean id="m_ActivityCurrencyMappingDBO" class="cc.toprank.byd.dao.M_ActivityCurrencyMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityDeliveryMethodMapping dao配置-->
+	<bean id="m_ActivityDeliveryMethodMappingDBO" class="cc.toprank.byd.dao.M_ActivityDeliveryMethodMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityDiscountInfo dao配置-->
+	<bean id="m_ActivityDiscountInfoDBO" class="cc.toprank.byd.dao.M_ActivityDiscountInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityInfo dao配置-->
+	<bean id="m_ActivityInfoDBO" class="cc.toprank.byd.dao.M_ActivityInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityParticipateRuleInfo dao配置-->
+	<bean id="m_ActivityParticipateRuleInfoDBO" class="cc.toprank.byd.dao.M_ActivityParticipateRuleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityPaymentMethodMapping dao配置-->
+	<bean id="m_ActivityPaymentMethodMappingDBO" class="cc.toprank.byd.dao.M_ActivityPaymentMethodMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityProvinceMapping dao配置-->
+	<bean id="m_ActivityProvinceMappingDBO" class="cc.toprank.byd.dao.M_ActivityProvinceMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityRuleInfo dao配置-->
+	<bean id="m_ActivityRuleInfoDBO" class="cc.toprank.byd.dao.M_ActivityRuleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityRuleProductCategoryMapping dao配置-->
+	<bean id="m_ActivityRuleProductCategoryMappingDBO" class="cc.toprank.byd.dao.M_ActivityRuleProductCategoryMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityRuleProductMapping dao配置-->
+	<bean id="m_ActivityRuleProductMappingDBO" class="cc.toprank.byd.dao.M_ActivityRuleProductMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivityRuleVariantMapping dao配置-->
+	<bean id="m_ActivityRuleVariantMappingDBO" class="cc.toprank.byd.dao.M_ActivityRuleVariantMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_ActivitySpecialPriceInfo dao配置-->
+	<bean id="m_ActivitySpecialPriceInfoDBO" class="cc.toprank.byd.dao.M_ActivitySpecialPriceInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_AuctionParticipateInfo dao配置-->
+	<bean id="m_AuctionParticipateInfoDBO" class="cc.toprank.byd.dao.M_AuctionParticipateInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_AuctionProductInfo dao配置-->
+	<bean id="m_AuctionProductInfoDBO" class="cc.toprank.byd.dao.M_AuctionProductInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_PresentProductInfo dao配置-->
+	<bean id="m_PresentProductInfoDBO" class="cc.toprank.byd.dao.M_PresentProductInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--M_PresentProductOrderInfo dao配置-->
+	<bean id="m_PresentProductOrderInfoDBO" class="cc.toprank.byd.dao.M_PresentProductOrderInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_ContentApproveInfo dao配置-->
+	<bean id="n_ContentApproveInfoDBO" class="cc.toprank.byd.dao.N_ContentApproveInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_ForumInfo dao配置-->
+	<bean id="n_ForumInfoDBO" class="cc.toprank.byd.dao.N_ForumInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_ForumsGroupInfo dao配置-->
+	<bean id="n_ForumsGroupInfoDBO" class="cc.toprank.byd.dao.N_ForumsGroupInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_NewsAttachmentInfo dao配置-->
+	<bean id="n_NewsAttachmentInfoDBO" class="cc.toprank.byd.dao.N_NewsAttachmentInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_NewsAttachmentMapping dao配置-->
+	<bean id="n_NewsAttachmentMappingDBO" class="cc.toprank.byd.dao.N_NewsAttachmentMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_NewsInfo dao配置-->
+	<bean id="n_NewsInfoDBO" class="cc.toprank.byd.dao.N_NewsInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_NewsProvinceMapping dao配置-->
+	<bean id="n_NewsProvinceMappingDBO" class="cc.toprank.byd.dao.N_NewsProvinceMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_NewsReviewInfo dao配置-->
+	<bean id="n_NewsReviewInfoDBO" class="cc.toprank.byd.dao.N_NewsReviewInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_NewsTopicInfo dao配置-->
+	<bean id="n_NewsTopicInfoDBO" class="cc.toprank.byd.dao.N_NewsTopicInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_NewsTopicMapping dao配置-->
+	<bean id="n_NewsTopicMappingDBO" class="cc.toprank.byd.dao.N_NewsTopicMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_NewsTopicProvinceMapping dao配置-->
+	<bean id="n_NewsTopicProvinceMappingDBO" class="cc.toprank.byd.dao.N_NewsTopicProvinceMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_PollAnswerInfo dao配置-->
+	<bean id="n_PollAnswerInfoDBO" class="cc.toprank.byd.dao.N_PollAnswerInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_PollInfo dao配置-->
+	<bean id="n_PollInfoDBO" class="cc.toprank.byd.dao.N_PollInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_PollVotingRecordInfo dao配置-->
+	<bean id="n_PollVotingRecordInfoDBO" class="cc.toprank.byd.dao.N_PollVotingRecordInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_PostInfo dao配置-->
+	<bean id="n_PostInfoDBO" class="cc.toprank.byd.dao.N_PostInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_SubscriptionInfo dao配置-->
+	<bean id="n_SubscriptionInfoDBO" class="cc.toprank.byd.dao.N_SubscriptionInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--N_TopicInfo dao配置-->
+	<bean id="n_TopicInfoDBO" class="cc.toprank.byd.dao.N_TopicInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--O_OrderActivityMapping dao配置-->
+	<bean id="o_OrderActivityMappingDBO" class="cc.toprank.byd.dao.O_OrderActivityMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--O_OrderDealInfo dao配置-->
+	<bean id="o_OrderDealInfoDBO" class="cc.toprank.byd.dao.O_OrderDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--O_OrderDetailInfo dao配置-->
+	<bean id="o_OrderDetailInfoDBO" class="cc.toprank.byd.dao.O_OrderDetailInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--O_OrderDiscountMapping dao配置-->
+	<bean id="o_OrderDiscountMappingDBO" class="cc.toprank.byd.dao.O_OrderDiscountMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--O_OrderInfo dao配置-->
+	<bean id="o_OrderInfoDBO" class="cc.toprank.byd.dao.O_OrderInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--O_OrderViceFundMapping dao配置-->
+	<bean id="o_OrderViceFundMappingDBO" class="cc.toprank.byd.dao.O_OrderViceFundMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--O_SMSInfo dao配置-->
+	<bean id="o_SMSInfoDBO" class="cc.toprank.byd.dao.O_SMSInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--O_SMSSettingInfo dao配置-->
+	<bean id="o_SMSSettingInfoDBO" class="cc.toprank.byd.dao.O_SMSSettingInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--O_SubOrderInfo dao配置-->
+	<bean id="o_SubOrderInfoDBO" class="cc.toprank.byd.dao.O_SubOrderInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--O_WarehouseLockInfo dao配置-->
+	<bean id="o_WarehouseLockInfoDBO" class="cc.toprank.byd.dao.O_WarehouseLockInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_AttachmentInfo dao配置-->
+	<bean id="p_AttachmentInfoDBO" class="cc.toprank.byd.dao.P_AttachmentInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_AttachmentMapping dao配置-->
+	<bean id="p_AttachmentMappingDBO" class="cc.toprank.byd.dao.P_AttachmentMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_BrandInfo dao配置-->
+	<bean id="p_BrandInfoDBO" class="cc.toprank.byd.dao.P_BrandInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_CatalogDiscountMappingInfo dao配置-->
+	<bean id="p_CatalogDiscountMappingInfoDBO" class="cc.toprank.byd.dao.P_CatalogDiscountMappingInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_CategoryAttributeInfo dao配置-->
+	<bean id="p_CategoryAttributeInfoDBO" class="cc.toprank.byd.dao.P_CategoryAttributeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_CategoryAttributeValueInfo dao配置-->
+	<bean id="p_CategoryAttributeValueInfoDBO" class="cc.toprank.byd.dao.P_CategoryAttributeValueInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_DesignerInfo dao配置-->
+	<bean id="p_DesignerInfoDBO" class="cc.toprank.byd.dao.P_DesignerInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_DiscountInfo dao配置-->
+	<bean id="p_DiscountInfoDBO" class="cc.toprank.byd.dao.P_DiscountInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_DiscountRequirementInfo dao配置-->
+	<bean id="p_DiscountRequirementInfoDBO" class="cc.toprank.byd.dao.P_DiscountRequirementInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ManufacturerInfo dao配置-->
+	<bean id="p_ManufacturerInfoDBO" class="cc.toprank.byd.dao.P_ManufacturerInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductActivityPriceMapping dao配置-->
+	<bean id="p_ProductActivityPriceMappingDBO" class="cc.toprank.byd.dao.P_ProductActivityPriceMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductAdditionalInfo dao配置-->
+	<bean id="p_ProductAdditionalInfoDBO" class="cc.toprank.byd.dao.P_ProductAdditionalInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductBrandMapping dao配置-->
+	<bean id="p_ProductBrandMappingDBO" class="cc.toprank.byd.dao.P_ProductBrandMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductCategoryInfo dao配置-->
+	<bean id="p_ProductCategoryInfoDBO" class="cc.toprank.byd.dao.P_ProductCategoryInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductCategoryMapping dao配置-->
+	<bean id="p_ProductCategoryMappingDBO" class="cc.toprank.byd.dao.P_ProductCategoryMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductDealInfo dao配置-->
+	<bean id="p_ProductDealInfoDBO" class="cc.toprank.byd.dao.P_ProductDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductDesignerMapping dao配置-->
+	<bean id="p_ProductDesignerMappingDBO" class="cc.toprank.byd.dao.P_ProductDesignerMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductDiscountInfo dao配置-->
+	<bean id="p_ProductDiscountInfoDBO" class="cc.toprank.byd.dao.P_ProductDiscountInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductInfo dao配置-->
+	<bean id="p_ProductInfoDBO" class="cc.toprank.byd.dao.P_ProductInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductManufacturerMapping dao配置-->
+	<bean id="p_ProductManufacturerMappingDBO" class="cc.toprank.byd.dao.P_ProductManufacturerMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductMapping dao配置-->
+	<bean id="p_ProductMappingDBO" class="cc.toprank.byd.dao.P_ProductMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductReferencePriceInfo dao配置-->
+	<bean id="p_ProductReferencePriceInfoDBO" class="cc.toprank.byd.dao.P_ProductReferencePriceInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductReviewHelpfulnessInfo dao配置-->
+	<bean id="p_ProductReviewHelpfulnessInfoDBO" class="cc.toprank.byd.dao.P_ProductReviewHelpfulnessInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductReviewInfo dao配置-->
+	<bean id="p_ProductReviewInfoDBO" class="cc.toprank.byd.dao.P_ProductReviewInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductSpecificationMapping dao配置-->
+	<bean id="p_ProductSpecificationMappingDBO" class="cc.toprank.byd.dao.P_ProductSpecificationMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductTagInfo dao配置-->
+	<bean id="p_ProductTagInfoDBO" class="cc.toprank.byd.dao.P_ProductTagInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductTagMapping dao配置-->
+	<bean id="p_ProductTagMappingDBO" class="cc.toprank.byd.dao.P_ProductTagMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductTierPriceInfo dao配置-->
+	<bean id="p_ProductTierPriceInfoDBO" class="cc.toprank.byd.dao.P_ProductTierPriceInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductTierPriceMapping dao配置-->
+	<bean id="p_ProductTierPriceMappingDBO" class="cc.toprank.byd.dao.P_ProductTierPriceMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductVariantInfo dao配置-->
+	<bean id="p_ProductVariantInfoDBO" class="cc.toprank.byd.dao.P_ProductVariantInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ProductVendorMapping dao配置-->
+	<bean id="p_ProductVendorMappingDBO" class="cc.toprank.byd.dao.P_ProductVendorMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ReferenceShopCategoryInfo dao配置-->
+	<bean id="p_ReferenceShopCategoryInfoDBO" class="cc.toprank.byd.dao.P_ReferenceShopCategoryInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_ReferenceShopInfo dao配置-->
+	<bean id="p_ReferenceShopInfoDBO" class="cc.toprank.byd.dao.P_ReferenceShopInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_SpecificationAttributeOptionInfo dao配置-->
+	<bean id="p_SpecificationAttributeOptionInfoDBO" class="cc.toprank.byd.dao.P_SpecificationAttributeOptionInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_SpecificationInfo dao配置-->
+	<bean id="p_SpecificationInfoDBO" class="cc.toprank.byd.dao.P_SpecificationInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_VariantAdditionalInfo dao配置-->
+	<bean id="p_VariantAdditionalInfoDBO" class="cc.toprank.byd.dao.P_VariantAdditionalInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_VariantAttributeValueMapping dao配置-->
+	<bean id="p_VariantAttributeValueMappingDBO" class="cc.toprank.byd.dao.P_VariantAttributeValueMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_VariantDealInfo dao配置-->
+	<bean id="p_VariantDealInfoDBO" class="cc.toprank.byd.dao.P_VariantDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_VariantExtInfo dao配置-->
+	<bean id="p_VariantExtInfoDBO" class="cc.toprank.byd.dao.P_VariantExtInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_VariantWarehouseMapping dao配置-->
+	<bean id="p_VariantWarehouseMappingDBO" class="cc.toprank.byd.dao.P_VariantWarehouseMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--P_VendorInfo dao配置-->
+	<bean id="p_VendorInfoDBO" class="cc.toprank.byd.dao.P_VendorInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_ActiveUserInfo dao配置-->
+	<bean id="u_ActiveUserInfoDBO" class="cc.toprank.byd.dao.U_ActiveUserInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_DirModuleInfo dao配置-->
+	<bean id="u_DirModuleInfoDBO" class="cc.toprank.byd.dao.U_DirModuleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_DirectoryInfo dao配置-->
+	<bean id="u_DirectoryInfoDBO" class="cc.toprank.byd.dao.U_DirectoryInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_LoginInfo dao配置-->
+	<bean id="u_LoginInfoDBO" class="cc.toprank.byd.dao.U_LoginInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_LoginSubSystemInfo dao配置-->
+	<bean id="u_LoginSubSystemInfoDBO" class="cc.toprank.byd.dao.U_LoginSubSystemInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_ModuleInfo dao配置-->
+	<bean id="u_ModuleInfoDBO" class="cc.toprank.byd.dao.U_ModuleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_OrgCustomerMapping dao配置-->
+	<bean id="u_OrgCustomerMappingDBO" class="cc.toprank.byd.dao.U_OrgCustomerMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_OrgModuleInfo dao配置-->
+	<bean id="u_OrgModuleInfoDBO" class="cc.toprank.byd.dao.U_OrgModuleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_OrgRoleInfo dao配置-->
+	<bean id="u_OrgRoleInfoDBO" class="cc.toprank.byd.dao.U_OrgRoleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_OrganizationInfo dao配置-->
+	<bean id="u_OrganizationInfoDBO" class="cc.toprank.byd.dao.U_OrganizationInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_PrivilegeInfo dao配置-->
+	<bean id="u_PrivilegeInfoDBO" class="cc.toprank.byd.dao.U_PrivilegeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_RoleDirInfo dao配置-->
+	<bean id="u_RoleDirInfoDBO" class="cc.toprank.byd.dao.U_RoleDirInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_RoleInfo dao配置-->
+	<bean id="u_RoleInfoDBO" class="cc.toprank.byd.dao.U_RoleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_RoleLoginInfo dao配置-->
+	<bean id="u_RoleLoginInfoDBO" class="cc.toprank.byd.dao.U_RoleLoginInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_RoleModuleInfo dao配置-->
+	<bean id="u_RoleModuleInfoDBO" class="cc.toprank.byd.dao.U_RoleModuleInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_RolePrivilegeInfo dao配置-->
+	<bean id="u_RolePrivilegeInfoDBO" class="cc.toprank.byd.dao.U_RolePrivilegeInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_RoleSubSystemInfo dao配置-->
+	<bean id="u_RoleSubSystemInfoDBO" class="cc.toprank.byd.dao.U_RoleSubSystemInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_SubSystemInfo dao配置-->
+	<bean id="u_SubSystemInfoDBO" class="cc.toprank.byd.dao.U_SubSystemInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_UserExtendInfo dao配置-->
+	<bean id="u_UserExtendInfoDBO" class="cc.toprank.byd.dao.U_UserExtendInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_UserInfo dao配置-->
+	<bean id="u_UserInfoDBO" class="cc.toprank.byd.dao.U_UserInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--U_UserOrganizationMapping dao配置-->
+	<bean id="u_UserOrganizationMappingDBO" class="cc.toprank.byd.dao.U_UserOrganizationMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--W_ProductMapping dao配置-->
+	<bean id="w_ProductMappingDBO" class="cc.toprank.byd.dao.W_ProductMappingDBO"
+		parent="baseDao">
+	</bean>
+	<!--W_WarehouseInfo dao配置-->
+	<bean id="w_WarehouseInfoDBO" class="cc.toprank.byd.dao.W_WarehouseInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_MaterialCategoryInfo dao配置-->
+	<bean id="y_MaterialCategoryInfoDBO" class="cc.toprank.byd.dao.Y_MaterialCategoryInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_MaterialDealInfo dao配置-->
+	<bean id="y_MaterialDealInfoDBO" class="cc.toprank.byd.dao.Y_MaterialDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_MaterialInfo dao配置-->
+	<bean id="y_MaterialInfoDBO" class="cc.toprank.byd.dao.Y_MaterialInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_SpecificationAttributeOptionInfo dao配置-->
+	<bean id="y_SpecificationAttributeOptionInfoDBO" class="cc.toprank.byd.dao.Y_SpecificationAttributeOptionInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_SpecificationInfo dao配置-->
+	<bean id="y_SpecificationInfoDBO" class="cc.toprank.byd.dao.Y_SpecificationInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_StockDealInfo dao配置-->
+	<bean id="y_StockDealInfoDBO" class="cc.toprank.byd.dao.Y_StockDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_StockDetailInfo dao配置-->
+	<bean id="y_StockDetailInfoDBO" class="cc.toprank.byd.dao.Y_StockDetailInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_StockInfo dao配置-->
+	<bean id="y_StockInfoDBO" class="cc.toprank.byd.dao.Y_StockInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_StockRequiremenDetailInfo dao配置-->
+	<bean id="y_StockRequiremenDetailInfoDBO" class="cc.toprank.byd.dao.Y_StockRequiremenDetailInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_StockRequirementDealInfo dao配置-->
+	<bean id="y_StockRequirementDealInfoDBO" class="cc.toprank.byd.dao.Y_StockRequirementDealInfoDBO"
+		parent="baseDao">
+	</bean>
+	<!--Y_StockRequirementInfo dao配置-->
+	<bean id="y_StockRequirementInfoDBO" class="cc.toprank.byd.dao.Y_StockRequirementInfoDBO"
+		parent="baseDao">
+	</bean>
+</beans>

@@ -22,6 +22,11 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>cc.toprank.byd</groupId>
+			<artifactId>microservice-container</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>practices</groupId>
 			<artifactId>microservice-remoting</artifactId>
 			<version>${project.parent.version}</version>

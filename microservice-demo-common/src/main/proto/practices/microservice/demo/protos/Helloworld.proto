@@ -2,7 +2,6 @@ syntax = "proto3";
 
 option java_package = "practices.microservice.demo.protos";
 
-package practices.microservice.demo.protos;
 
 // The greeter service definition.
 service Greeter {

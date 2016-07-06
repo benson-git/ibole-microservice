@@ -23,6 +23,7 @@
 	</organization>
 	<modules>
 		<module>microservice-common</module>
+		<module>microservice-container</module>
 		<module>microservice-remoting</module>
 		<module>microservice-rpc</module>
 		<module>microservice-discovery</module>
@@ -76,8 +77,12 @@
 		<curator_version>2.10.0</curator_version>
 		<junit_version>4.11</junit_version>
 		<mockito_all_version>1.10.19</mockito_all_version>	
-		<servlet-api_version>2.5</servlet-api_version>	
-
+		<servlet-api_version>2.5</servlet-api_version>
+		<!-- Java 7 and Java 8 maven artifact: -->
+		<hikariCP_version>2.4.5</hikariCP_version>
+		<lombok_version>1.16.8</lombok_version>
+		<!-- Java 6 maven artifact: 
+		<hikariCP_version>2.3.13</hikariCP_version>-->
 		<!-- Build args -->
 		<argline>-server -Xms64m -Xmx64m -XX:PermSize=64m -XX:MaxPermSize=64m</argline>
 		<skip_maven_deploy>false</skip_maven_deploy>
@@ -241,6 +246,24 @@
 				<artifactId>log4j</artifactId>
 				<version>${log4j_version}</version>
 			</dependency>
+			<!-- A high-performance JDBC connection pool. http://brettwooldridge.github.io/HikariCP/ -->
+			<dependency>
+			    <groupId>com.zaxxer</groupId>
+			    <artifactId>HikariCP</artifactId>
+			    <version>${hikariCP_version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.projectlombok</groupId>
+			    <artifactId>lombok</artifactId>
+			    <version>${lombok_version}</version>
+			</dependency>
+			<!-- 
+			<dependency>
+			    <groupId>com.zaxxer</groupId>
+			    <artifactId>HikariCP-java6</artifactId>
+			    <version>2.3.13</version>
+			    <scope>compile</scope>
+			</dependency> -->			
 			<!-- Test libs -->
 			<dependency>
 				<groupId>junit</groupId>

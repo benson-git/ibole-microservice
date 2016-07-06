@@ -30,9 +30,4 @@ public interface RpcServer {
 	 * 
 	 */
 	public void blockUntilShutdown() throws InterruptedException;
-	/**
-	 * Register service to service register center.
-	 */
-	public void registerService();
-	
 }

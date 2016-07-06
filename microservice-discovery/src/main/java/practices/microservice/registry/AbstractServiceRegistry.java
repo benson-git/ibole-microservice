@@ -10,27 +10,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import practices.microservice.common.ServerIdentifier;
+import practices.microservice.discovery.InstanceMetadata;
+import practices.microservice.discovery.RegisterEntry;
 
 /**
+ * 
  * @author bwang
  *
  */
-public abstract class AbstractServiceRegistry<T> implements ServiceRegistry<T> {
+public abstract class AbstractServiceRegistry implements ServiceRegistry<InstanceMetadata> {
+
 	
 	protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	
+
 	private ServerIdentifier identifier;
-	
-	protected AbstractServiceRegistry (ServerIdentifier identifier){
+
+	protected AbstractServiceRegistry(ServerIdentifier identifier) {
 		this.identifier = identifier;
 	}
+
+
 	@Override
-	public ServerIdentifier getIdentifier(){
+	public ServerIdentifier getIdentifier() {
 		return this.identifier;
 	}
 
 	@SuppressWarnings("null")
-	protected void validateFileds(RegisterEntry entry){
+	protected void validateFileds(RegisterEntry entry) {
 		checkArgument(entry == null, "Param cannot be null!");
 		checkNotNull(entry.getServiceType(), "Property 'serviceType' cannot be null!");
 		checkNotNull(entry.getServiceName(), "Property 'serviceName' cannot be null!");
@@ -38,4 +44,8 @@ public abstract class AbstractServiceRegistry<T> implements ServiceRegistry<T> {
 		checkNotNull(entry.getInstanceMetadata(), "Property 'instanceMetadatum' cannot be nulls!");
 	}
 
+	protected String buildBasePath()
+	{
+		return '/'+this.getIdentifier().getServiceType().getValue()+'/'+ServerIdentifier.BASE_KEY;
+	}	
 }

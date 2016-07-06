@@ -1,5 +1,6 @@
 package practices.microservice.demo.server;
 
+import practices.microservice.rpc.server.ServerBootstrap;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -30,9 +31,14 @@ public class AppTest
 
     /**
      * Rigourous Test :-)
+     * @throws Exception 
      */
-    public void testApp()
+    public void testApp() throws Exception
     {
-        assertTrue( true );
+
+		String[] args1 = new String[]{"--port=8444","--use_tls=true","--reg_servers=localhost:2181,localhost:2182,localhost:2183"};
+		
+		ServerBootstrap.main(args1);
+    	assertTrue( true );
     }
 }

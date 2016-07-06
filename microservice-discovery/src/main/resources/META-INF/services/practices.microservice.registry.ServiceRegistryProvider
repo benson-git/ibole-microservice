@@ -1,1 +1,1 @@
-practices.microservice.registry.grpc.GrpcServiceRegistryProvider
+practices.microservice.registry.zookeeper.ZkServiceRegistryProvider

@@ -3,6 +3,7 @@ package practices.microservice.registry;
 import java.util.ServiceLoader;
 
 import practices.microservice.common.exception.ProviderNotFoundException;
+import practices.microservice.discovery.InstanceMetadata;
 
 public abstract class ServiceRegistryProvider {
 
@@ -56,5 +57,5 @@ public abstract class ServiceRegistryProvider {
 		return provider;
 	}
 
-	public abstract <T> ServiceRegistry<T> createServiceRegistry();
+	public abstract RegistryFactory<ServiceRegistry<InstanceMetadata>> getRegistryFactory(); 
 }

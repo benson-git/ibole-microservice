@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import practices.microservice.common.utils.Constants;
 import practices.microservice.common.utils.SSLUtils;
-import practices.microservice.registry.grpc.GrpcServiceDefinitionLoader;
+import practices.microservice.registry.instance.grpc.GrpcServiceDefinitionLoader;
 import practices.microservice.rpc.server.RpcServer;
 
 
@@ -69,6 +69,7 @@ public class GrpcServer implements RpcServer {
 		return serverBuilder;
 	}
 	
+	
 	public void stop() throws InterruptedException {
 		server.shutdownNow();
 		if (!server.awaitTermination(5, TimeUnit.SECONDS)) {
@@ -87,11 +88,4 @@ public class GrpcServer implements RpcServer {
 			server.awaitTermination();
 		}
 	}
-
-	@Override
-	public void registerService() {
-		//TODO
-
-	}
-
 }

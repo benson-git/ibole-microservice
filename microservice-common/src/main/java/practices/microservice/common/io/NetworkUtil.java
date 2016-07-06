@@ -5,11 +5,14 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -195,6 +198,27 @@ public class NetworkUtil {
 		return address == null ? LOCALHOST : address.getHostAddress();
 	}
 
+	public static String getDefaultLocalHost(){
+		
+	        Set<String> set = new HashSet<String>();
+	        try {
+	            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+	                NetworkInterface intf = en.nextElement();
+	                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+	                    InetAddress inetAddress = enumIpAddr.nextElement();
+	                    if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress() && inetAddress.isSiteLocalAddress()) {
+	                        set.add(inetAddress.getHostAddress().toString());
+	                    }
+	                }
+	            }
+	        } catch (SocketException ex) {
+	        	logger.warn("Failed to retriving ip address, " + ex.getMessage(), ex);
+	        }
+	        
+	        return set.size() > 0 ? set.iterator().next() : getLocalHost() ;
+	   
+	}
+	
 	private static InetAddress getLocalAddress0() {
 		InetAddress localAddress = null;
 		try {
