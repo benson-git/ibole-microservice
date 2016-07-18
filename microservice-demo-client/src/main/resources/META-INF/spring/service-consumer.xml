@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:microservices="http://code.practices.com/schema/microservices"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+    http://code.practices.com/schema/microservices http://code.practices.com/schema/microservices/microservices.xsd">
+
+ <!-- <context:component-scan base-package="demo.service"/>  -->
+ 
+   <bean id="rpcClientListener" class="org.microservice.config.spring.RpcClientListenerBean" />
+   
+   <microservices:registry id= "zookeeper" type="RPC" address="localhost:2181,localhost:2182,localhost:2183" timeout="1000"/>
+   <microservices:reference id="greeterBlockingStub" interfacename="practices.microservice.demo.protos.GreeterGrpc$GreeterBlockingStub" />
+   <microservices:reference id="routeGuideBlockingStub" interfacename="practices.microservice.demo.protos.RouteGuideGrpc$RouteGuideBlockingStub" />
+   
+</beans>

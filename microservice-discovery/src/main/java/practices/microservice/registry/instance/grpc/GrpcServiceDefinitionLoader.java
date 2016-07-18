@@ -14,7 +14,7 @@ import practices.microservice.common.utils.ClassHelper;
 import practices.microservice.common.utils.ConcurrentSet;
 import practices.microservice.registry.instance.BuzzServiceInstanceProvider;
 
-import com.google.api.client.util.Strings;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto;
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet;
@@ -103,7 +103,7 @@ public final class GrpcServiceDefinitionLoader {
 			ClassHelper.forName(serviceStub);
 		} catch (ClassNotFoundException e) {
 			validated = false;
-			LOG.error("Build Service Stub error happened, no '{serviceStubName}' class found! Skip it!!!", e);
+			LOG.error("Build Service Stub error happened, no '{}' class found! Skip it!!!", serviceStub, e);
 		}
 	    return validated? serviceStub : null;
 	}

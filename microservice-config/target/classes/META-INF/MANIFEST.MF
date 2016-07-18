@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Implementation-Title: microservice-config
+Implementation-Version: 0.0.1
+Built-By: bwang
+Specification-Vendor: practices
+Specification-Title: microservice-config
+Implementation-Vendor-Id: practices
+Build-Jdk: 1.8.0_45
+Specification-Version: 0.0.1
+Implementation-URL: http://code/microservice-config
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: practices
+

@@ -46,6 +46,10 @@ public class ServerIdentifier  implements TransferObject{
 		public String getValue(){
 			return value;
 		}
+		@Override
+		public String toString() {
+			return value;
+		}
 	}
 	/**
 	 * @param serviceType

@@ -3,11 +3,16 @@
  */
 package practices.microservice.common.utils;
 
+import java.util.regex.Pattern;
+
 /**
  * @author bwang
  *
  */
 public class Constants {
+	
+
+    public static final Pattern COMMA_SEPERATOR_PATTERN   = Pattern.compile("\\s*[,]+\\s*");
 
 	public enum RpcServerEnum {
 		

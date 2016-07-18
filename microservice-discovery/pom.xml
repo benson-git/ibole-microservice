@@ -21,7 +21,7 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>cc.toprank.byd</groupId>
+			<groupId>practices</groupId>
 			<artifactId>microservice-container</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
@@ -68,27 +68,22 @@
 		<dependency>
 		    <groupId>org.apache.curator</groupId>
 		    <artifactId>curator-framework</artifactId>
-		    <version>${curator_version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.curator</groupId>
 		    <artifactId>curator-recipes</artifactId>
-		    <version>${curator_version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.curator</groupId>
 		    <artifactId>curator-client</artifactId>
-		    <version>${curator_version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.curator</groupId>
 		    <artifactId>curator-x-discovery</artifactId>
-		    <version>${curator_version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.curator</groupId>
 		    <artifactId>curator-test</artifactId>
-		    <version>${curator_version}</version>
 		</dependency>
 	</dependencies>
 </project>

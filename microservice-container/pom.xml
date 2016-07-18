@@ -16,7 +16,7 @@
   </properties>
   <dependencies>
 		<dependency>
-			<groupId>cc.toprank.byd</groupId>
+			<groupId>practices</groupId>
 			<artifactId>microservice-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

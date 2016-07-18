@@ -13,6 +13,8 @@ import practices.microservice.common.ServerIdentifier;
 import practices.microservice.common.ServerIdentifier.ServiceType;
 import practices.microservice.common.io.NetworkUtil;
 import practices.microservice.common.utils.Constants;
+import practices.microservice.container.IocContainer;
+import practices.microservice.container.IocContainerProvider;
 import practices.microservice.discovery.InstanceMetadata;
 import practices.microservice.discovery.RegisterEntry;
 import practices.microservice.registry.AbstractRegistryFactory;
@@ -20,8 +22,6 @@ import practices.microservice.registry.RegistryFactory;
 import practices.microservice.registry.ServiceRegistry;
 import practices.microservice.registry.ServiceRegistryProvider;
 import practices.microservice.registry.instance.grpc.GrpcServiceDefinitionLoader;
-import cc.toprank.byd.microservice.container.IocContainer;
-import cc.toprank.byd.microservice.container.IocContainerProvider;
 
 import com.google.common.base.Strings;
 

@@ -3,8 +3,8 @@
  */
 package practices.microservice.registry.instance.spring;
 
+import practices.microservice.container.spring.SpringContainer;
 import practices.microservice.registry.instance.BuzzServiceInstanceProvider;
-import cc.toprank.byd.microservice.container.spring.SpringContainer;
 
 /**
  * @author bwang

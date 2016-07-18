@@ -38,7 +38,7 @@ public class AppTest
 
 		String[] args1 = new String[]{"--port=8444","--use_tls=true","--reg_servers=localhost:2181,localhost:2182,localhost:2183"};
 		
-		ServerBootstrap.main(args1);
+		//ServerBootstrap.main(args1);
     	assertTrue( true );
     }
 }

@@ -86,7 +86,7 @@ public class AppTest
      * Rigourous Test :-)
      * @throws Exception 
      */
-    public void testApp() throws Exception
+    public void bktestApp() throws Exception
     {
     	RegistryFactory<ServiceRegistry<InstanceMetadata>> factory = new ZkRegistryFactory();
 		ServiceRegistry<InstanceMetadata> registry = factory.getServiceRegistry(identifier);

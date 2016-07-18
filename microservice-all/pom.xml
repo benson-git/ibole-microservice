@@ -28,6 +28,11 @@
 		</dependency>
 		<dependency>
 			<groupId>practices</groupId>
+			<artifactId>microservice-config</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>practices</groupId>
 			<artifactId>microservice-container</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
@@ -96,6 +101,7 @@
 							<artifactSet>
 								<includes>
 								    <include>practices:microservice-common</include>
+								    <include>practices:microservice-config</include>
 									<include>practices:microservice-container</include>
 								    <include>practices:microservice-remoting</include>
 								    <include>practices:microservice-rpc</include>

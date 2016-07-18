@@ -14,6 +14,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,7 +25,6 @@ import javax.annotation.concurrent.GuardedBy;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 
 /**
  * /** A Zookeeper-based {@link NameResolver}.
@@ -41,7 +41,7 @@ import com.google.common.collect.Lists;
  */
 public class ZkNameResolver extends NameResolver {
 
-	private List<ResolvedServerInfo> servers = Lists.newArrayList();
+	private List<List<ResolvedServerInfo>> servers = new ArrayList<List<ResolvedServerInfo>>();
 	private String authority;
 	private String host;
 	private int port;
@@ -82,12 +82,13 @@ public class ZkNameResolver extends NameResolver {
 			port = targetUri.getPort();
 		}
 		// end of the checking for the first authority.
+		servers.add(new ArrayList<ResolvedServerInfo>());
 		nextTargetUri = nextUri(targetUri);
 		this.timerServiceResource = timerService;
 		this.executorResource = sharedChannelExecutor;
 	}
 
-	private List<ResolvedServerInfo> parseURI(URI targetUri) throws UnknownHostException {
+	private List<List<ResolvedServerInfo>> parseURI(URI targetUri) throws UnknownHostException {
 
 		String host = targetUri.getHost();
 		int port = targetUri.getPort();
@@ -95,7 +96,7 @@ public class ZkNameResolver extends NameResolver {
 			return servers;
 		}
 		InetAddress inetAddr = InetAddress.getByName(host);
-		servers.add(new ResolvedServerInfo(new InetSocketAddress(inetAddr, port), Attributes.EMPTY));
+		servers.get(0).add(new ResolvedServerInfo(new InetSocketAddress(inetAddr, port), Attributes.EMPTY));
 
 		servers = parseURI(nextUri(targetUri));
 
@@ -158,7 +159,7 @@ public class ZkNameResolver extends NameResolver {
 			try {
 				try {
 					InetAddress inetAddr = InetAddress.getByName(host);
-					servers.add(new ResolvedServerInfo(new InetSocketAddress(inetAddr, port), Attributes.EMPTY));
+					servers.get(0).add(new ResolvedServerInfo(new InetSocketAddress(inetAddr, port), Attributes.EMPTY));
 					if(nextTargetUri != null){
 						servers = parseURI(nextTargetUri);
 					}
