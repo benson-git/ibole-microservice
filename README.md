@@ -15,11 +15,11 @@ Source Building
 
 2. Import the ibole-microservice source code to eclipse project:
 
-    cd ~/practices-microservice
+    cd ~/ibole-microservice
     mvn eclipse:eclipse
     Eclipse -> Menu -> File -> Import -> Exsiting Projects to Workspace -> Browse -> Finish
 
-3. Build the practices-microservice binary package:
+3. Build the ibole-microservice binary package:
 
     cd ~/ibole-microservice
     mvn clean install -Dmaven.test.skip
