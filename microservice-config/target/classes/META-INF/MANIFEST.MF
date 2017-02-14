@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Implementation-Title: microservice-config
-Implementation-Version: 0.0.1
+Implementation-Version: 1.0.4
 Built-By: bwang
-Specification-Vendor: practices
+Specification-Vendor: IBole
 Specification-Title: microservice-config
-Implementation-Vendor-Id: practices
+Implementation-Vendor-Id: io.ibole
 Build-Jdk: 1.8.0_45
-Specification-Version: 0.0.1
+Specification-Version: 1.0.4
 Implementation-URL: http://code/microservice-config
 Created-By: Maven Integration for Eclipse
-Implementation-Vendor: practices
+Implementation-Vendor: IBole
 

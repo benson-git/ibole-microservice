@@ -6,10 +6,58 @@
 
 3. Introduce OAuth
 
-JSON Web Tokens (JWTs)
-Authentication is proving that a user is who they say they are.
 
-OAuth2 isn’t meant to do stuff like validate a user’s identity — that’s taken care of by an Authentication service. Authentication is when you validate a user’s identity (like asking for a username / password to log in), 
-whereas authorization is when you check to see what permissions an existing user already has.
+Issues:
+1. Andriod side, TLS alpn only can support Andriod 5.0+
+
 
 provider是可以独立运行的，jar里面有assembly目录，运行mvn assembly:directory就可以生成能直接运行的provider目录
+
+http://www.grpc.io/grpc-java/javadoc/io/grpc/ManagedChannelBuilder.html#forTarget-java.lang.String-
+
+directExecutor
+public abstract T directExecutor()
+
+Execute application code directly in the transport thread. 
+Depending on the underlying transport, using a direct executor may lead to substantial performance improvements. However, it also requires the application to not block under any circumstances. 
+
+Calling this method is semantically equivalent to calling executor(Executor) and passing in a direct executor. However, this is the preferred way as it may allow the transport to perform special optimizations.
+
+executor
+public abstract T executor(Executor executor)
+
+Provides a custom executor. 
+It's an optional parameter. If the user has not provided an executor when the channel is built, the builder will use a static cached thread pool. 
+
+The channel won't take ownership of the given executor. It's caller's responsibility to shut down the executor when it's desired.
+
+
+https://github.com/grpc/grpc-java/blob/master/interop-testing/src/main/java/io/grpc/testing/integration/AbstractInteropTest.java
+
+虽然 gRPC 官方推荐用 onError() 处理异常，但是实际上在实践时需要每个业务方法都要来一个大的 try catch 。这使得代码冗余而烦琐。
+
+解决的方式，是自己写一个 ServerInterceptor， 实现一个 io.grpc.ServerCall.Listener 来统一处理
+
+class ExceptionInterceptor implements ServerInterceptor {
+    public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(
+            ServerCall<ReqT, RespT> call, Metadata headers,
+            ServerCallHandler<ReqT, RespT> next) {
+        ServerCall.Listener<ReqT> reqTListener = next.startCall(call, headers);
+        return new ExceptionListener(reqTListener, call);
+    }
+}
+
+class ExceptionListener extends ServerCall.Listener {
+    ......
+    public void onHalfClose() {
+        try {
+            this.delegate.onHalfClose();
+        } catch (Exception t) {
+            // 统一处理异常
+            ExtendedStatusRuntimeException exception = fromThrowable(t);
+            // 调用 call.close() 发送 Status 和 metadata
+            // 这个方式和 onError()本质是一样的
+            call.close(exception.getStatus(), exception.getTrailers());
+        }
+    }
+}

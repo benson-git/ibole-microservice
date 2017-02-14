@@ -4,9 +4,9 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>practices</groupId>
+		<groupId>io.ibole</groupId>
 		<artifactId>microservice-parent</artifactId>
-		<version>0.0.1</version>
+		<version>1.0.4</version>
 	</parent>
 	<artifactId>microservice-rpc</artifactId>
 	<packaging>jar</packaging>
@@ -17,22 +17,39 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
+			<artifactId>infrastructure-common</artifactId>
+		</dependency>	
+		<dependency>
+			<groupId>io.ibole</groupId>
+			<artifactId>infrastructure-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.ibole</groupId>
+			<artifactId>infrastructure-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
+			<artifactId>microservice-config</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-container</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-remoting</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-discovery</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
@@ -49,6 +66,19 @@
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>net.bytebuddy</groupId>
+		    <artifactId>byte-buddy</artifactId>
+		</dependency>
+		<dependency> 
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
 		</dependency>
 		<!--<dependency> <groupId>com.google.inject</groupId> <artifactId>guice</artifactId> 
 			</dependency> -->

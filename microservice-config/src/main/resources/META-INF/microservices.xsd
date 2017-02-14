@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xsd:schema xmlns="http://code.practices.com/schema/microservices"
+<xsd:schema xmlns="http://code.toprank.com/schema/microservices"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:tool="http://www.springframework.org/schema/tool"
-	targetNamespace="http://code.practices.com/schema/microservices" 
+	targetNamespace="http://code.toprank.com/schema/microservices" 
 	elementFormDefault="qualified"
     attributeFormDefault="unqualified">
 
 	<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
 	<xsd:import namespace="http://www.springframework.org/schema/beans" />
 	<xsd:import namespace="http://www.springframework.org/schema/tool" />
-
+	
 	<xsd:annotation>
 		<xsd:documentation><![CDATA[ Namespace support for the services provided by microservices framework. ]]></xsd:documentation>
 	</xsd:annotation>
-
 	<xsd:element name="service">
 		<xsd:complexType>
 			<xsd:complexContent>
 				 <xsd:extension base="beans:identifiedType">
-					<xsd:attribute name="interfacename" type="xsd:string" use="required">
-					    <xsd:annotation>
-						    <xsd:documentation><![CDATA[The interface is used to register this service in the service registry. ]]></xsd:documentation>
+					<xsd:attribute name="interface" type="xsd:token" use="required">
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[ The interface is used to register this service in the service registry. ]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="class" type="xsd:string" use="optional">
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[ The service implementation class name. ]]></xsd:documentation>		
 						</xsd:annotation>
 					</xsd:attribute>
 					<xsd:attribute name="ref" type="xsd:string" use="optional">
@@ -32,7 +36,6 @@
 			</xsd:complexContent>
 		</xsd:complexType>
 	</xsd:element>
-
 	<xsd:element name="registry">
 		<xsd:complexType>
 			<xsd:complexContent>
@@ -44,37 +47,33 @@
 					</xsd:attribute>
 					<xsd:attribute name="timeout" type="xsd:int" use="optional" />
 					<xsd:attribute name="token" type="xsd:string" use="optional" />
-					<xsd:attribute name="type" type="xsd:string" use="required" />
+					<xsd:attribute name="rootPath" type="xsd:string" use="required" />
 				</xsd:extension>
 			</xsd:complexContent>
 		</xsd:complexType>
 	</xsd:element>
-
 	<xsd:element name="reference">
 		<xsd:complexType>
 			<xsd:complexContent>
 				<xsd:extension base="beans:identifiedType">
 					<xsd:attribute name="interfacename" type="xsd:string" use="required" />
+					<xsd:attribute name="timeout" type="xsd:int" use="optional" />
 				</xsd:extension>
 			</xsd:complexContent>
 		</xsd:complexType>
-	</xsd:element>
-	<xsd:complexType name="annotationType">
-		<xsd:attribute name="id" type="xsd:ID">
-			<xsd:annotation>
-				<xsd:documentation><![CDATA[ The unique identifier for a bean. ]]></xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="package" type="xsd:string" use="optional">
-			<xsd:annotation>
-				<xsd:documentation><![CDATA[ The scan package. ]]></xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-	</xsd:complexType>
-	
-	<xsd:element name="annotation" type="annotationType">
-		<xsd:annotation> 
-			<xsd:documentation><![CDATA[ The annotation config ]]></xsd:documentation> 
-		</xsd:annotation>
-	</xsd:element>
+	</xsd:element>	
+	<xsd:element name="annotation">
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[ The unique identifier for a bean. ]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="package" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[ The scan package. ]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>	
 </xsd:schema>

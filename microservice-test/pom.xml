@@ -4,9 +4,9 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>practices</groupId>
+		<groupId>io.ibole</groupId>
 		<artifactId>microservice-parent</artifactId>
-		<version>0.0.1</version>
+		<version>1.0.4</version>
 	</parent>
 	<artifactId>microservice-test</artifactId>
 	<packaging>jar</packaging>
@@ -15,4 +15,22 @@
 	<properties>
 		<skip_maven_deploy>true</skip_maven_deploy>
 	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>io.ibole</groupId>
+			<artifactId>microservice-rpc</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+			<!-- Test libs -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<scope>test</scope>
+			</dependency>
+	</dependencies>	
 </project>

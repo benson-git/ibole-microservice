@@ -3,20 +3,20 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>practices</groupId>
+    <groupId>io.ibole</groupId>
     <artifactId>microservice-parent</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.4</version>
   </parent>
 	<artifactId>microservice-all</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
-	<description>The all in one project of microservice</description>
+	<description>The all in one project of ibole microservice</description>
 	<properties>
 		<skip_maven_deploy>false</skip_maven_deploy>
 	</properties>
-<dependencies>
+   <dependencies>
 		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-common</artifactId>
 			<version>${project.parent.version}</version>
 			<!--<exclusions>
@@ -27,28 +27,28 @@
 			</exclusions>  -->
 		</dependency>
 		<dependency>
-			<groupId>practices</groupId>
-			<artifactId>microservice-config</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-container</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-remoting</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-rpc</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-discovery</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.ibole</groupId>
+			<artifactId>microservice-config</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
@@ -100,13 +100,13 @@
 							<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
 							<artifactSet>
 								<includes>
-								    <include>practices:microservice-common</include>
-								    <include>practices:microservice-config</include>
-									<include>practices:microservice-container</include>
-								    <include>practices:microservice-remoting</include>
-								    <include>practices:microservice-rpc</include>
-								    <include>practices:microservice-discovery</include>
-
+								    <include>io.ibole:microservice-common</include>
+								    <include>io.ibole:microservice-container</include>
+								    <include>io.ibole:microservice-remoting</include>
+								    <include>io.ibole:microservice-rpc</include>
+								    <include>io.ibole:microservice-discovery</include>
+                                    <include>io.ibole:microservice-config</include>
+                                    <include>io.ibole:microservice-test</include>
 								</includes>
 							</artifactSet>
 							<transformers>

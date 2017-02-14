@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Implementation-Title: microservice-container
+Implementation-Version: 1.0.4
+Built-By: bwang
+Specification-Vendor: IBole
+Specification-Title: microservice-container
+Implementation-Vendor-Id: io.ibole
+Build-Jdk: 1.8.0_45
+Specification-Version: 1.0.4
+Implementation-URL: http://code/microservice-container
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: IBole
+

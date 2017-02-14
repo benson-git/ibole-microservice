@@ -1,1 +1,1 @@
-http\://code.practices.com/schema/microservices=org.microservice.config.spring.RpcNamespaceHandler
+http\://code.toprank.com/schema/microservices=cc.toprank.byd.microservice.config.spring.RpcNamespaceHandler

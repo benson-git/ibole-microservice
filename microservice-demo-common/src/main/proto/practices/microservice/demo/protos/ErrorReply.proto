@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-option java_package = "practices.microservice.demo.protos";
-
-// The error response message when some application level error happens in server side.
-message ErrorReply{
-  string detail = 1;
-}

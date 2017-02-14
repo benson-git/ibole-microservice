@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-	<groupId>practices</groupId>
+	<groupId>io.ibole</groupId>
 	<artifactId>microservice-parent</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.4</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
-	<description>The parent project of practices microservice framework</description>
+	<description>The parent project of IBole byd microservice framework</description>
 	<url>http://code</url>
 	<inceptionYear>2016</inceptionYear>
 	<licenses>
@@ -18,78 +18,55 @@
 		</license>
 	</licenses>
 	<organization>
-		<name>practices</name>
-		<url>http://www.practices.com</url>
+		<name>IBole</name>
+		<url>http://www.ibole.com</url>
 	</organization>
 	<modules>
 		<module>microservice-common</module>
-		<module>microservice-config</module>
 		<module>microservice-container</module>
 		<module>microservice-remoting</module>
-		<module>microservice-rpc</module>
 		<module>microservice-discovery</module>
+		<module>microservice-rpc</module>
+		<module>microservice-config</module>
 		<module>microservice-test</module>
-		<module>microservice-demo-client</module>
-		<module>microservice-demo-common</module>
-		<module>microservice-demo-server</module>
         <module>microservice-all</module>
-	</modules>
-	<profiles>
-		<profile>
-			<id>test</id>
-			<activation>
-				<file>
-					<missing>.project</missing>
-				</file>
-			</activation>
-			<modules>
-				<module>microservice-test</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>Jenkins</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<testFailureIgnore>true</testFailureIgnore>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+  </modules>
 	<properties>
+		<infrastructure_all_version>1.0.9</infrastructure_all_version>
 		<!-- Common libs -->
 		<slf4j_log4j12_version>1.7.5</slf4j_log4j12_version>
 		<commons_logging_api_version>1.1</commons_logging_api_version>
 		<log4j_version>1.2.17</log4j_version>
-		<netty_tcnative_boringssl_static_version>1.1.33.Fork18</netty_tcnative_boringssl_static_version>
-		<netty_tcnative_version>1.1.33.Fork18</netty_tcnative_version>
+		<netty_tcnative_boringssl_static_version>1.1.33.Fork23</netty_tcnative_boringssl_static_version>
+		<netty_tcnative_version>1.1.33.Fork23</netty_tcnative_version>
 	    <javassist_version>3.18.0-GA</javassist_version>
-		<grpc_all_version>0.15.0</grpc_all_version>
-		<protobuf_java_version>3.0.0-beta-3</protobuf_java_version>
-		<guava_version>19.0</guava_version>
+	    <byte-buddy_version>1.5.8</byte-buddy_version>
+		<grpc_all_version>1.0.2</grpc_all_version>
+		<protobuf_java_version>3.0.2</protobuf_java_version>
+		<guava_version>18.0</guava_version>
 		<gson_version>2.3</gson_version>
 		<springframework_version>4.2.6.RELEASE</springframework_version>
-		<zookeeper_version>3.4.8</zookeeper_version>
-		<curator_version>2.10.0</curator_version>
+		<zookeeper_version>3.4.9</zookeeper_version>
+		<curator_version>2.11.1</curator_version>
 		<junit_version>4.11</junit_version>
 		<mockito_all_version>1.10.19</mockito_all_version>	
 		<servlet-api_version>2.5</servlet-api_version>
+		<plexus_interpolation_version>1.22</plexus_interpolation_version>
 		<!-- Java 7 and Java 8 maven artifact: -->
 		<hikariCP_version>2.4.5</hikariCP_version>
 		<lombok_version>1.16.8</lombok_version>
 		<!-- Java 6 maven artifact: 
 		<hikariCP_version>2.3.13</hikariCP_version>-->
+		
 		<!-- Build args -->
+		<file_encoding>UTF-8</file_encoding>
 		<argline>-server -Xms64m -Xmx64m -XX:PermSize=64m -XX:MaxPermSize=64m</argline>
 		<skip_maven_deploy>false</skip_maven_deploy>
 		<updateReleaseInfo>true</updateReleaseInfo>
+		<!--指定Maven用什么编码来读取源码及文档 -->
 		<project.build.sourceEncoding>${file_encoding}</project.build.sourceEncoding>
-
+		<!--指定Maven用什么编码来呈现站点的HTML文件 -->
+        <project.reporting.outputEncoding>${file_encoding}</project.reporting.outputEncoding>
 		<!-- generate idea copyright -->
 		<copyright>Copyright 2016 XXX.&#10; &#10;Licensed under
 			the Apache License, Version 2.0 (the &quot;License&quot;);&#10;you
@@ -107,17 +84,33 @@
 		<maven_compiler_plugin_version>3.5.1</maven_compiler_plugin_version>
 		<java_source_version>1.8</java_source_version>
 		<java_target_version>1.8</java_target_version>
-		<file_encoding>UTF-8</file_encoding>
 		<maven_source_plugin_version>3.0.0</maven_source_plugin_version>
 		<maven_jar_plugin_version>2.6</maven_jar_plugin_version>
 		<maven_war_plugin_version>2.2</maven_war_plugin_version>
 		<maven_install_plugin_version>2.5.2</maven_install_plugin_version>
 		<maven_deploy_plugin_version>2.8.2</maven_deploy_plugin_version>
+		<maven_release_plugin_version>2.5.3</maven_release_plugin_version>
         <maven-surefire-plugin_version>2.19.1</maven-surefire-plugin_version>
+        <maven-javadoc-plugin_version>2.10.4</maven-javadoc-plugin_version>
 
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>io.ibole</groupId>
+				<artifactId>infrastructure-common</artifactId>
+				<version>${infrastructure_all_version}</version>
+			</dependency>	
+			<dependency>
+				<groupId>io.ibole</groupId>
+				<artifactId>infrastructure-security</artifactId>
+				<version>${infrastructure_all_version}</version>
+		    </dependency>
+			<dependency>
+				<groupId>io.ibole</groupId>
+				<artifactId>infrastructure-cache</artifactId>
+				<version>${infrastructure_all_version}</version>
+		    </dependency>
 			<!-- Common libs -->
 			<dependency>
 				<groupId>com.google.guava</groupId>
@@ -134,11 +127,21 @@
 				<artifactId>servlet-api</artifactId>
 				<version>${servlet-api_version}</version>
 			</dependency>
+			<dependency>
+			    <groupId>org.codehaus.plexus</groupId>
+			    <artifactId>plexus-interpolation</artifactId>
+			    <version>${plexus_interpolation_version}</version>
+			</dependency>
 			<!-- Byte code tool -->
 			<dependency>
 				<groupId>org.javassist</groupId>
 				<artifactId>javassist</artifactId>
 				<version>${javassist_version}</version>
+			</dependency>
+			<dependency>
+			  <groupId>net.bytebuddy</groupId>
+			  <artifactId>byte-buddy</artifactId>
+			  <version>${byte-buddy_version}</version>
 			</dependency>
 			<!-- Spring framework -->
 			<dependency>
@@ -149,6 +152,11 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
+				<version>${springframework_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
 				<version>${springframework_version}</version>
 			</dependency>
 			<dependency>
@@ -222,9 +230,9 @@
 				<version>${grpc_all_version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.google.protobuf</groupId>
-				<artifactId>protobuf-java</artifactId>
-				<version>${protobuf_java_version}</version>
+			    <groupId>com.google.protobuf</groupId>
+			    <artifactId>protobuf-java</artifactId>
+			    <version>${protobuf_java_version}</version>
 			</dependency>
 			<!-- Log libs -->
 			<dependency>
@@ -264,7 +272,7 @@
 			    <artifactId>HikariCP-java6</artifactId>
 			    <version>2.3.13</version>
 			    <scope>compile</scope>
-			</dependency> -->			
+			</dependency> -->
 			<!-- Test libs -->
 			<dependency>
 				<groupId>junit</groupId>
@@ -289,7 +297,52 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.ibole</groupId>
+			<artifactId>infrastructure-common</artifactId>
+		</dependency>
 	</dependencies>
+	<!-- 
+	<repositories>
+	      <repository>
+	          <id>nexus</id>
+	          <name>IBole Nexus Repository</name>
+	          <url>http://central.maven.org/maven2</url>
+	      </repository>
+	</repositories> 
+	  <pluginRepositories>
+	      <pluginRepository>
+	          <id>nexus</id>
+	          <name>IBole Nexus Repository</name>
+	          <url>http://central.maven.org/maven2</url>
+	      </pluginRepository>
+	  </pluginRepositories>	-->
+   <!--
+	<repositories>
+	      <repository>
+	          <id>nexus</id>
+	          <name>IBole Nexus Repository</name>
+	          <url>http://192.168.1.137:8081/nexus/content/groups/public</url>
+	      </repository>
+	</repositories>
+	  <pluginRepositories>
+	      <pluginRepository>
+	          <id>nexus</id>
+	          <name>IBole Nexus Repository</name>
+	          <url>http://192.168.1.137:8081/nexus/content/groups/public</url>
+	      </pluginRepository>
+	  </pluginRepositories>
+	<distributionManagement>
+	  <repository>
+	      <id>releases</id>
+	      <url>http://192.168.1.137:8081/nexus/content/repositories/releases/</url>
+	  </repository>
+	  <snapshotRepository>
+	      <id>snapshots</id>
+	      <url>http://192.168.1.137:8081/nexus/content/repositories/snapshots/</url>
+	  </snapshotRepository>
+	</distributionManagement>
+	-->
 	<build>
 		<plugins>
 			<plugin>
@@ -376,6 +429,11 @@
 					<artifactId>maven-deploy-plugin</artifactId>
 					<version>${maven_deploy_plugin_version}</version>
 				</plugin>
+	          <plugin> 
+	            <groupId>org.apache.maven.plugins</groupId> 
+	            <artifactId>maven-release-plugin</artifactId> 
+	            <version>${maven_release_plugin_version}</version>
+	          </plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>

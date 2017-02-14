@@ -2,10 +2,10 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>practices</groupId>
+  <parent>   
+    <groupId>io.ibole</groupId>
     <artifactId>microservice-parent</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.4</version>
   </parent>
   <artifactId>microservice-discovery</artifactId>
 	<packaging>jar</packaging>
@@ -16,12 +16,12 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>practices</groupId>
+			<groupId>io.ibole</groupId>
 			<artifactId>microservice-container</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

@@ -1,0 +1,3 @@
+#cc.toprank.byd.microservice.rpc.server.grpc.AuthGrpcServerInterceptor
+#cc.toprank.byd.microservice.rpc.server.grpc.DeviceInfoGrpcServerInterceptor
+cc.toprank.byd.microservice.rpc.server.grpc.AccessLogServerInterceptor
