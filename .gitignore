@@ -3,7 +3,7 @@
 *.classpath
 *.class
 *.log
-/target/
-/bin/
-/.settings/
+target/
+bin/
+.settings/
 *.jar
