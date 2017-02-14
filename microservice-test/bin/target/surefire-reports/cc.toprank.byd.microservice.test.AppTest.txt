@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: io.ibole.microservice.test.AppTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.085 sec - in io.ibole.microservice.test.AppTest
