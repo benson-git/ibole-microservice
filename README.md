@@ -11,7 +11,7 @@ Source Building
     git clone https://github.com/benson-git/ibole-microservice.git ibole-microservice
 
     git checkout master
-    or: git checkout -b -0.0.1
+    or: git checkout -b -v1.0.4
 
 2. Import the ibole-microservice source code to eclipse project:
 
