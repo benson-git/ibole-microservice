@@ -35,7 +35,7 @@ import java.util.Date;
  *  A fully-qualified ZooKeeper name used to construct a gRPC channel will look as follows:
  *
  * 		zookeeper://host:port/serviceType/serviceName/serviceContract/instance
- *     example: zookeeper://host:port/rpc/Toprank/com.test.practices.GreeterSub/instance
+ *     example: zookeeper://host:port/rpc/ibole/com.test.practices.GreeterSub/instance
  *  Here zookeeper is the scheme identifying the name-system.
  *	host:port identifies an authoritative name-server for this scheme (i.e., a Zookeeper server). 
  *	The host can be an IP address or a DNS name. Finally /path/service/instance is the Zookeeper name to be resolved.

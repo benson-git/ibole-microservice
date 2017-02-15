@@ -13,7 +13,7 @@ public class SpringBuzzServiceInstanceProvider extends BuzzServiceInstanceProvid
   /*
    * (non-Javadoc)
    * 
-   * @see cc.toprank.byd.microservice.discovery.BuzzServiceInstanceProvider#isAvailable()
+   * @see io.ibole.microservice.discovery.BuzzServiceInstanceProvider#isAvailable()
    */
   @Override
   protected boolean isAvailable() {
@@ -24,7 +24,7 @@ public class SpringBuzzServiceInstanceProvider extends BuzzServiceInstanceProvid
   /*
    * (non-Javadoc)
    * 
-   * @see cc.toprank.byd.microservice.discovery.BuzzServiceInstanceProvider#priority()
+   * @see io.ibole.microservice.discovery.BuzzServiceInstanceProvider#priority()
    */
   @Override
   protected int priority() {
@@ -36,7 +36,7 @@ public class SpringBuzzServiceInstanceProvider extends BuzzServiceInstanceProvid
    * (non-Javadoc)
    * 
    * @see
-   * cc.toprank.byd.microservice.discovery.BuzzServiceInstanceProvider#getServiceBean(java.lang.
+   * io.ibole.microservice.discovery.BuzzServiceInstanceProvider#getServiceBean(java.lang.
    * Class)
    */
   @Override

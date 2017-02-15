@@ -143,9 +143,9 @@ public class ZkTool {
     DiscoveryFactory<ServiceDiscovery<InstanceMetadata>> factory2 = new ZkDiscoveryFactory();
     ServiceDiscovery<InstanceMetadata> discovery = factory2.getServiceDiscovery(identifier);
     discovery.start();
-    String[] serviceNames = {"cc.toprank.byd.demo.protos.GreeterGrpc$GreeterSub",
-        "cc.toprank.byd.demo.protos.GreeterGrpc$GreeterBlockingStub",
-        "cc.toprank.byd.demo.protos.GreeterGrpc$GreeterFutureStub"};
+    String[] serviceNames = {"io.ibole.demo.protos.GreeterGrpc$GreeterSub",
+        "io.ibole.demo.protos.GreeterGrpc$GreeterBlockingStub",
+        "io.ibole.demo.protos.GreeterGrpc$GreeterFutureStub"};
     for (String name : serviceNames) {
 
       List<InstanceMetadata> services = discovery.listAll(name);

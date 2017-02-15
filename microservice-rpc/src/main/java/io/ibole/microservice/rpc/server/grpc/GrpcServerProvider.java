@@ -15,7 +15,7 @@ import io.ibole.microservice.rpc.server.ServerBootstrap;
 public class GrpcServerProvider extends RpcServerProvider {
 
     /* (non-Javadoc)
-     * @see cc.toprank.byd.microservice.rpc.server.RpcServerProvider#isAvailable()
+     * @see io.ibole.microservice.rpc.server.RpcServerProvider#isAvailable()
      */
     @Override
     protected boolean isAvailable() {
@@ -24,7 +24,7 @@ public class GrpcServerProvider extends RpcServerProvider {
     }
 
     /* (non-Javadoc)
-     * @see cc.toprank.byd.microservice.rpc.server.RpcServerProvider#priority()
+     * @see io.ibole.microservice.rpc.server.RpcServerProvider#priority()
      */
     @Override
     protected int priority() {

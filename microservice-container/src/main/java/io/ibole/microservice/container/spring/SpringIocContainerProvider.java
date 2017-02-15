@@ -13,7 +13,7 @@ public class SpringIocContainerProvider extends IocContainerProvider {
   /*
    * (non-Javadoc)
    * 
-   * @see cc.toprank.byd.microservice.container.IocContainerProvider#isAvailable()
+   * @see io.ibole.microservice.container.IocContainerProvider#isAvailable()
    */
   @Override
   protected boolean isAvailable() {
@@ -24,7 +24,7 @@ public class SpringIocContainerProvider extends IocContainerProvider {
   /*
    * (non-Javadoc)
    * 
-   * @see cc.toprank.byd.microservice.container.IocContainerProvider#priority()
+   * @see io.ibole.microservice.container.IocContainerProvider#priority()
    */
   @Override
   protected int priority() {
@@ -35,7 +35,7 @@ public class SpringIocContainerProvider extends IocContainerProvider {
   /*
    * (non-Javadoc)
    * 
-   * @see cc.toprank.byd.microservice.container.IocContainerProvider#createIocContainer()
+   * @see io.ibole.microservice.container.IocContainerProvider#createIocContainer()
    */
   @Override
   public IocContainer createIocContainer() {

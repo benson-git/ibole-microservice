@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
  * 
  * 
  * <p>
- * 版权所有：(c)2016， 深圳市拓润计算机软件开发有限公司
+ * Copyright 2016, iBole Inc. All rights reserved.
  * 
  * <p>
  * </p>
