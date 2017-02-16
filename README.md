@@ -1,4 +1,4 @@
-# iBole-microservice
+# iBole-microservices
 
 ------
 ##iBole-microservice design
