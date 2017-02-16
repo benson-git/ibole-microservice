@@ -1,15 +1,12 @@
 # iBole-microservice
-===
+
 ------
 ##iBole-microservice design
 
-Design doc:[Design doc](https://github.com/benson-git/ibole-microservice/wiki)
-
-
+Design document URL: [Design doc](https://github.com/benson-git/ibole-microservice/wiki)
 
 ------
 ##Source Building
-
 
 1. Checkout the ibole-microservice source code:
 
