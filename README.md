@@ -1,14 +1,15 @@
 # iBole-microservice
+===
+------
+##iBole-microservice design
 
-================================================================
-iBole-microservice design
+Design doc:[Design doc](https://github.com/benson-git/ibole-microservice/wiki)
 
-https://github.com/benson-git/ibole-microservice/wiki
-================================================================
 
-================================================================
-Source Building
-================================================================
+
+------
+##Source Building
+
 
 1. Checkout the ibole-microservice source code:
 
