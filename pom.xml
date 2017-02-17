@@ -6,7 +6,7 @@
 	<version>1.0.4</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
-	<description>The parent project of IBole byd microservice framework</description>
+	<description>The parent project of iBole microservice framework</description>
 	<url>http://code</url>
 	<inceptionYear>2016</inceptionYear>
 	<licenses>
@@ -18,7 +18,7 @@
 		</license>
 	</licenses>
 	<organization>
-		<name>IBole</name>
+		<name>iBole</name>
 		<url>http://www.ibole.com</url>
 	</organization>
 	<modules>
@@ -68,7 +68,7 @@
 		<!--指定Maven用什么编码来呈现站点的HTML文件 -->
         <project.reporting.outputEncoding>${file_encoding}</project.reporting.outputEncoding>
 		<!-- generate idea copyright -->
-		<copyright>Copyright 2016 XXX.&#10; &#10;Licensed under
+		<copyright>Copyright 2016 iBole.&#10; &#10;Licensed under
 			the Apache License, Version 2.0 (the &quot;License&quot;);&#10;you
 			may not use this file except in compliance with the License.&#10;You
 			may obtain a copy of the License at&#10; &#10;
