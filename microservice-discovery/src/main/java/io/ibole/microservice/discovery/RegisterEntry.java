@@ -1,6 +1,6 @@
 package io.ibole.microservice.discovery;
 
-import io.ibole.microservice.common.to.TransferObject;
+import io.ibole.infrastructure.common.dto.TransferObject;
 import io.ibole.microservice.common.utils.EqualsUtil;
 import io.ibole.microservice.common.utils.HashCodeUtil;
 import io.ibole.microservice.common.utils.ToStringUtil;

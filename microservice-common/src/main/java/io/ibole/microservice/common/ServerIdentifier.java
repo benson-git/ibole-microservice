@@ -1,13 +1,13 @@
 package io.ibole.microservice.common;
 
-import io.ibole.microservice.common.to.TransferObject;
-import io.ibole.microservice.common.utils.EqualsUtil;
-import io.ibole.microservice.common.utils.HashCodeUtil;
-import io.ibole.microservice.common.utils.ToStringUtil;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.net.HostAndPort;
+
+import io.ibole.infrastructure.common.dto.TransferObject;
+import io.ibole.microservice.common.utils.EqualsUtil;
+import io.ibole.microservice.common.utils.HashCodeUtil;
+import io.ibole.microservice.common.utils.ToStringUtil;
 
 import java.net.URI;
 import java.util.List;
