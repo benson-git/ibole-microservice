@@ -6,6 +6,7 @@ import com.google.common.base.Strings;
 import io.grpc.Attributes;
 import io.grpc.NameResolver;
 import io.grpc.ResolvedServerInfo;
+import io.grpc.ResolvedServerInfoGroup;
 import io.grpc.Status;
 import io.grpc.internal.SharedResourceHolder;
 import io.grpc.internal.SharedResourceHolder.Resource;
@@ -37,7 +38,7 @@ import javax.annotation.concurrent.GuardedBy;
  */
 public class ZkNameResolver extends NameResolver {
 
-  private List<List<ResolvedServerInfo>> servers = new ArrayList<List<ResolvedServerInfo>>();
+  private List<ResolvedServerInfoGroup> servers = new ArrayList<ResolvedServerInfoGroup>();
   private String authority;
   private String host;
   private int port;
@@ -77,14 +78,14 @@ public class ZkNameResolver extends NameResolver {
     } else {
       port = targetUri.getPort();
     }
-    servers.add(new ArrayList<ResolvedServerInfo>());
+    //servers.add(new ArrayList<ResolvedServerInfo>());
     // end of the checking for the first authority.
     nextTargetUri = nextUri(targetUri);
     this.timerServiceResource = timerService;
     this.executorResource = sharedChannelExecutor;
   }
 
-  private List<List<ResolvedServerInfo>> parseUri(URI targetUri) throws UnknownHostException {
+  private List<ResolvedServerInfoGroup> parseUri(URI targetUri) throws UnknownHostException {
 
     String host = targetUri.getHost();
     int port = targetUri.getPort();
@@ -92,11 +93,9 @@ public class ZkNameResolver extends NameResolver {
       return servers;
     }
     InetAddress inetAddr = InetAddress.getByName(host);
-    servers.get(0)
-        .add(new ResolvedServerInfo(new InetSocketAddress(inetAddr, port), Attributes.EMPTY));
-
+    servers.add(ResolvedServerInfoGroup.builder()
+        .add(new ResolvedServerInfo(new InetSocketAddress(inetAddr, port))).build());
     servers = parseUri(nextUri(targetUri));
-
     return servers;
   }
 
@@ -156,9 +155,9 @@ public class ZkNameResolver extends NameResolver {
       try {
         try {
           InetAddress inetAddr = InetAddress.getByName(host);
-          servers.get(0)
-              .add(new ResolvedServerInfo(new InetSocketAddress(inetAddr, port), Attributes.EMPTY));
-          if (nextTargetUri != null) {
+          servers.add(ResolvedServerInfoGroup.builder()
+              .add(new ResolvedServerInfo(new InetSocketAddress(inetAddr, port))).build());
+         if (nextTargetUri != null) {
             servers = parseUri(nextTargetUri);
           }
         } catch (UnknownHostException ex) {

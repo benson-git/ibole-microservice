@@ -37,13 +37,13 @@
 		<slf4j_log4j12_version>1.7.5</slf4j_log4j12_version>
 		<commons_logging_api_version>1.1</commons_logging_api_version>
 		<log4j_version>1.2.17</log4j_version>
-		<netty_tcnative_boringssl_static_version>1.1.33.Fork23</netty_tcnative_boringssl_static_version>
-		<netty_tcnative_version>1.1.33.Fork23</netty_tcnative_version>
+		<netty_tcnative_boringssl_static_version>1.1.33.Fork26</netty_tcnative_boringssl_static_version>
+		<netty_tcnative_version>1.1.33.Fork26</netty_tcnative_version>
 	    <javassist_version>3.18.0-GA</javassist_version>
 	    <byte-buddy_version>1.5.8</byte-buddy_version>
-		<grpc_all_version>1.0.2</grpc_all_version>
-		<protobuf_java_version>3.0.2</protobuf_java_version>
-		<guava_version>18.0</guava_version>
+		<grpc_version>1.1.2</grpc_version>
+		<protobuf_java_version>3.1.0</protobuf_java_version>  
+		<guava_version>20.0</guava_version>
 		<gson_version>2.3</gson_version>
 		<springframework_version>4.2.6.RELEASE</springframework_version>
 		<zookeeper_version>3.4.9</zookeeper_version>
@@ -225,10 +225,30 @@
 				<version>${netty_tcnative_version}</version> </dependency> -->
 			<!-- gRPC and Protobuf -->
 			<dependency>
-				<groupId>io.grpc</groupId>
-				<artifactId>grpc-all</artifactId>
-				<version>${grpc_all_version}</version>
+			  <groupId>io.grpc</groupId>
+			  <artifactId>grpc-netty</artifactId>
+			  <version>${grpc_version}</version>
 			</dependency>
+			<dependency>
+			  <groupId>io.grpc</groupId>
+			  <artifactId>grpc-protobuf</artifactId>
+			  <version>${grpc_version}</version>
+			</dependency>
+			<dependency>
+			  <groupId>io.grpc</groupId>
+			  <artifactId>grpc-stub</artifactId>
+			  <version>${grpc_version}</version>
+			</dependency>
+			<dependency>
+			  <groupId>io.grpc</groupId>
+              <artifactId>grpc-grpclb</artifactId>
+			  <version>${grpc_version}</version>
+			</dependency>
+			<dependency>
+				  <groupId>io.grpc</groupId>
+	              <artifactId>grpc-services</artifactId>
+	              <version>${grpc_version}</version>
+			</dependency>						
 			<dependency>
 			    <groupId>com.google.protobuf</groupId>
 			    <artifactId>protobuf-java</artifactId>

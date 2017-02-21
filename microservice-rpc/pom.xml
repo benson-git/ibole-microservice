@@ -60,9 +60,25 @@
 		<!-- <dependency> <groupId>io.netty</groupId> <artifactId>netty-tcnative</artifactId> 
 			</dependency> -->
 		<dependency>
-			<groupId>io.grpc</groupId>
-			<artifactId>grpc-all</artifactId>
+			  <groupId>io.grpc</groupId>
+			  <artifactId>grpc-netty</artifactId>
 		</dependency>
+		<dependency>
+			  <groupId>io.grpc</groupId>
+			  <artifactId>grpc-protobuf</artifactId>
+		</dependency>
+		<dependency>
+			  <groupId>io.grpc</groupId>
+			  <artifactId>grpc-stub</artifactId>
+		</dependency>
+		<dependency>
+			  <groupId>io.grpc</groupId>
+              <artifactId>grpc-grpclb</artifactId>
+		</dependency>
+		<dependency>
+			  <groupId>io.grpc</groupId>
+              <artifactId>grpc-services</artifactId>
+		</dependency>	
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
