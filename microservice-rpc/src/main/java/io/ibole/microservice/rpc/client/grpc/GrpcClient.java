@@ -8,7 +8,6 @@ import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.grpc.CallOptions.Key;
 import io.grpc.Channel;
 import io.grpc.ManagedChannel;
 import io.grpc.NameResolverProvider;
@@ -55,8 +54,6 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
   private final AtomicReference<State> state = new AtomicReference<State>(State.LATENT);
   
   private static ServiceDiscovery<InstanceMetadata> discovery = null;
-  
-  private int defaultTimeout = 3000;
   
   private GrpcClient() {
     // do nothing.
@@ -173,9 +170,8 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
       // instantiate the client stub according to the stub type
       service = (AbstractStub<?>) stubInitializationMethod.invoke(null, channel);
       //Customizes the CallOptions passed the deadline to interceptor
-      if (timeout >= 0) {
-        service.withOption(Key.of(CallDeadlineGrpcClientInterceptor.DEADLINE_KEY, defaultTimeout),
-            timeout == 0 ? Integer.valueOf(defaultTimeout) : Integer.valueOf(timeout));
+      if (timeout > 0) {
+         service.withOption(CallerDeadlineGrpcClientInterceptor.DEADLINE_KEY, Integer.valueOf(timeout));
       }
 
     } catch (Exception ex) {
@@ -206,7 +202,8 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
           .negotiationType(NegotiationType.TLS);
     }
     // builder.nameResolverFactory(ZkNameResolverFactory.getInstance());
-    return builder.intercept(new HeaderGrpcClientInterceptor()).build();
+    return builder.intercept(new HeaderGrpcClientInterceptor(),
+        new CallerDeadlineGrpcClientInterceptor()).build();
   }
 
   private boolean isUsedTls(List<InstanceMetadata> instances) {
