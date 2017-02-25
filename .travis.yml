@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 language: java
 
 jdk:
@@ -11,3 +12,18 @@ before_install:
 - cd /tmp/ibole-infrastructure
 - mvn clean install -Dmaven.test.skip=true
 - cd CURRENT_DIR
+=======
+language: java
+
+jdk:
+  - oraclejdk8
+  
+before_install:
+- CURRENT_DIR=`pwd`
+- rm -rf ibole-infrastructure
+- wget -O /tmp/ibole-infrastructure.zip https://github.com/benson-git/ibole-infrastructure/archive/master.zip
+- unzip /tmp/ibole-infrastructure.zip
+- cd /tmp/ibole-infrastructure
+- mvn clean install -Dmaven.test.skip=true
+- cd CURRENT_DIR
+>>>>>>> branch 'master' of https://github.com/benson-git/ibole-microservice.git
