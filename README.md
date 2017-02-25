@@ -9,6 +9,8 @@ Design document: [Link Here](https://github.com/benson-git/ibole-microservice/wi
 ------
 ##Source Building
 
+iBole-microservices depends on iBole-infrastructure. Please install iBole-infrastructure first before source building.
+
 1. Checkout the ibole-microservice source code:
 
     cd ~
