@@ -5,8 +5,8 @@ jdk:
   
 before_install:
 - CURRENT_DIR=`pwd`
-- rm -rf /tmp/ibole-infrastructure
-- wget -O - https://github.com/benson-git/ibole-infrastructure/archive/master.zip /tmp/ibole-infrastructure.zip
+- rm -rf ibole-infrastructure
+- wget -O /tmp/ibole-infrastructure.zip https://github.com/benson-git/ibole-infrastructure/archive/master.zip
 - unzip /tmp/ibole-infrastructure.zip
 - cd /tmp/ibole-infrastructure
 - mvn clean install -Dmaven.test.skip=true
