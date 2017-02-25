@@ -4,11 +4,11 @@ jdk:
   - oraclejdk8
   
 before_install:
-- CURRENT_DIR=`pwd`
+- export CURRENT_DIR=`pwd`
 - rm -rf /tmp/ibole-infrastructure-master
 - wget -O /tmp/ibole-infrastructure.zip https://github.com/benson-git/ibole-infrastructure/archive/master.zip
 - cd /tmp
 - unzip ibole-infrastructure.zip
 - cd ibole-infrastructure-master
 - mvn clean install -Dmaven.test.skip=true
-- cd CURRENT_DIR
+- cd $CURRENT_DIR
