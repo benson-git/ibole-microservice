@@ -1,5 +1,6 @@
 # iBole-microservices
 
+[![Build Status](https://travis-ci.org/benson-git/ibole-microservice.svg?branch=master)](https://travis-ci.org/benson-git/ibole-microservice)
 ------
 ##iBole Microservice Design
 
