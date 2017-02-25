@@ -1,4 +1,15 @@
 language: java
 
 jdk:
-  - oraclejdk8
+  - oraclejdk8cd ~ git clone https://github.com/benson-git/ibole-infrastructure.git ibole-infrastructure
+
+before_script:
+- CURRENT_DIR=`pwd`
+- rm -rf /tmp/ibole-infrastructure
+- wget -O - https://github.com/benson-git/ibole-infrastructure/archive/master.zip /tmp/ibole-infrastructure.zip
+- unzip /tmp/ibole-infrastructure.zip
+- cd /tmp/ibole-infrastructure
+- mvn clean install -Dmaven.test.skip=true
+- cd CURRENT_DIR
+  
+  
