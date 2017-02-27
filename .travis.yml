@@ -3,6 +3,11 @@ language: java
 jdk:
   - oraclejdk8
   
+# Keep Maven local repository between builds:
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+  
 before_install:
 - export CURRENT_DIR=`pwd`
 - rm -rf /tmp/ibole-infrastructure-master
