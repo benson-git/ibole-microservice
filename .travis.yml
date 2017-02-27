@@ -14,4 +14,4 @@ before_install:
 - cd $CURRENT_DIR
 
 after_success:
-  - mvn clean -DCOVERALLS_TOKEN=$COVERALLS_TOKEN test jacoco:report coveralls:report
+  - mvn clean -pl microservice-all -am -DCOVERALLS_TOKEN=$COVERALLS_TOKEN test jacoco:report coveralls:report
