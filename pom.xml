@@ -508,7 +508,7 @@
         <repoToken>${env.COVERALLS_TOKEN}</repoToken>
     </configuration>
 </plugin>
-<plugin>
+<!--<plugin>
     <groupId>org.jacoco</groupId>
     <artifactId>jacoco-maven-plugin</artifactId>
     <version>0.7.9</version>
@@ -520,7 +520,17 @@
             </goals>
         </execution>
     </executions>
-</plugin>
+</plugin>-->
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>cobertura-maven-plugin</artifactId>
+    <version>2.7</version>
+    <configuration>
+        <format>xml</format>
+        <maxmem>512m</maxmem>
+        <aggregate>true</aggregate>
+    </configuration>
+</plugin>				
 			</plugins>
 		</pluginManagement>
 
