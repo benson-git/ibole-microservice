@@ -520,21 +520,33 @@
 				    <groupId>org.jacoco</groupId>
 				    <artifactId>jacoco-maven-plugin</artifactId>
 				    <version>${maven_jacoco_plugin_version}</version>
-		            <executions>
-<execution>
-<id>default-prepare-agent</id>
-<goals>
-<goal>prepare-agent</goal>
-</goals>
-</execution>
-<execution>
-<id>default-report</id>
-<phase>prepare-package</phase>
-<goals>
-<goal>report</goal>
-</goals>
-</execution>
-		            </executions>
+				<executions>
+					<!-- Prepare execution with Surefire -->
+					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+					<!-- Generate report after tests are run -->
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+				<!-- Specify classes to ignore in code coverage -->
+				<!--<configuration>
+					<excludes>
+						<exclude>**/ui/**</exclude>
+						<exclude>**/StartSolverUi**</exclude>
+					</excludes>
+				</configuration>-->
 				</plugin>
 				<!--<plugin>
 				    <groupId>org.codehaus.mojo</groupId>
