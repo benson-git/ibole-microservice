@@ -19,4 +19,4 @@ before_install:
 - cd $CURRENT_DIR
 
 after_success:
-  - mvn clean -DCOVERALLS_TOKEN=$COVERALLS_TOKEN prepare-package jacoco:report coveralls:report
+  - mvn clean -DCOVERALLS_TOKEN=$COVERALLS_TOKEN test jacoco:report coveralls:report
