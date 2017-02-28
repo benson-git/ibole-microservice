@@ -521,27 +521,19 @@
 				    <artifactId>jacoco-maven-plugin</artifactId>
 				    <version>${maven_jacoco_plugin_version}</version>
 		            <executions>
-		              <!-- pre-unit-test execution helps setting up some maven property,
-		                which will be used later by JaCoCo -->
-		              <execution>
-		                <id>pre-unit-test</id>
-		                <goals>
-		                  <goal>prepare-agent</goal>
-		                </goals>
-		                <configuration>
-		                  <!-- passing property which will contains settings for JaCoCo agent.
-		                    If not specified, then "argLine" would be used for "jar" packaging -->
-		                  <propertyName>surefireArgLine</propertyName>
-		                </configuration>		       
-		              </execution>
-		              <!-- report phase setup -->
-		              <execution>
-		                <id>post-unit-test</id>
-		                <phase>test</phase>
-		                <goals>
-		                  <goal>report</goal>
-		                </goals>
-		              </execution>
+<execution>
+<id>default-prepare-agent</id>
+<goals>
+<goal>prepare-agent</goal>
+</goals>
+</execution>
+<execution>
+<id>default-report</id>
+<phase>prepare-package</phase>
+<goals>
+<goal>report</goal>
+</goals>
+</execution>
 		            </executions>
 				</plugin>
 				<!--<plugin>
