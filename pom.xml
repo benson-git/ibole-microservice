@@ -397,7 +397,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!--
+			<plugin>				
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin_version}</version>
@@ -425,7 +426,7 @@
                     <forkCount>1</forkCount>
                     <reuseForks>true</reuseForks>
                 </configuration>
-            </plugin>
+            </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
