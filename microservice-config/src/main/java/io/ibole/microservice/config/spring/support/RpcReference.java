@@ -28,9 +28,13 @@ public class RpcReference<T> implements FactoryBean<T>, InitializingBean, Dispos
   
   private int timeout;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(RpcReference.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(RpcReference.class.getName());
 
-
+  public RpcReference(String interfacename, int timeout) {
+    this.interfacename = interfacename;
+    this.timeout = timeout;
+  }
+  
   @Override
   public void destroy() throws Exception {
      //do nothing.

@@ -16,7 +16,7 @@ public class RpcNamespaceHandler extends NamespaceHandlerSupport {
     registerBeanDefinitionParser("reference", new RpcReferenceParser());
     registerBeanDefinitionParser("service", new RpcServiceParser());
     registerBeanDefinitionParser("registry", new RpcRegisteryParser());
-    //registerBeanDefinitionParser("annotation", new RpcAnnotationParser());
+    registerBeanDefinitionParser("annotation", new RpcAnnotationParser());
   }
 
 }
