@@ -2,6 +2,8 @@ package io.ibole.microservice.config.spring.annotation.test;
 
 import io.ibole.microservice.config.annotation.Reference;
 
+import org.springframework.stereotype.Service;
+
 /*********************************************************************************************.
  * 
  * 
@@ -10,7 +12,7 @@ import io.ibole.microservice.config.annotation.Reference;
  * <p></p>
  *********************************************************************************************/
 
-
+@Service("buzzServiceEdge")
 public class BuzzServiceEdge {
 
   @Reference(timeout = 3000)

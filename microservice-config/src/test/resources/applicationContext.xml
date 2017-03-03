@@ -7,6 +7,6 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
     http://code.ibole.com/schema/microservices http://code.ibole.com/schema/microservices/microservices.xsd">
    
-	<microservices:annotation package="io.ibole.microservice.config.spring.annotation.test" />
+	<microservices:annotation package="io.ibole.microservice.config.spring.annotation.test" /> 
 
 </beans>
