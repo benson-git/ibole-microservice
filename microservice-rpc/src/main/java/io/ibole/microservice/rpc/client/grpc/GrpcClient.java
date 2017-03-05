@@ -121,7 +121,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
    * Get remoting service instance for client invocation.
    * 
    * @param type the type of expected service instance
-   * @param timeout (millisecond) specify the remoting call will be expired at the specified offset from now
+   * @param timeout (millisecond) specify the remoting call will be expired at the specified offset 
    * @return T the instance of T.
    */
   @Override

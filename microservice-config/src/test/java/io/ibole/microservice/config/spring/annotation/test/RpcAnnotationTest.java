@@ -3,7 +3,7 @@
  */
 package io.ibole.microservice.config.spring.annotation.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
@@ -13,9 +13,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -49,6 +51,22 @@ public class RpcAnnotationTest {
 
   @Resource(name = "buzzServiceEdge")
   private BuzzServiceEdge buzzServiceEdge;
+  
+  private String say = "RPC Annotation";
+  
+  @Before  
+  public void initMocks() {  
+      MockitoAnnotations.initMocks(this);  
+  } 
+  
+  @Test
+  public void referenceAnnotation(){
+    
+    assertEquals("Hello "+say, buzzServiceEdge.doSayName(say));// mock.get(0) 返回 1 
+    
+  }
+  
+  
 
   @Test
   public void test() {
