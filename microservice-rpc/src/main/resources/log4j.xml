@@ -9,7 +9,7 @@
 		</filter>
 	</appender>
 	<!-- Loggers -->
-	<logger name="io.ibole.microservice.rpc.server.ServerBootstrap">
+	<logger name="com.github.ibole.microservice.rpc.server.ServerBootstrap">
 		<level value="INFO" />		
 	</logger>					
 	<root>

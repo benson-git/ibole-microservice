@@ -1,0 +1,3 @@
+#com.github.ibole.microservice.rpc.server.grpc.AuthGrpcServerInterceptor
+#com.github.ibole.microservice.rpc.server.grpc.DeviceInfoGrpcServerInterceptor
+com.github.ibole.microservice.rpc.server.grpc.AccessLogServerInterceptor

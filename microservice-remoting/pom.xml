@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>io.ibole</groupId>
+		<groupId>com.github.ibole</groupId>
 		<artifactId>microservice-parent</artifactId>
 		<version>1.0.4</version>
 	</parent>
@@ -16,7 +16,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>io.ibole</groupId>
+			<groupId>com.github.ibole</groupId>
 			<artifactId>microservice-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-	<groupId>io.ibole</groupId>
+	<groupId>com.github.ibole</groupId>
 	<artifactId>microservice-parent</artifactId>
 	<version>1.0.4</version>
 	<packaging>pom</packaging>
@@ -102,17 +102,17 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>io.ibole</groupId>
+				<groupId>com.github.ibole</groupId>
 				<artifactId>infrastructure-common</artifactId>
 				<version>${infrastructure_all_version}</version>
 			</dependency>	
 			<dependency>
-				<groupId>io.ibole</groupId>
+				<groupId>com.github.ibole</groupId>
 				<artifactId>infrastructure-security</artifactId>
 				<version>${infrastructure_all_version}</version>
 		    </dependency>
 			<dependency>
-				<groupId>io.ibole</groupId>
+				<groupId>com.github.ibole</groupId>
 				<artifactId>infrastructure-cache</artifactId>
 				<version>${infrastructure_all_version}</version>
 		    </dependency>
@@ -329,7 +329,7 @@
 			<artifactId>mockito-all</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.ibole</groupId>
+			<groupId>com.github.ibole</groupId>
 			<artifactId>infrastructure-common</artifactId>
 		</dependency>
 	</dependencies>

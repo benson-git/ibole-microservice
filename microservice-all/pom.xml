@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>io.ibole</groupId>
+    <groupId>com.github.ibole</groupId>
     <artifactId>microservice-parent</artifactId>
     <version>1.0.4</version>
   </parent>
@@ -16,7 +16,7 @@
 	</properties>
    <dependencies>
 		<dependency>
-			<groupId>io.ibole</groupId>
+			<groupId>com.github.ibole</groupId>
 			<artifactId>microservice-common</artifactId>
 			<version>${project.parent.version}</version>
 			<!--<exclusions>
@@ -27,27 +27,27 @@
 			</exclusions>  -->
 		</dependency>
 		<dependency>
-			<groupId>io.ibole</groupId>
+			<groupId>com.github.ibole</groupId>
 			<artifactId>microservice-container</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.ibole</groupId>
+			<groupId>com.github.ibole</groupId>
 			<artifactId>microservice-remoting</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.ibole</groupId>
+			<groupId>com.github.ibole</groupId>
 			<artifactId>microservice-rpc</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.ibole</groupId>
+			<groupId>com.github.ibole</groupId>
 			<artifactId>microservice-discovery</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.ibole</groupId>
+			<groupId>com.github.ibole</groupId>
 			<artifactId>microservice-config</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
@@ -101,13 +101,13 @@
 							<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
 							<artifactSet>
 								<includes>
-								    <include>io.ibole:microservice-common</include>
-								    <include>io.ibole:microservice-container</include>
-								    <include>io.ibole:microservice-remoting</include>
-								    <include>io.ibole:microservice-rpc</include>
-								    <include>io.ibole:microservice-discovery</include>
-                                    <include>io.ibole:microservice-config</include>
-                                    <include>io.ibole:microservice-test</include>
+								    <include>com.github.ibole:microservice-common</include>
+								    <include>com.github.ibole:microservice-container</include>
+								    <include>com.github.ibole:microservice-remoting</include>
+								    <include>com.github.ibole:microservice-rpc</include>
+								    <include>com.github.ibole:microservice-discovery</include>
+                                    <include>com.github.ibole:microservice-config</include>
+                                    <include>com.github.ibole:microservice-test</include>
 								</includes>
 							</artifactSet>
 							<transformers>
