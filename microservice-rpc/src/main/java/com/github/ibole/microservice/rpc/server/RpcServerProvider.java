@@ -37,6 +37,8 @@ public abstract class RpcServerProvider {
 	 * Whether this provider is available for use, taking the current
 	 * environment into consideration. If {@code false}, no other methods are
 	 * safe to be called.
+	 * 
+     * @return true if the registry provider is available, otherwise return false
 	 */
 	protected abstract boolean isAvailable();
 
@@ -46,11 +48,14 @@ public abstract class RpcServerProvider {
 	 * default, and then tweaked based on environment detection. A priority of 0
 	 * does not imply that the provider wouldn't work; just that it should be
 	 * last in line.
+	 * 
+     * @return the priority int
+     * 
 	 */
 	protected abstract int priority();
 
 	/**
-	 * Returns the ClassLoader-wide default server.
+	 * @return the ClassLoader-wide default server.
 	 *
 	 * @throws ProviderNotFoundException
 	 *             if no provider is available

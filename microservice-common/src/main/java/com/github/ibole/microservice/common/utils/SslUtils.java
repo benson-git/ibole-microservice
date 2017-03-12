@@ -26,6 +26,8 @@ public final class SslUtils {
    * filesystem.
    *
    * @param name name of a file in src/main/resources/certs.
+   * @return cert file File
+   * @throws IOException if the I/O exception happen
    */
   public static File loadCert(String name) throws IOException {
     InputStream in = SslUtils.class.getResourceAsStream("/certs/" + name);
@@ -49,6 +51,9 @@ public final class SslUtils {
    * Loads an X.509 certificate from the classpath resources in src/main/resources/certs.
    *
    * @param fileName name of a file in src/main/resources/certs.
+   * @return the instance of X509Certificate
+   * @throws CertificateException if certificate exception happen
+   * @throws IOException if I/O exception happen
    */
   public static X509Certificate loadX509Cert(String fileName)
       throws CertificateException, IOException {
@@ -64,6 +69,9 @@ public final class SslUtils {
 
   /**
    * Creates an SSLSocketFactory which contains {@code certChainFile} as its only root certificate.
+   * @param certChainFile File
+   * @return the instance of SSLSocketFactory
+   * @throws Exception Exception
    */
   public static SSLSocketFactory newSslSocketFactoryForCa(File certChainFile) throws Exception {
     InputStream is = new FileInputStream(certChainFile);
@@ -76,6 +84,9 @@ public final class SslUtils {
 
   /**
    * Creates an SSLSocketFactory which contains {@code certChainFile} as its only root certificate.
+   * @param certChain InputStream
+   * @return the instance of SSLSocketFactory
+   * @throws Exception Exception
    */
   public static SSLSocketFactory newSslSocketFactoryForCa(InputStream certChain) throws Exception {
     KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());

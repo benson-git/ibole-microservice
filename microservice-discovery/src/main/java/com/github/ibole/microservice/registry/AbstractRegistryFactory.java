@@ -18,7 +18,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * Common logic handling for the implementation of {@code DiscoveryFactory}.
  * 
  * @author bwang
- * @param <T>
  *
  */
 public abstract class AbstractRegistryFactory

@@ -174,6 +174,8 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
    * All the nodes and their datum will be deleted once the connection is broken(by call
    * {@code close()} or session timeout) between the zookeeper's client and server.
    * 
+   * @throws IOException if I/O exception happen
+   * 
    */
   public void close() throws IOException {
     try {
@@ -195,7 +197,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
   }
 
   /**
-   * A class to monitor connection state & re-register to Zookeeper when connection lost.
+   * A class to monitor connection state and re-register to Zookeeper when connection lost.
    *
    */
   public class ZkConnectionStateListener implements ConnectionStateListener {

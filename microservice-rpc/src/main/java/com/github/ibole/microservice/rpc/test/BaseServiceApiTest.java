@@ -26,7 +26,7 @@ import io.grpc.stub.AbstractStub;
  * 
  * 一个JUnit 4 的单元测试用例执行顺序为： 
  * 
- * @BeforeClass –> @Before –> @Test –> @After –> @AfterClass 
+ * "@BeforeClass –&gt; @Before –&gt; @Test –&gt; @After –&gt; @AfterClass"
  * 
  * @author bwang
  *
@@ -37,9 +37,9 @@ public class BaseServiceApiTest {
   private static ServiceTestResource testResource;
   /**
    * Get remoting service instance for client invocation.
-   * 
+   * @param <T> T
    * @param type the type of expected service instance
-   * @return T the instance of AbstractStub<T>.
+   * @return the instance of AbstractStub.
    */
   public <T extends AbstractStub<T>> T getRemotingService(Class<T> type) {
 
@@ -47,7 +47,7 @@ public class BaseServiceApiTest {
   }
 
   /**
-   * @throws java.lang.Exception
+   * @throws java.lang.Exception if exception happen
    */
   @BeforeClass
   public static void setUpBeforeClass() throws Exception { 
@@ -62,7 +62,7 @@ public class BaseServiceApiTest {
   }
 
   /**
-   * @throws java.lang.Exception
+   * @throws java.lang.Exception  if exception happen
    */
   @AfterClass
   public static void tearDownAfterClass() throws Exception {

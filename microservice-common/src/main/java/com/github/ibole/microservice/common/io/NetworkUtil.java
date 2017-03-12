@@ -280,7 +280,7 @@ public class NetworkUtil {
   }
 
   /**
-   * @param hostName
+   * @param hostName Host Name
    * @return ip address or hostName if UnknownHostException
    */
   public static String getIpByHost(String hostName) {

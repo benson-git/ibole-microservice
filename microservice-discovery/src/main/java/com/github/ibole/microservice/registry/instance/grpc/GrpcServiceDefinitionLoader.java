@@ -1,6 +1,6 @@
 package com.github.ibole.microservice.registry.instance.grpc;
 
-import com.github.ibole.microservice.common.io.IOUtils;
+import com.github.ibole.infrastructure.common.io.IOUtils;
 import com.github.ibole.microservice.common.utils.ClassHelper;
 import com.github.ibole.microservice.common.utils.ConcurrentSet;
 import com.github.ibole.microservice.registry.instance.BuzzServiceInstanceProvider;

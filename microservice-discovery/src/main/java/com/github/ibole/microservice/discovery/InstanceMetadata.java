@@ -31,10 +31,9 @@ public class InstanceMetadata implements TransferObject {
   }
 
   /**
-   * @param id
-   * @param port
-   * @param hostname
-   * @param useTls
+   * @param port int
+   * @param hostname String
+   * @param useTls boolean
    */
   @JsonCreator
   public InstanceMetadata(@JsonProperty("hostname") String hostname,

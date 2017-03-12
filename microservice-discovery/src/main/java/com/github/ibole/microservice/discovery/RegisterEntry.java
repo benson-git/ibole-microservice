@@ -112,7 +112,7 @@ public class RegisterEntry implements TransferObject {
   }
 
   /**
-   * @param instanceMetadata the instanceMetadata to set
+   * @param instanceMetadatum the instanceMetadata to set
    */
   public void setInstanceMetadata(InstanceMetadata instanceMetadatum) {
     this.instanceMetadata = instanceMetadatum;

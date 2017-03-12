@@ -17,7 +17,7 @@ import com.github.ibole.infrastructure.common.exception.ErrorReporter;
  * <p>
  * Copyright 2016, iBole Inc. All rights reserved.
  * 
- * <p>
+ * <p>.
  * </p>
  *********************************************************************************************/
 
@@ -32,6 +32,8 @@ public class ClientErrorHandler {
   /**
    * Used in service methods to pass appropriate exception to responseObserver. Also logs errors
    * that aren't due to client errors (e.g. invalid argument, etc).
+   * @param ex Exception
+   * @return error reporter ErrorReporter
    */
   public static ErrorReporter handleError(Exception ex) {
 

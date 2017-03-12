@@ -26,6 +26,7 @@ public class GrpcTestClient  {
   private long defaultTimeout = 3000L;
   /**
    * The server identifier is used to connect to registry center.
+   * @param port int
    */
   public void initialize(int port) {
 
@@ -50,9 +51,9 @@ public class GrpcTestClient  {
 
   /**
    * Get remoting service instance for client invocation.
-   * 
+   * @param <T> T
    * @param type the type of expected service instance
-   * @return T the instance of AbstractStub<T>.
+   * @return the instance of AbstractStub.
    */
   public <T extends AbstractStub<T>> T getRemotingService(Class<T> type) {
     checkArgument(type != null, "Param cannot be null!");

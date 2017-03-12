@@ -62,7 +62,7 @@ public class RpcTestServer extends AbstractGrpcServer {
   }
 
   /**
-   * @param rpcServer
+   * Register Interceptors.
    */
   public void registerInterceptors() {
     List<RpcServerInterceptor> interceptors = RpcServerInterceptorProvider.getInterceptors();

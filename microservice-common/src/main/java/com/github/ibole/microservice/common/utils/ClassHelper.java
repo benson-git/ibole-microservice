@@ -21,8 +21,8 @@ public class ClassHelper {
   /**
    * Get method variable names for the provided method.
    * 
-   * @param classname
-   * @param methodname
+   * @param classname String
+   * @param methodname String
    * @return the String[] of method variable name.
    */
   public static String[] getMethodVariableName(String classname, String methodname) {
@@ -63,10 +63,10 @@ public class ClassHelper {
   }
 
   /**
-   * get class loader
+   * get class loader.
    * 
-   * @param cls
-   * @return class loader
+   * @param cls Class
+   * @return class loader ClassLoader
    */
   public static ClassLoader getClassLoader(Class<?> cls) {
     ClassLoader cl = null;
@@ -100,6 +100,8 @@ public class ClassHelper {
 
   /**
    * Same as <code>Class.forName()</code>, except that it works for primitive types.
+   * @param name String
+   * @return class instance Class
    */
   public static Class<?> forName(String name) throws ClassNotFoundException {
     return forName(name, getClassLoader());

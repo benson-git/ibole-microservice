@@ -96,6 +96,7 @@ public class RpcService
 
   /**
    * get Interface Class.
+   * @return the implement class
    */
   public Class<?> getImplementClass() {
 

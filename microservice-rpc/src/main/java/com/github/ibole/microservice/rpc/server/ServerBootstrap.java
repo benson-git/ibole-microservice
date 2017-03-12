@@ -40,7 +40,7 @@ public class ServerBootstrap {
  
   /**
    * The main application allowing this server to be launched from the command line.
-   * 
+   * @param args String[]
    */
   public static void main(String[] args) {
     
@@ -69,10 +69,8 @@ public class ServerBootstrap {
 
   /**
    * Boot server.
-   * @throws InterruptedException 
-   * @throws ServerRemotingException 
    * 
-   * @throws Exception exception when boot error happen
+   * @throws InterruptedException exception when boot error happen
    */
   public void boot() throws InterruptedException {
 

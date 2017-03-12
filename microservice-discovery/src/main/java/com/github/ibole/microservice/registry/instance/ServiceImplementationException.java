@@ -6,7 +6,8 @@ package com.github.ibole.microservice.registry.instance;
  * 
  * <p>Copyright 2016, iBole Inc. All rights reserved.
  * 
- * <p></p>
+ * <p>.
+ * </p>
  *********************************************************************************************/
 
 

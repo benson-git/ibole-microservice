@@ -17,8 +17,7 @@ public interface RpcServer {
   
   /**
    * Register Interceptor to add cross-cutting behavior to RPC server-side calls.
-   * @param interceptor
-   * @return 
+   * @param interceptor RpcServerInterceptor
    */
   public void registerInterceptor(RpcServerInterceptor interceptor);
 
@@ -29,11 +28,13 @@ public interface RpcServer {
 
   /**
    * Forceful shutdown.
+   * @throws InterruptedException if interrupted exception happen
    */
   public void stop() throws InterruptedException;
 
   /**
    * Graceful shutdown. Waits for the server to become terminated. Await termination on the main thread.
+   * @throws InterruptedException if interrupted exception happen
    * 
    */
   public void blockUntilShutdown() throws InterruptedException;

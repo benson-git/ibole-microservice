@@ -31,11 +31,10 @@ import java.util.List;
 
 
 /**
- * @author bwang
  *
- */
-/**
  * Utility methods for working with {@link ClientInterceptor}s.
+ * 
+ * @author bwang
  */
 public class ClientInterceptors {
 
@@ -172,6 +171,11 @@ public class ClientInterceptors {
      * handled by {@code CheckedForwardingClientCall} and be delivered to {@code responseListener}.
      * Exceptions <em>must not</em> be thrown after calling {@code this.delegate().start()}, as this
      * can result in {@link ClientCall.Listener#onClose} being called multiple times.
+     * 
+     * @param responseListener Listener
+     * @param headers Metadata
+     * @throws Exception if exception happen
+     * 
      */
     protected abstract void checkedStart(Listener<RespT> responseListener, Metadata headers)
         throws Exception;
