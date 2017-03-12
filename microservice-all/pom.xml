@@ -75,12 +75,7 @@
                     </goals>
                 </execution>
             </executions>
-		    <configuration> 
-		        <sourceFileExcludes>
-		          <exclude>**/codegen/**/*.java</exclude>
-		          <exclude>**/security/**/*.java</exclude>
-			      <exclude>**/*Proto.java</exclude>
-                </sourceFileExcludes>
+		    <configuration>
 				<show>public</show>
 				<charset>UTF-8</charset>
 				<encoding>UTF-8</encoding>
