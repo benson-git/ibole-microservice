@@ -154,15 +154,22 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
         }
       }
     }
-    final UserPrincipal updatedUserPrincipal = userPrincipal;
+    //final UserPrincipal updatedUserPrincipal = userPrincipal;
+    //-------------- -----In business service, the userPrincipal can be retrieved with:----------------------
+    // public void getData(UserRequest request, StreamObserver<UserResponse> responseObserver) {
+    //   System.out.printlin("----------------> user id is " +  USER_PRINCINPAL.get());
+    //   responseObserver.onNext(response);
+    //   responseObserver.onCompleted();
+    // }
+    //--------------------------------------------------------------------------------------------------------
     Context context = Context.current().withValue(USER_PRINCINPAL, userPrincipal);
     Context previous = context.attach();
 
     final ServerCall<ReqT, RespT> wrappedCall = new ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT>(call) {
           @Override
           public void sendHeaders(Metadata responseHeaders) {
-            UserPrincipal loginUserPrincipal = (UserPrincipal) RpcContext.getData().get(Constants.USER_PRINCINPAL);
-            responseHeaders.put(userPrincipalKey, loginUserPrincipal == null? updatedUserPrincipal : loginUserPrincipal);
+            //UserPrincipal loginUserPrincipal = (UserPrincipal) RpcContext.getData().get(Constants.USER_PRINCINPAL);
+            //responseHeaders.put(userPrincipalKey, loginUserPrincipal == null? updatedUserPrincipal : loginUserPrincipal);
             super.sendHeaders(responseHeaders);
           }
           @Override
@@ -176,8 +183,7 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
         };
 
     try {
-      return new ContextualizedServerCallListener<ReqT>(next.startCall(wrappedCall, requestHeaders),
-          context);
+      return new ContextualizedServerCallListener<ReqT>(next.startCall(wrappedCall, requestHeaders), context);
     } finally {
       context.detach(previous);
     }
