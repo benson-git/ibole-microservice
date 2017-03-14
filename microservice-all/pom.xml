@@ -66,16 +66,20 @@
        <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <executions>
-                <execution>
-                    <phase>install</phase>
-                    <goals>
-                        <goal>jar</goal>
-                        <goal>aggregate</goal>
-                    </goals>
-                </execution>
-            </executions>
-		    <configuration>
+			  <executions>
+				<execution>
+					<id>attach-javadoc</id>
+					<goals>
+						<goal>jar</goal>
+					</goals>
+				</execution>
+			  </executions>
+		      <configuration> 
+			     <includeDependencySources>true</includeDependencySources> 
+		         <includeTransitiveDependencySources>false</includeTransitiveDependencySources> 
+                 <dependencySourceIncludes> 
+			         <dependencySourceInclude>com.github.ibole:*</dependencySourceInclude> 
+                 </dependencySourceIncludes> 
 				<show>public</show>
 				<charset>UTF-8</charset>
 				<encoding>UTF-8</encoding>
