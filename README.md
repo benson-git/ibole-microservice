@@ -10,8 +10,27 @@ iBole-microservices works with JDK 6. TLS usage typically requires using Java 8.
 
 Design document: [Link Here](https://github.com/benson-git/ibole-microservice/wiki)
 
+
+Download
+--------
+
+Download [the JARs](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22microservice-all%22). Or for Maven, add to your `pom.xml`:
+```xml
+<dependency>
+    <groupId>com.github.ibole</groupId>
+    <artifactId>microservice-all</artifactId>
+    <version>1.0.4</version>
+</dependency>
+```
+
+Or for Gradle with non-Android, add to your dependencies:
+```gradle
+compile 'com.github.ibole:microservice-all:1.0.4'
+```
 ------
-##Source Building
+
+Source Building
+--------
 
 iBole-microservices depends on iBole-infrastructure. Please install iBole-infrastructure first before source building.
 
