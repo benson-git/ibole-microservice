@@ -6,7 +6,9 @@ iBole-microservices works with JDK 6. TLS usage typically requires using Java 8.
 [![Coverage Status](https://coveralls.io/repos/github/benson-git/ibole-microservice/badge.svg?branch=master)](https://coveralls.io/github/benson-git/ibole-microservice?branch=master)
 
 ------
-##iBole Microservice Design
+
+iBole Microservice Design
+--------
 
 Design document: [Link Here](https://github.com/benson-git/ibole-microservice/wiki)
 
