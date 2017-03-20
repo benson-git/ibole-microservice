@@ -10,6 +10,7 @@ import org.slf4j.MDC;
 
 import io.grpc.ForwardingServerCall;
 import io.grpc.ForwardingServerCallListener;
+import io.grpc.Grpc;
 import io.grpc.Metadata;
 import io.grpc.ServerCall;
 import io.grpc.ServerCallHandler;
@@ -66,7 +67,7 @@ public final class AccessLogServerInterceptor  implements ServerInterceptor, Rpc
   public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(final ServerCall<ReqT, RespT> call,
       final Metadata headers, final ServerCallHandler<ReqT, RespT> next) {
     final Stopwatch stopwatch = Stopwatch.createStarted();
-    final String clientIp = clientIp(call.attributes().get(ServerCall.REMOTE_ADDR_KEY));
+    final String clientIp = clientIp(call.getAttributes().get(Grpc.TRANSPORT_ATTR_REMOTE_ADDR));
     final String userAgent =
         Optional.ofNullable(headers.get(GrpcUtil.USER_AGENT_KEY)).orElse(UNKNOWN_USER_AGENT);
     final String serviceRpcName = call.getMethodDescriptor().getFullMethodName();

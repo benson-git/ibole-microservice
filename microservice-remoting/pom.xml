@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.ibole</groupId>
 		<artifactId>microservice-parent</artifactId>
-		<version>1.0.4</version>
+		<version>1.0.5</version>
 	</parent>
 	<artifactId>microservice-remoting</artifactId>
 	<packaging>jar</packaging>

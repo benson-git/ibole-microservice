@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ibole</groupId>
 	<artifactId>microservice-parent</artifactId>
-	<version>1.0.4</version>
+	<version>1.0.5</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	<description>The parent project of IBole microservice framework</description>
@@ -94,9 +94,9 @@
 		<netty_tcnative_version>1.1.33.Fork26</netty_tcnative_version>
 	    <javassist_version>3.18.0-GA</javassist_version>
 	    <byte-buddy_version>1.5.8</byte-buddy_version>
-		<grpc_version>1.1.2</grpc_version>
-		<protobuf_java_version>3.1.0</protobuf_java_version>  
-		<guava_version>20.0</guava_version>
+		<grpc_version>1.2.0</grpc_version>
+		<protobuf_java_version>3.2.0</protobuf_java_version>  
+		<guava_version>19.0</guava_version>
 		<gson_version>2.3</gson_version>
 		<springframework_version>4.2.6.RELEASE</springframework_version>
 		<zookeeper_version>3.4.9</zookeeper_version>

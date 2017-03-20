@@ -21,7 +21,7 @@ package com.github.ibole.microservice.rpc.server;
  * 
  * @author bwang (chikaiwang@hotmail.com)
  *
- */
+ */  
 public interface RpcServerInterceptor {
 
 }

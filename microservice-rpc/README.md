@@ -44,7 +44,10 @@ for (int i=0; i<100; i++) {
 这里的 .withDeadlineAfter() 会在原有的 stub 基础上新建一个 stub，然后如果我们为每次 RPC 请求都单独创建一个有设置 deadline 的 stub，就可以实现所谓单个 RPC 请求的 timeout 设置。
 
  implement an interceptor that customizes the CallOptions passed to
-the underlying channel to enforce the desired deadline
+the underlying channel to enforce weithe desired deadline
+
+Context:
+  https://github.com/grpc/grpc-java/issues/2829
 
 ------
 
