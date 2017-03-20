@@ -16,7 +16,6 @@ import org.springframework.beans.factory.InitializingBean;
  * RpcReference.
  * @param <T> T
  * 
- * @param <T> T
  *
  */
 public class RpcReference<T> implements FactoryBean<T>, InitializingBean, DisposableBean,

@@ -20,6 +20,7 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -60,11 +61,8 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
         serializer = new JsonInstanceSerializer<InstanceMetadata>(InstanceMetadata.class);
         serviceDiscovery = ServiceDiscoveryBuilder.builder(InstanceMetadata.class)
             .basePath(buildBasePath()).client(client).serializer(serializer).build();
-        client.checkExists().creatingParentContainersIfNeeded().forPath(buildBasePath());
-        if (client.checkExists().forPath(buildBasePath()) == null) {
-          client.create().creatingParentsIfNeeded()/** .withMode(CreateMode.PERSISTENT) */
-              .forPath(buildBasePath());
-        }
+        //force to create a root path if the node is not exist.
+        ensureNodeExists(buildBasePath());
       }
     } catch (Exception e) {
       log.error("Service registry start error for server identifier '{}' !",
@@ -72,6 +70,17 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
       throw new RegistryManagerException(e);
     }
   }
+  
+  private String ensureNodeExists(String znode) throws Exception {
+    if (client.checkExists().creatingParentContainersIfNeeded().forPath(znode) == null) {
+        try {
+          client.create().creatingParentsIfNeeded().forPath(znode);
+        } catch (KeeperException.NodeExistsException e) {
+            //Another Thread/Service/Machine has just created this node for us.
+        }
+    }
+    return znode;
+}
 
   private String buildServicePath(RegisterEntry instance) {
 
@@ -99,7 +108,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
                 .address(instance.getInstanceMetadata().getHostname())
                 .port(instance.getInstanceMetadata().getPort())
                 .id(instance.getInstanceMetadata().generateKey())
-                .payload(instance.getInstanceMetadata()).serviceType(ServiceType.PERMANENT).build();
+                .payload(instance.getInstanceMetadata()).serviceType(ServiceType.DYNAMIC_SEQUENTIAL).build();
         serviceDiscovery.start();
         serviceDiscovery.registerService(thisInstance);
         log.info("Registed instance metadata: " + instance.toString());
