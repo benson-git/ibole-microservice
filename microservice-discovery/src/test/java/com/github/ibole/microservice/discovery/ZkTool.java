@@ -136,20 +136,20 @@ public class ZkTool {
    * @throws Exception exception
    */
   public static void delete() throws Exception {
-    RegistryFactory<ServiceRegistry<InstanceMetadata>> factory = new ZkRegistryFactory();
-    ServiceRegistry<InstanceMetadata> registry = factory.getServiceRegistry(identifier);
+    RegistryFactory<ServiceRegistry<HostMetadata>> factory = new ZkRegistryFactory();
+    ServiceRegistry<HostMetadata> registry = factory.getServiceRegistry(identifier);
     registry.start();
 
-    DiscoveryFactory<ServiceDiscovery<InstanceMetadata>> factory2 = new ZkDiscoveryFactory();
-    ServiceDiscovery<InstanceMetadata> discovery = factory2.getServiceDiscovery(identifier);
+    DiscoveryFactory<ServiceDiscovery<HostMetadata>> factory2 = new ZkDiscoveryFactory();
+    ServiceDiscovery<HostMetadata> discovery = factory2.getServiceDiscovery(identifier);
     discovery.start();
     String[] serviceNames = {"com.github.ibole.demo.protos.GreeterGrpc$GreeterSub",
         "com.github.ibole.demo.protos.GreeterGrpc$GreeterBlockingStub",
         "com.github.ibole.demo.protos.GreeterGrpc$GreeterFutureStub"};
     for (String name : serviceNames) {
 
-      List<InstanceMetadata> services = discovery.listAll(name);
-      for (InstanceMetadata service : services) {
+      List<HostMetadata> services = discovery.listAll(name);
+      for (HostMetadata service : services) {
 
         String path = identifier.getRootPath().getPath() + "/" + name + "/" + service.generateKey();
         System.out.println(path);

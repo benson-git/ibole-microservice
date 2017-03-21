@@ -57,5 +57,5 @@ public abstract class ServiceDiscoveryProvider {
     return provider;
   }
 
-  public abstract DiscoveryFactory<ServiceDiscovery<InstanceMetadata>> getDiscoveryFactory();
+  public abstract DiscoveryFactory<ServiceDiscovery<HostMetadata>> getDiscoveryFactory();
 }

@@ -21,7 +21,7 @@ import com.github.ibole.microservice.common.utils.ClassHelper;
 import com.github.ibole.microservice.common.utils.SslUtils;
 import com.github.ibole.microservice.config.rpc.client.RpcClient;
 import com.github.ibole.microservice.discovery.DiscoveryFactory;
-import com.github.ibole.microservice.discovery.InstanceMetadata;
+import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.ServiceDiscovery;
 import com.github.ibole.microservice.discovery.ServiceDiscoveryProvider;
 import com.github.ibole.microservice.registry.instance.grpc.GrpcConstants;
@@ -53,7 +53,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
  
   private final AtomicReference<State> state = new AtomicReference<State>(State.LATENT);
   
-  private static ServiceDiscovery<InstanceMetadata> discovery = null;
+  private static ServiceDiscovery<HostMetadata> discovery = null;
   
   private GrpcClient() {
     // do nothing.
@@ -72,7 +72,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
   public void initialize(ServerIdentifier identifier) {
     if (state.compareAndSet(State.LATENT, State.INITIALIZED)
         || state.compareAndSet(State.STOPPED, State.INITIALIZED)) {
-      DiscoveryFactory<ServiceDiscovery<InstanceMetadata>> factory =
+      DiscoveryFactory<ServiceDiscovery<HostMetadata>> factory =
           ServiceDiscoveryProvider.provider().getDiscoveryFactory();
       discovery = factory.getServiceDiscovery(identifier);
     }
@@ -134,7 +134,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
     Method stubInitializationMethod;
     try {
       if (!STUBS.containsKey(type)) {
-        List<InstanceMetadata> instances = discovery.listAll(type.getName());
+        List<HostMetadata> instances = discovery.listAll(type.getName());
         if (instances == null || instances.isEmpty()) {
           log.error("No services are registered for '{}' in registry center '{}'!", type.getName(),
               discovery.getIdentifier());
@@ -182,7 +182,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
     return service;
   }
   
-  private ManagedChannel establishChannel(List<InstanceMetadata> instances)
+  private ManagedChannel establishChannel(List<HostMetadata> instances)
       throws SSLException, IOException {
     NettyChannelBuilder builder =
         NettyChannelBuilder.forTarget(getServiceProviderAddr(instances));
@@ -206,10 +206,10 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
         new CallerDeadlineGrpcClientInterceptor()).build();
   }
 
-  private boolean isUsedTls(List<InstanceMetadata> instances) {
+  private boolean isUsedTls(List<HostMetadata> instances) {
     checkArgument(instances != null && instances.size() > 0,
         "Param cannot be null or cannot be a empty List!");
-    InstanceMetadata instance = instances.get(0);
+    HostMetadata instance = instances.get(0);
     return instance.isUseTls();
   }
   
@@ -218,12 +218,12 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
    * @param instances
    * @return the addresses of service provider
    */
-  private String getServiceProviderAddr(List<InstanceMetadata> instances) {
+  private String getServiceProviderAddr(List<HostMetadata> instances) {
     checkArgument(instances != null, "Param cannot be null!");
     StringBuilder servers = new StringBuilder();
     servers.append(NameResolverProvider.providers().get(0).getDefaultScheme()).append("://");
 
-    for (InstanceMetadata data : instances) {
+    for (HostMetadata data : instances) {
       servers.append(data.getHostname()).append(':').append(data.getPort()).append('/');
     }
     return servers.toString();

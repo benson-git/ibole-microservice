@@ -9,11 +9,11 @@ import com.github.ibole.microservice.common.utils.HashCodeUtil;
 import com.github.ibole.microservice.common.utils.ToStringUtil;
 
 /**
- * InstanceMetadata.
+ * Host Metadata.
  * @author bwang
  *
  */
-public class InstanceMetadata implements TransferObject {
+public class HostMetadata implements TransferObject {
 
   private static final long serialVersionUID = 1L;
   @JsonProperty("port")
@@ -36,7 +36,7 @@ public class InstanceMetadata implements TransferObject {
    * @param useTls boolean
    */
   @JsonCreator
-  public InstanceMetadata(@JsonProperty("hostname") String hostname,
+  public HostMetadata(@JsonProperty("hostname") String hostname,
       @JsonProperty("port") int port, @JsonProperty("useTls") boolean useTls) {
     this.port = port;
     this.hostname = hostname;
@@ -89,12 +89,12 @@ public class InstanceMetadata implements TransferObject {
 
 
   /**
-   * Indicates whether some other object is "equal to" this {@code InstanceMetadata}. The result is
-   * {@code true} if and only if the argument is not {@code null} and is a {@code InstanceMetadata}
-   * object that represents the same label (case-sensitively) as this {@code InstanceMetadata}.
+   * Indicates whether some other object is "equal to" this {@code HostMetadata}. The result is
+   * {@code true} if and only if the argument is not {@code null} and is a {@code HostMetadata}
+   * object that represents the same label (case-sensitively) as this {@code HostMetadata}.
    * 
    * @param obj the reference object with which to compare
-   * @return {@code true} if this {@code InstanceMetadata} is the same as {@code obj}; {@code false}
+   * @return {@code true} if this {@code HostMetadata} is the same as {@code obj}; {@code false}
    *         otherwise
    * @see #hashCode()
    */
@@ -103,21 +103,21 @@ public class InstanceMetadata implements TransferObject {
     if (this == obj) {
       return true;
     }
-    if (!(obj instanceof InstanceMetadata)) {
+    if (!(obj instanceof HostMetadata)) {
       return false;
     }
-    final InstanceMetadata other = (InstanceMetadata) obj;
+    final HostMetadata other = (HostMetadata) obj;
     return EqualsUtil.equal(hostname, other.hostname)
         && EqualsUtil.equal(port, other.port) && EqualsUtil.equal(useTls, other.useTls);
 
   }
 
   /**
-   * Returns a hash code for this {@code InstanceMetadata}.
+   * Returns a hash code for this {@code HostMetadata}.
    * 
    * <p>This implementation is consistent with {@code equals}.
    * 
-   * @return a hash code for this {@code InstanceMetadata}
+   * @return a hash code for this {@code HostMetadata}
    * @see #equals(Object)
    */
   @Override
@@ -130,10 +130,10 @@ public class InstanceMetadata implements TransferObject {
   }
 
   /**
-   * Returns a string representation of this {@code InstanceMetadata}. This implementation returns a
+   * Returns a string representation of this {@code HostMetadata}. This implementation returns a
    * representation based on the value and label.
    * 
-   * @return a string representation of this {@code InstanceMetadata}
+   * @return a string representation of this {@code HostMetadata}
    */
   @SuppressWarnings("nls")
   @Override

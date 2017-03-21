@@ -29,13 +29,13 @@ import java.util.Date;
  *              |
  *      ---------------------------------     
  *      |             					| 
- *      Instance      					Instance
- *      (Value: Hostname:Port)          (Value: Hostname:Port) 
+ *      HostMetadata      			    HostMetadata
+ *      (Value: Hostname:Port:Tls)      (Value: Hostname:Port:Tls) 
  *            
  *  A fully-qualified ZooKeeper name used to construct a gRPC channel will look as follows:
  *
  * 		zookeeper://host:port/serviceType/serviceName/serviceContract/instance
- *     example: zookeeper://host:port/rpc/ibole/com.test.practices.GreeterSub/instance
+ *     example: zookeeper://host:port/rpc/ibole/com.test.practices.GreeterSub/hostname:port:true
  *  Here zookeeper is the scheme identifying the name-system.
  *	host:port identifies an authoritative name-server for this scheme (i.e., a Zookeeper server). 
  *	The host can be an IP address or a DNS name. Finally /path/service/instance is the Zookeeper name to be resolved.
@@ -52,9 +52,11 @@ import java.util.Date;
 public class RegisterEntry implements TransferObject {
 
   private static final long serialVersionUID = 1L;
+  //serviceName can be the service provider application name
   private String serviceName;
+  //the specified service for discovery
   private String serviceContract;
-  private InstanceMetadata instanceMetadata;
+  private HostMetadata hostMetadata;
   // Service description, like simple API docs
   private String description;
   private Date lastUpdated;
@@ -105,17 +107,17 @@ public class RegisterEntry implements TransferObject {
 
 
   /**
-   * @return the instanceMetadata
+   * @return the hostMetadata
    */
-  public InstanceMetadata getInstanceMetadata() {
-    return instanceMetadata;
+  public HostMetadata getHostMetadata() {
+    return hostMetadata;
   }
 
   /**
-   * @param instanceMetadatum the instanceMetadata to set
+   * @param instanceMetadatum the hostMetadata to set
    */
-  public void setInstanceMetadata(InstanceMetadata instanceMetadatum) {
-    this.instanceMetadata = instanceMetadatum;
+  public void setHostMetadata(HostMetadata instanceMetadatum) {
+    this.hostMetadata = instanceMetadatum;
   }
 
   /**
@@ -154,7 +156,7 @@ public class RegisterEntry implements TransferObject {
     final RegisterEntry other = (RegisterEntry) obj;
     return EqualsUtil.equal(serviceName, other.serviceName)
         && EqualsUtil.equal(serviceContract, other.serviceContract)
-        && EqualsUtil.equal(instanceMetadata, other.instanceMetadata)
+        && EqualsUtil.equal(hostMetadata, other.hostMetadata)
         && EqualsUtil.equal(lastUpdated, other.lastUpdated);
 
   }
@@ -172,7 +174,7 @@ public class RegisterEntry implements TransferObject {
     int result = HashCodeUtil.SEED;
     result = HashCodeUtil.hash(result, serviceName);
     result = HashCodeUtil.hash(result, serviceContract);
-    result = HashCodeUtil.hash(result, instanceMetadata);
+    result = HashCodeUtil.hash(result, hostMetadata);
     result = HashCodeUtil.hash(result, lastUpdated);
     return result;
   }
@@ -188,7 +190,7 @@ public class RegisterEntry implements TransferObject {
   public String toString() {
     final StringBuilder sb = ToStringUtil.start("serviceName", serviceName);
     ToStringUtil.append(sb, "serviceContract", serviceContract);
-    ToStringUtil.append(sb, "instanceMetadata", instanceMetadata);
+    ToStringUtil.append(sb, "hostMetadata", hostMetadata);
     ToStringUtil.append(sb, "lastUpdated", lastUpdated);
     return ToStringUtil.end(sb);
   }

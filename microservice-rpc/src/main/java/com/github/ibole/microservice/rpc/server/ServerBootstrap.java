@@ -11,7 +11,7 @@ import com.github.ibole.microservice.common.io.NetworkUtil;
 import com.github.ibole.microservice.common.utils.Constants;
 import com.github.ibole.microservice.container.IocContainer;
 import com.github.ibole.microservice.container.IocContainerProvider;
-import com.github.ibole.microservice.discovery.InstanceMetadata;
+import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.RegisterEntry;
 import com.github.ibole.microservice.registry.AbstractRegistryFactory;
 import com.github.ibole.microservice.registry.RegistryFactory;
@@ -163,24 +163,24 @@ public class ServerBootstrap {
       rpcServer = NetworkUtil.getDefaultLocalHost();
     }
     ServerIdentifier identifier = new ServerIdentifier(registryBaseKey, hosts);
-    RegistryFactory<ServiceRegistry<InstanceMetadata>> registryFactory =
+    RegistryFactory<ServiceRegistry<HostMetadata>> registryFactory =
         ServiceRegistryProvider.provider().getRegistryFactory();
-    ServiceRegistry<InstanceMetadata> serviceRegistry =
+    ServiceRegistry<HostMetadata> serviceRegistry =
         registryFactory.getServiceRegistry(identifier);
     serviceRegistry.start();
 
     //TODO should not be specific GrpcServiceDefinitionLoader
     List<String> serviceStubs = GrpcServiceDefinitionLoader.load().getServiceStubList();
     RegisterEntry entry = new RegisterEntry();
-    InstanceMetadata metadata;
+    HostMetadata metadata;
     for (String service : serviceStubs) {
-      metadata = new InstanceMetadata(rpcServer, port, useTls);
+      metadata = new HostMetadata(rpcServer, port, useTls);
       entry.setServiceName(ServerIdentifier.BASE_KEY_PREFIX);
       entry.setServiceContract(service);
       // TODO: add useful service description for the service consumer
       entry.setDescription(service);
       entry.setLastUpdated(Calendar.getInstance().getTime());
-      entry.setInstanceMetadata(metadata);
+      entry.setHostMetadata(metadata);
       serviceRegistry.register(entry);
     }
     log.info("Register service is finished, total {} services are registered.",

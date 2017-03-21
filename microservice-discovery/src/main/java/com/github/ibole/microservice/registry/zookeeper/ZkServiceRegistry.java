@@ -1,10 +1,13 @@
 package com.github.ibole.microservice.registry.zookeeper;
 
 import com.github.ibole.microservice.common.ServerIdentifier;
-import com.github.ibole.microservice.discovery.InstanceMetadata;
+import com.github.ibole.microservice.common.utils.Constants;
+import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.RegisterEntry;
 import com.github.ibole.microservice.registry.AbstractServiceRegistry;
 import com.github.ibole.microservice.registry.RegistryManagerException;
+
+import com.google.common.base.Throwables;
 
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -23,6 +26,7 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,8 +39,8 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
 
   private static final int LOCK_TIME = 3;
   private CuratorFramework client = null;
-  private ServiceDiscovery<InstanceMetadata> serviceDiscovery;
-  private JsonInstanceSerializer<InstanceMetadata> serializer;
+  private ServiceDiscovery<HostMetadata> serviceDiscovery;
+  private JsonInstanceSerializer<HostMetadata> serializer;
   private InterProcessSemaphoreMutex lock;
 
   public ZkServiceRegistry(ServerIdentifier identifier) {
@@ -58,8 +62,8 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
         
         lock = new InterProcessSemaphoreMutex(client, buildBasePath());
 
-        serializer = new JsonInstanceSerializer<InstanceMetadata>(InstanceMetadata.class);
-        serviceDiscovery = ServiceDiscoveryBuilder.builder(InstanceMetadata.class)
+        serializer = new JsonInstanceSerializer<HostMetadata>(HostMetadata.class);
+        serviceDiscovery = ServiceDiscoveryBuilder.builder(HostMetadata.class)
             .basePath(buildBasePath()).client(client).serializer(serializer).build();
         //force to create a root path if the node is not exist.
         ensureNodeExists(buildBasePath());
@@ -84,8 +88,8 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
 
   private String buildServicePath(RegisterEntry instance) {
 
-    return buildBasePath() + "/" + instance.getServiceContract()
-            + "/" + instance.getInstanceMetadata().generateKey();
+    return buildBasePath() + Constants.ZK_DELIMETER + instance.getServiceContract()
+            + Constants.ZK_DELIMETER + instance.getHostMetadata().generateKey();
   }
   
   @Override
@@ -96,19 +100,19 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
       
       if (client.checkExists().forPath(buildServicePath(instance)) != null) {
         log.info("Service: [{}] already has been registered on {}, skip current registery.",
-            instance.getServiceContract(), instance.getInstanceMetadata().toString());
+            instance.getServiceContract(), instance.getHostMetadata().toString());
         acquiredLock = false;
         return;
       }
       
       if (lock.acquire(LOCK_TIME, TimeUnit.SECONDS)) {  
         acquiredLock = true;
-        ServiceInstance<InstanceMetadata> thisInstance =
-            ServiceInstance.<InstanceMetadata>builder().name(instance.getServiceContract())
-                .address(instance.getInstanceMetadata().getHostname())
-                .port(instance.getInstanceMetadata().getPort())
-                .id(instance.getInstanceMetadata().generateKey())
-                .payload(instance.getInstanceMetadata()).serviceType(ServiceType.DYNAMIC_SEQUENTIAL).build();
+        ServiceInstance<HostMetadata> thisInstance =
+            ServiceInstance.<HostMetadata>builder().name(instance.getServiceContract())
+                .address(instance.getHostMetadata().getHostname())
+                .port(instance.getHostMetadata().getPort())
+                .id(instance.getHostMetadata().generateKey())
+                .payload(instance.getHostMetadata()).serviceType(ServiceType.DYNAMIC_SEQUENTIAL).build();
         serviceDiscovery.start();
         serviceDiscovery.registerService(thisInstance);
         log.info("Registed instance metadata: " + instance.toString());
@@ -131,11 +135,11 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
 
   @Override
   public void unregisterService(RegisterEntry entry) {
-    ServiceInstance<InstanceMetadata> thisInstance;
+    ServiceInstance<HostMetadata> thisInstance;
     try {
       if (lock.acquire(LOCK_TIME, TimeUnit.SECONDS)) {
-        thisInstance = ServiceInstance.<InstanceMetadata>builder().name(entry.getServiceContract())
-            .id(entry.getInstanceMetadata().generateKey()).payload(entry.getInstanceMetadata())
+        thisInstance = ServiceInstance.<HostMetadata>builder().name(entry.getServiceContract())
+            .id(entry.getHostMetadata().generateKey()).payload(entry.getHostMetadata())
             .build();
         serviceDiscovery.unregisterService(thisInstance);
       }
@@ -149,6 +153,27 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
         log.error("Lock release error happened!", e);
         throw new RegistryManagerException(e);
       }
+    }
+  }
+
+  public void unregisterService(final String serviceContractPath) throws Exception {
+    List<String> children = client.getChildren().forPath(serviceContractPath);
+    children.stream().forEach(child -> {
+      try {
+        client.delete().forPath(serviceContractPath + Constants.ZK_DELIMETER + children);
+      } catch (Exception e) {
+        throw Throwables.propagate(e);
+      }
+    });
+  }
+  
+  public boolean removeServiceRegistry(String serviceContractPath) throws Exception {
+    String znode = ensureNodeExists(serviceContractPath);
+    try {
+      client.delete().guaranteed().deletingChildrenIfNeeded().forPath(znode);
+      return true;
+    } catch (Exception e) {
+      throw Throwables.propagate(e);
     }
   }
 

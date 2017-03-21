@@ -2,9 +2,10 @@ package com.github.ibole.microservice.discovery.zookeeper;
 
 
 import com.github.ibole.microservice.common.ServerIdentifier;
+import com.github.ibole.microservice.common.utils.Constants;
 import com.github.ibole.microservice.discovery.AbstractServiceDiscovery;
 import com.github.ibole.microservice.discovery.DiscoveryManagerException;
-import com.github.ibole.microservice.discovery.InstanceMetadata;
+import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.ServiceRegistryChangeListener;
 
 import com.google.common.collect.Lists;
@@ -39,10 +40,10 @@ import java.util.Map;
 public class ZkServiceDiscovery extends AbstractServiceDiscovery {
 
   private CuratorFramework client = null;
-  private ServiceDiscovery<InstanceMetadata> serviceDiscovery;
-  private Map<String, ServiceProvider<InstanceMetadata>> providers = Maps.newHashMap();
+  private ServiceDiscovery<HostMetadata> serviceDiscovery;
+  private Map<String, ServiceProvider<HostMetadata>> providers = Maps.newHashMap();
   private List<Closeable> closeableList = Lists.newArrayList();
-  private JsonInstanceSerializer<InstanceMetadata> serializer;
+  private JsonInstanceSerializer<HostMetadata> serializer;
   private PathChildrenCache cache = null;
 
   protected ZkServiceDiscovery(ServerIdentifier identifier) {
@@ -59,8 +60,8 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
       client.start();
       client.getZookeeperClient().blockUntilConnectedOrTimedOut();
 
-      serializer = new JsonInstanceSerializer<InstanceMetadata>(InstanceMetadata.class);
-      serviceDiscovery = ServiceDiscoveryBuilder.builder(InstanceMetadata.class)
+      serializer = new JsonInstanceSerializer<HostMetadata>(HostMetadata.class);
+      serviceDiscovery = ServiceDiscoveryBuilder.builder(HostMetadata.class)
           .basePath(buildBasePath()).client(client).serializer(serializer).build();
 
       cache = new PathChildrenCache(client, buildBasePath(), true);
@@ -74,19 +75,19 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
   }
 
   @Override
-  public List<InstanceMetadata> listAll(String serviceContract) {
-    Collection<ServiceInstance<InstanceMetadata>> instances = null;
-    List<InstanceMetadata> metadatum = Lists.newArrayList();
+  public List<HostMetadata> listAll(String serviceContract) {
+    Collection<ServiceInstance<HostMetadata>> instances = null;
+    List<HostMetadata> metadatum = Lists.newArrayList();
     try {
       serviceDiscovery.start();
       instances = serviceDiscovery.queryForInstances(serviceContract);
-      for (ServiceInstance<InstanceMetadata> serviceInstance : instances) {
+      for (ServiceInstance<HostMetadata> serviceInstance : instances) {
         metadatum.add(serviceInstance.getPayload());
       }
 
     } catch (Exception e) {
       logger.error("List all instances error happened with path '{}'!",
-          buildBasePath() + "/" + serviceContract, e);
+          buildBasePath() + Constants.ZK_DELIMETER + serviceContract, e);
       throw new DiscoveryManagerException(e);
 
     }
@@ -100,13 +101,13 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
    * @return the instance of InstanceMetadata.
    */
   @Override
-  public InstanceMetadata getInstance(String serviceContract) {
-    ServiceProvider<InstanceMetadata> provider = providers.get(serviceContract);
-    InstanceMetadata instance = null;
+  public HostMetadata getInstance(String serviceContract) {
+    ServiceProvider<HostMetadata> provider = providers.get(serviceContract);
+    HostMetadata instance = null;
     try {
       if (provider == null) {
         provider = serviceDiscovery.serviceProviderBuilder().serviceName(serviceContract)
-            .providerStrategy(new RoundRobinStrategy<InstanceMetadata>()).build();
+            .providerStrategy(new RoundRobinStrategy<HostMetadata>()).build();
         provider.start();
         closeableList.add(provider);
         providers.put(serviceContract, provider);
@@ -115,7 +116,7 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
 
     } catch (Exception e) {
       logger.error("Retrieve instance error happened with with path '{}'!",
-          buildBasePath() + "/" + serviceContract, e);
+          buildBasePath() + Constants.ZK_DELIMETER + serviceContract, e);
       throw new DiscoveryManagerException(e);
     }
     return instance;
@@ -127,15 +128,15 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
    * @param serviceContract the service contract
    * @param id the node id
    */
-  public InstanceMetadata getInstanceById(String serviceContract, String id) {
-    InstanceMetadata metadata = null;
+  public HostMetadata getInstanceById(String serviceContract, String id) {
+    HostMetadata metadata = null;
     try {
-      ServiceInstance<InstanceMetadata> instance =
+      ServiceInstance<HostMetadata> instance =
           serviceDiscovery.queryForInstance(serviceContract, id);
       metadata = instance.getPayload();
     } catch (Exception e) {
       logger.error("Retrieve instance error happened with '{}'!",
-          buildBasePath() + "/" + serviceContract, e);
+          buildBasePath() + Constants.ZK_DELIMETER + serviceContract, e);
       throw new DiscoveryManagerException(e);
     }
     return metadata;

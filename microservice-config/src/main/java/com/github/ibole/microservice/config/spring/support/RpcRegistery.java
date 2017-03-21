@@ -12,7 +12,8 @@ public class RpcRegistery implements InitializingBean, DisposableBean {
   private int timeout;
 
   private String token;
-
+  //config for single zk server: zkserver0:1234; 
+  //config for cluster zk server:zkserver0:1234/zkserver1:3456/zkserver2:3456
   private String address;
   /**
    * {@code ServerIdentifier.rootPath}

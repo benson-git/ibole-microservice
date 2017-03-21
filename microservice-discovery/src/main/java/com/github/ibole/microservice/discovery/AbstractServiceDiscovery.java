@@ -5,7 +5,7 @@ import com.github.ibole.microservice.common.ServerIdentifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractServiceDiscovery implements ServiceDiscovery<InstanceMetadata> {
+public abstract class AbstractServiceDiscovery implements ServiceDiscovery<HostMetadata> {
 
   protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 

@@ -4,7 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.github.ibole.microservice.common.ServerIdentifier;
-import com.github.ibole.microservice.discovery.InstanceMetadata;
+import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.RegisterEntry;
 
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * @author bwang
  *
  */
-public abstract class AbstractServiceRegistry implements ServiceRegistry<InstanceMetadata> {
+public abstract class AbstractServiceRegistry implements ServiceRegistry<HostMetadata> {
 
 
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -37,7 +37,7 @@ public abstract class AbstractServiceRegistry implements ServiceRegistry<Instanc
     checkArgument(entry == null, "Param cannot be null!");
     checkNotNull(entry.getServiceName(), "Property 'serviceName' cannot be null!");
     checkNotNull(entry.getServiceContract(), "Property 'serviceContract' cannot be null!");
-    checkNotNull(entry.getInstanceMetadata(), "Property 'instanceMetadatum' cannot be nulls!");
+    checkNotNull(entry.getHostMetadata(), "Property 'instanceMetadatum' cannot be nulls!");
   }
 
   protected String buildBasePath() {

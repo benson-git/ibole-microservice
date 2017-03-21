@@ -2,7 +2,7 @@ package com.github.ibole.microservice.registry;
 
 import com.github.ibole.microservice.common.ServerIdentifier;
 import com.github.ibole.microservice.discovery.AbstractDiscoveryFactory;
-import com.github.ibole.microservice.discovery.InstanceMetadata;
+import com.github.ibole.microservice.discovery.HostMetadata;
 
 import com.google.common.collect.Maps;
 
@@ -21,10 +21,10 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  */
 public abstract class AbstractRegistryFactory
-    implements RegistryFactory<ServiceRegistry<InstanceMetadata>> {
+    implements RegistryFactory<ServiceRegistry<HostMetadata>> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDiscoveryFactory.class);
-  private static final Map<ServerIdentifier, ServiceRegistry<InstanceMetadata>> REGISTRIES =
+  private static final Map<ServerIdentifier, ServiceRegistry<HostMetadata>> REGISTRIES =
       Maps.newConcurrentMap();
   private static final ReentrantLock LOCK = new ReentrantLock();
 
@@ -34,7 +34,7 @@ public abstract class AbstractRegistryFactory
    * 
    * @return the collection of ServiceRegistry
    */
-  public static Collection<ServiceRegistry<InstanceMetadata>> getServiceDiscoveries() {
+  public static Collection<ServiceRegistry<HostMetadata>> getServiceDiscoveries() {
     return Collections.unmodifiableCollection(REGISTRIES.values());
   }
 
@@ -48,7 +48,7 @@ public abstract class AbstractRegistryFactory
     // lock the whole close process
     LOCK.lock();
     try {
-      for (ServiceRegistry<InstanceMetadata> registry : getServiceDiscoveries()) {
+      for (ServiceRegistry<HostMetadata> registry : getServiceDiscoveries()) {
         try {
           registry.destroy();
         } catch (Throwable e) {
@@ -65,13 +65,13 @@ public abstract class AbstractRegistryFactory
   /**
    * Get service registry.
    */
-  public ServiceRegistry<InstanceMetadata> getServiceRegistry(ServerIdentifier identifier) {
+  public ServiceRegistry<HostMetadata> getServiceRegistry(ServerIdentifier identifier) {
     ;
 
     // lock retrieve process
     LOCK.lock();
     try {
-      ServiceRegistry<InstanceMetadata> discovery = REGISTRIES.get(identifier);
+      ServiceRegistry<HostMetadata> discovery = REGISTRIES.get(identifier);
       if (discovery != null) {
         return discovery;
       }
@@ -87,5 +87,5 @@ public abstract class AbstractRegistryFactory
     }
   }
 
-  protected abstract ServiceRegistry<InstanceMetadata> createRegistry(ServerIdentifier identifier);
+  protected abstract ServiceRegistry<HostMetadata> createRegistry(ServerIdentifier identifier);
 }

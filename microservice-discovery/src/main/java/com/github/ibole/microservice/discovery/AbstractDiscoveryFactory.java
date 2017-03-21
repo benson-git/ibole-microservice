@@ -19,10 +19,10 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  */
 public abstract class AbstractDiscoveryFactory
-    implements DiscoveryFactory<ServiceDiscovery<InstanceMetadata>> {
+    implements DiscoveryFactory<ServiceDiscovery<HostMetadata>> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDiscoveryFactory.class);
-  private static final Map<ServerIdentifier, ServiceDiscovery<InstanceMetadata>> REPOSITION =
+  private static final Map<ServerIdentifier, ServiceDiscovery<HostMetadata>> REPOSITION =
       Maps.newConcurrentMap();
   private static final ReentrantLock LOCK = new ReentrantLock();
 
@@ -32,7 +32,7 @@ public abstract class AbstractDiscoveryFactory
    * 
    * @return the collection of ServiceRegistry
    */
-  public static Collection<? extends ServiceDiscovery<InstanceMetadata>> getServiceDiscoveries() {
+  public static Collection<? extends ServiceDiscovery<HostMetadata>> getServiceDiscoveries() {
     return Collections.unmodifiableCollection(REPOSITION.values());
   }
 
@@ -46,7 +46,7 @@ public abstract class AbstractDiscoveryFactory
     // lock the whole close process
     LOCK.lock();
     try {
-      for (ServiceDiscovery<InstanceMetadata> registry : getServiceDiscoveries()) {
+      for (ServiceDiscovery<HostMetadata> registry : getServiceDiscoveries()) {
         try {
           registry.destroy();
         } catch (Throwable e) {
@@ -63,12 +63,12 @@ public abstract class AbstractDiscoveryFactory
   /**
    * Get Service Discovery.
    */
-  public ServiceDiscovery<InstanceMetadata> getServiceDiscovery(ServerIdentifier identifier) {
+  public ServiceDiscovery<HostMetadata> getServiceDiscovery(ServerIdentifier identifier) {
 
     // lock retrieve process
     LOCK.lock();
     try {
-      ServiceDiscovery<InstanceMetadata> discovery = REPOSITION.get(identifier);
+      ServiceDiscovery<HostMetadata> discovery = REPOSITION.get(identifier);
       if (discovery != null) {
         return discovery;
       }
@@ -84,6 +84,6 @@ public abstract class AbstractDiscoveryFactory
     }
   }
 
-  protected abstract ServiceDiscovery<InstanceMetadata> createDiscovery(
+  protected abstract ServiceDiscovery<HostMetadata> createDiscovery(
       ServerIdentifier identifier);
 }

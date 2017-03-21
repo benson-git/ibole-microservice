@@ -1,7 +1,7 @@
 package com.github.ibole.microservice.discovery.zookeeper;
 
 import com.github.ibole.microservice.discovery.DiscoveryFactory;
-import com.github.ibole.microservice.discovery.InstanceMetadata;
+import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.ServiceDiscovery;
 import com.github.ibole.microservice.discovery.ServiceDiscoveryProvider;
 
@@ -25,7 +25,7 @@ public class ZkServiceDiscoveryProvider extends ServiceDiscoveryProvider {
   }
 
   @Override
-  public DiscoveryFactory<ServiceDiscovery<InstanceMetadata>> getDiscoveryFactory() {
+  public DiscoveryFactory<ServiceDiscovery<HostMetadata>> getDiscoveryFactory() {
 
     return new ZkDiscoveryFactory();
   }

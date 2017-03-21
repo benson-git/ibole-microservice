@@ -14,6 +14,8 @@ public class Constants {
 
   public static final Pattern COMMA_SEPERATOR_PATTERN = Pattern.compile("\\s*[,]+\\s*");
   
+  public static final String ZK_DELIMETER = "/";
+  
   public static final String RPC_SERVER_PROPERTY_FILE = "/server.properties";
   public static final String RPC_CLIENT_PROPERTY_FILE = "/client.properties";
   
