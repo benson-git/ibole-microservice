@@ -471,7 +471,7 @@
 		        </execution>
 		      </executions>
 		      <configuration> 
-		        <additionalparam>-Xdoclint:none</additionalparam>
+		        <additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
 		        <sourceFileExcludes>
 			      <exclude>**/*Proto.java</exclude>
                 </sourceFileExcludes>
