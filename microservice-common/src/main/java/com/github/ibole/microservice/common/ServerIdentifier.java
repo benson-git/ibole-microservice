@@ -1,13 +1,13 @@
 package com.github.ibole.microservice.common;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.net.HostAndPort;
-
 import com.github.ibole.infrastructure.common.dto.TransferObject;
 import com.github.ibole.microservice.common.utils.EqualsUtil;
 import com.github.ibole.microservice.common.utils.HashCodeUtil;
 import com.github.ibole.microservice.common.utils.ToStringUtil;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.net.HostAndPort;
 
 import java.net.URI;
 import java.util.List;
@@ -27,7 +27,8 @@ public class ServerIdentifier implements TransferObject {
   public static final String BASE_KEY_PREFIX = "Root";
 
   private List<HostAndPort> hostAndPortList;
-  // relative opaque URI
+  // relative opaque URI. 
+  // Here use to export the root path of service endpoint provided by server
   private URI rootPath;
 
   private String defaultBaseKeyValue() {
@@ -161,8 +162,7 @@ public class ServerIdentifier implements TransferObject {
   /**
    * Returns a hash code for this {@code ServerIdentifier}.
    * 
-   * <p>
-   * This implementation is consistent with {@code equals}.
+   * <p>This implementation is consistent with {@code equals}.
    * 
    * @return a hash code for this {@code ServerIdentifier}
    * @see #equals(Object)

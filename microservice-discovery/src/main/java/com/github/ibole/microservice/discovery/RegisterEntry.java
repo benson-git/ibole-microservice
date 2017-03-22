@@ -11,14 +11,16 @@ import java.util.Date;
 /**
  * RegistryEntry is the minimum unit for registry center.
  * 
- * <p>The hierarchical structure of registry center shows as below:
+ *
+ *  The hierarchical structure of registry center shows as below:
+ *  <pre>
  *                         Root
  *                         -----
  *                           |
- *		---------------------------------------------------------------------
- *      |										 |							|
- *      Service Type(RPC)               		 Service Type (RPC)		    Service Type (MYSQL)
- *          |										|
+ *      --------------------------------------------------------------------
+ *      |										 |                          |
+ *      Service Type(RPC)                 Service Type (RPC)		Service Type (MYSQL)
+ *          |									   |
  *      ---------------------                 -----------------------
  *      |                   |				  |						|
  *      Service Name     	Service Name   	  Service Name          Service Name
@@ -31,11 +33,13 @@ import java.util.Date;
  *      |             					| 
  *      HostMetadata      			    HostMetadata
  *      (Value: Hostname:Port:Tls)      (Value: Hostname:Port:Tls) 
- *            
+ *  
+ * </pre>
  *  A fully-qualified ZooKeeper name used to construct a gRPC channel will look as follows:
- *
+ *  <pre>
  * 		zookeeper://host:port/serviceType/serviceName/serviceContract/instance
  *     example: zookeeper://host:port/rpc/ibole/com.test.practices.GreeterSub/hostname:port:true
+ *  </pre>
  *  Here zookeeper is the scheme identifying the name-system.
  *	host:port identifies an authoritative name-server for this scheme (i.e., a Zookeeper server). 
  *	The host can be an IP address or a DNS name. Finally /path/service/instance is the Zookeeper name to be resolved.

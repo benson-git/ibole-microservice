@@ -1,6 +1,5 @@
 package com.github.ibole.microservice.discovery.zookeeper;
 
-
 import com.github.ibole.microservice.common.ServerIdentifier;
 import com.github.ibole.microservice.common.utils.Constants;
 import com.github.ibole.microservice.discovery.AbstractServiceDiscovery;
@@ -8,6 +7,7 @@ import com.github.ibole.microservice.discovery.DiscoveryManagerException;
 import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.ServiceRegistryChangeListener;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -24,12 +24,17 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceProvider;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
 import org.apache.curator.x.discovery.strategies.RoundRobinStrategy;
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.Watcher;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Zookeeper discovery.
@@ -141,6 +146,24 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
     }
     return metadata;
   }
+ 
+  public boolean watchNodeForUpdates(final String serviceName, ServiceStateListener listener)
+      throws Exception {
+    String znode = buildBasePath() + Constants.ZK_DELIMETER + serviceName;
+    try {
+      client.getChildren().usingWatcher((Watcher) watchedEvent -> {
+        try {
+          watchNodeForUpdates(znode, listener);
+          //listener.update(getUrisForServiceNode(watchedEvent.getPath()));
+        } catch (Exception e) {
+          throw Throwables.propagate(e);
+        }
+      }).forPath(znode);
+    } catch (Exception e) {
+      return false;
+    }
+    return true;
+  }
 
   /**
    * Notes: All the nodes and their datum will be deleted once the connection is broken(by call
@@ -205,6 +228,11 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
       }
 
     });
+  }
+
+
+  public interface ServiceStateListener {
+    void update(List<HostMetadata> newList);
   }
 
 }

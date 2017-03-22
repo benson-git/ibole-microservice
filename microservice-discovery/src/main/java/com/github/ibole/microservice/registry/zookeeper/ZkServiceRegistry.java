@@ -74,17 +74,22 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
       throw new RegistryManagerException(e);
     }
   }
-  
+
+  private String ensureNodeForServiceExists(String serviceName) throws Exception {
+    String znode = buildBasePath() + Constants.ZK_DELIMETER + serviceName;
+    return ensureNodeExists(znode);
+  }
+
   private String ensureNodeExists(String znode) throws Exception {
     if (client.checkExists().creatingParentContainersIfNeeded().forPath(znode) == null) {
-        try {
-          client.create().creatingParentsIfNeeded().forPath(znode);
-        } catch (KeeperException.NodeExistsException e) {
-            //Another Thread/Service/Machine has just created this node for us.
-        }
+      try {
+        client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(znode);
+      } catch (KeeperException.NodeExistsException e) {
+        // Another Thread/Service/Machine has just created this node for us.
+      }
     }
     return znode;
-}
+  }
 
   private String buildServicePath(RegisterEntry instance) {
 

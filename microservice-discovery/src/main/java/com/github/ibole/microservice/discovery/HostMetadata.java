@@ -3,6 +3,8 @@ package com.github.ibole.microservice.discovery;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.net.URI;
+
 import com.github.ibole.infrastructure.common.dto.TransferObject;
 import com.github.ibole.microservice.common.utils.EqualsUtil;
 import com.github.ibole.microservice.common.utils.HashCodeUtil;
@@ -10,16 +12,27 @@ import com.github.ibole.microservice.common.utils.ToStringUtil;
 
 /**
  * Host Metadata.
+ * 
+ * The aim of "zone": In order to reduce network latency, 
+ * service consumer prefers to consume the target service provider in the same zone,
+ * avoid to do remoting call cross zone.
+ *  
  * @author bwang
  *
  */
 public class HostMetadata implements TransferObject {
 
   private static final long serialVersionUID = 1L;
+  
   @JsonProperty("port")
   private int port;
+  
   @JsonProperty("hostname")
   private String hostname;
+  
+  @JsonProperty("zone")
+  private String zone;
+  
   @JsonProperty("useTls")
   private boolean useTls;
 
@@ -33,14 +46,27 @@ public class HostMetadata implements TransferObject {
   /**
    * @param port int
    * @param hostname String
+   * @param zone the zone of the server
+   * @param useTls boolean
+   */
+  @JsonCreator
+  public HostMetadata(@JsonProperty("hostname") String hostname,
+      @JsonProperty("port") int port, @JsonProperty("zone") String zone, @JsonProperty("useTls") boolean useTls) {
+    this.port = port;
+    this.hostname = hostname;
+    this.zone = zone;
+    this.useTls = useTls;
+  }
+  
+  /**
+   * @param port int
+   * @param hostname String
    * @param useTls boolean
    */
   @JsonCreator
   public HostMetadata(@JsonProperty("hostname") String hostname,
       @JsonProperty("port") int port, @JsonProperty("useTls") boolean useTls) {
-    this.port = port;
-    this.hostname = hostname;
-    this.useTls = useTls;
+      this(hostname, port, "*", useTls);
   }
 
   /**
@@ -49,9 +75,13 @@ public class HostMetadata implements TransferObject {
    */
   public String generateKey() {
     StringBuilder builder = new StringBuilder();
-    return builder.append(hostname).append(":").append(port).append(":").append(useTls).toString();
+    return builder.append(hostname).append(":").append(port).toString();
   }
 
+  public URI getHostEndpoint() {
+    return URI.create("//"+hostname+":"+port+"/?tls="+useTls+"&zone="+zone);
+  }
+  
   /**
    * @param port the port to set
    */
@@ -74,6 +104,20 @@ public class HostMetadata implements TransferObject {
   }
 
   /**
+   * @return the zone
+   */
+  public String getZone() {
+    return zone;
+  }
+
+  /**
+   * @param zone the zone to set
+   */
+  public void setZone(String zone) {
+    this.zone = zone;
+  }
+
+  /**
    * @return the useTls
    */
   public boolean isUseTls() {
@@ -86,8 +130,7 @@ public class HostMetadata implements TransferObject {
   public void setUseTls(boolean useTls) {
     this.useTls = useTls;
   }
-
-
+  
   /**
    * Indicates whether some other object is "equal to" this {@code HostMetadata}. The result is
    * {@code true} if and only if the argument is not {@code null} and is a {@code HostMetadata}
@@ -108,7 +151,9 @@ public class HostMetadata implements TransferObject {
     }
     final HostMetadata other = (HostMetadata) obj;
     return EqualsUtil.equal(hostname, other.hostname)
-        && EqualsUtil.equal(port, other.port) && EqualsUtil.equal(useTls, other.useTls);
+        && EqualsUtil.equal(port, other.port)
+        && EqualsUtil.equal(zone, other.zone)
+        && EqualsUtil.equal(useTls, other.useTls);
 
   }
 
@@ -125,6 +170,7 @@ public class HostMetadata implements TransferObject {
     int result = HashCodeUtil.SEED;
     result = HashCodeUtil.hash(result, hostname);
     result = HashCodeUtil.hash(result, port);
+    result = HashCodeUtil.hash(result, zone);
     result = HashCodeUtil.hash(result, useTls);;
     return result;
   }
@@ -140,6 +186,7 @@ public class HostMetadata implements TransferObject {
   public String toString() {
     final StringBuilder sb = ToStringUtil.start("hostname", hostname);
     ToStringUtil.append(sb, "port", port);
+    ToStringUtil.append(sb, "zone", zone);
     ToStringUtil.append(sb, "useTls", useTls);
     return ToStringUtil.end(sb);
   }
