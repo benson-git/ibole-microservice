@@ -144,44 +144,18 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
     return metadata;
   }
   
+  /**
+   * Watch the change even on the specified service node and attach a listener on this node.
+   * 
+   * @param serviceName the servie name
+   * @param listener the service state listener
+   * @return true if the watch is success, otherwise return false
+   */
   public boolean watchForUpdates(final String serviceName, ServiceStateListener listener){
     String znode = buildBasePath() + Constants.ZK_DELIMETER + serviceName;
     return watchNodeForUpdates(znode, listener);
   }
  
-  private boolean watchNodeForUpdates(final String znode, ServiceStateListener listener){
-    try {
-      client.getChildren().usingWatcher((Watcher) watchedEvent -> {
-        try {
-          watchNodeForUpdates(znode, listener);
-          listener.update(getServicesForNode(watchedEvent.getPath()));
-        } catch (Exception e) {
-          throw Throwables.propagate(e);
-        }
-      }).forPath(znode);
-    } catch (Exception e) {
-      return false;
-    }
-    return true;
-  }
-
-  private List<HostMetadata> getServicesForNode(String znode) throws Exception {
-    List<String> children = client.getChildren().forPath(znode);
-    return children.stream().map(child -> {
-      try {
-        return client.getData().forPath(znode + Constants.ZK_DELIMETER + child);
-      } catch (Exception e) {
-        throw Throwables.propagate(e);
-      }
-    }).map(data -> {
-      try {
-        return serializer.deserialize(data).getPayload();
-      } catch (Exception e) {
-        throw Throwables.propagate(e);
-      }
-    }).collect(Collectors.toList());
-  }
-
   /**
    * Notes: All the nodes and their datum will be deleted once the connection is broken(by call
    * {@code destroy()} or session timeout) between the zookeeper's client and server.
@@ -245,6 +219,39 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
       }
 
     });
+  }
+  
+  private boolean watchNodeForUpdates(final String znode, ServiceStateListener listener){
+    try {
+      client.getChildren().usingWatcher((Watcher) watchedEvent -> {
+        try {
+          watchNodeForUpdates(znode, listener);
+          listener.update(getServicesForNode(watchedEvent.getPath()));
+        } catch (Exception e) {
+          throw Throwables.propagate(e);
+        }
+      }).forPath(znode);
+    } catch (Exception e) {
+      return false;
+    }
+    return true;
+  }
+
+  private List<HostMetadata> getServicesForNode(String znode) throws Exception {
+    List<String> children = client.getChildren().forPath(znode);
+    return children.stream().map(child -> {
+      try {
+        return client.getData().forPath(znode + Constants.ZK_DELIMETER + child);
+      } catch (Exception e) {
+        throw Throwables.propagate(e);
+      }
+    }).map(data -> {
+      try {
+        return serializer.deserialize(data).getPayload();
+      } catch (Exception e) {
+        throw Throwables.propagate(e);
+      }
+    }).collect(Collectors.toList());
   }
 
 }

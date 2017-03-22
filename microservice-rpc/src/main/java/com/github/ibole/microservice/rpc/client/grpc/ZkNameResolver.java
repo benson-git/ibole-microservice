@@ -110,12 +110,12 @@ public class ZkNameResolver extends NameResolver {
     listener.onUpdate(resolvedServers, params);
     
     //watch service node changes and fire the even
-    discovery.watchForUpdates(serviceName, updatedList -> {
-      List<ResolvedServerInfoGroup> updatedServers = filterResolvedServers(updatedList, predicateWithZoneAndTls);
+    discovery.watchForUpdates(serviceName, hostMetadateList -> {
+      List<ResolvedServerInfoGroup> updatedServers = filterResolvedServers(hostMetadateList, predicateWithZoneAndTls);
       if(updatedServers.isEmpty()){
-        updatedServers = filterResolvedServers(updatedList, predicateWithTls);
+        updatedServers = filterResolvedServers(hostMetadateList, predicateWithTls);
       }
-        listener.onUpdate(updatedServers, Attributes.EMPTY);
+      listener.onUpdate(updatedServers, params);
     });
 
     if (LOGGER.isInfoEnabled()) {
