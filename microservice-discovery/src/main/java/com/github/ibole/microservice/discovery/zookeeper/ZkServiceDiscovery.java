@@ -24,13 +24,10 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceProvider;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
 import org.apache.curator.x.discovery.strategies.RoundRobinStrategy;
-import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -146,15 +143,18 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
     }
     return metadata;
   }
- 
-  public boolean watchNodeForUpdates(final String serviceName, ServiceStateListener listener)
-      throws Exception {
+  
+  public boolean watchForUpdates(final String serviceName, ServiceStateListener listener){
     String znode = buildBasePath() + Constants.ZK_DELIMETER + serviceName;
+    return watchNodeForUpdates(znode, listener);
+  }
+ 
+  private boolean watchNodeForUpdates(final String znode, ServiceStateListener listener){
     try {
       client.getChildren().usingWatcher((Watcher) watchedEvent -> {
         try {
           watchNodeForUpdates(znode, listener);
-          //listener.update(getUrisForServiceNode(watchedEvent.getPath()));
+          listener.update(getServicesForNode(watchedEvent.getPath()));
         } catch (Exception e) {
           throw Throwables.propagate(e);
         }
@@ -163,6 +163,23 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
       return false;
     }
     return true;
+  }
+
+  private List<HostMetadata> getServicesForNode(String znode) throws Exception {
+    List<String> children = client.getChildren().forPath(znode);
+    return children.stream().map(child -> {
+      try {
+        return client.getData().forPath(znode + Constants.ZK_DELIMETER + child);
+      } catch (Exception e) {
+        throw Throwables.propagate(e);
+      }
+    }).map(data -> {
+      try {
+        return serializer.deserialize(data).getPayload();
+      } catch (Exception e) {
+        throw Throwables.propagate(e);
+      }
+    }).collect(Collectors.toList());
   }
 
   /**
@@ -228,11 +245,6 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
       }
 
     });
-  }
-
-
-  public interface ServiceStateListener {
-    void update(List<HostMetadata> newList);
   }
 
 }

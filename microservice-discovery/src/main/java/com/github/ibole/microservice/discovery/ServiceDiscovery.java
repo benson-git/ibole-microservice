@@ -25,5 +25,11 @@ public interface ServiceDiscovery<T> extends Closeable {
 
   void addListener(ServiceRegistryChangeListener listener);
 
+  boolean watchForUpdates(String serviceName, ServiceStateListener listener);
+
   ServerIdentifier getIdentifier();
+
+  interface ServiceStateListener {
+    void update(List<HostMetadata> newList);
+  }
 }

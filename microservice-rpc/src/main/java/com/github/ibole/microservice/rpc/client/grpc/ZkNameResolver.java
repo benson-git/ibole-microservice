@@ -96,18 +96,27 @@ public class ZkNameResolver extends NameResolver {
           discovery.getIdentifier());
       throw new RpcClientException("No services found!");
     }
+   
     List<ResolvedServerInfoGroup> resolvedServers;
+    Predicate<HostMetadata> predicateWithZoneAndTls = host -> zoneToPrefer.equalsIgnoreCase(host.getZone()) && usedTls == host.isUseTls();
+    Predicate<HostMetadata> predicateWithTls = host -> usedTls == host.isUseTls();
     // Find the service servers with the same preference zone.
-    Predicate<HostMetadata> predicateWithZoneAndTls =
-        host -> zoneToPrefer.equalsIgnoreCase(host.getZone()) && usedTls == host.isUseTls();
     resolvedServers = filterResolvedServers(hostList, predicateWithZoneAndTls);
     // Find the service servers without preference zone filtering if no preference service server found.
     if (resolvedServers.isEmpty()) {
-      Predicate<HostMetadata> predicateWithTls = host -> usedTls == host.isUseTls();
       resolvedServers = filterResolvedServers(hostList, predicateWithTls);
     }
 
     listener.onUpdate(resolvedServers, params);
+    
+    //watch service node changes and fire the even
+    discovery.watchForUpdates(serviceName, updatedList -> {
+      List<ResolvedServerInfoGroup> updatedServers = filterResolvedServers(updatedList, predicateWithZoneAndTls);
+      if(updatedServers.isEmpty()){
+        updatedServers = filterResolvedServers(updatedList, predicateWithTls);
+      }
+        listener.onUpdate(updatedServers, Attributes.EMPTY);
+    });
 
     if (LOGGER.isInfoEnabled()) {
       LOGGER.info("ZkNameResolver is start.");
