@@ -72,9 +72,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
   public void initialize(ServerIdentifier identifier) {
     if (state.compareAndSet(State.LATENT, State.INITIALIZED)
         || state.compareAndSet(State.STOPPED, State.INITIALIZED)) {
-      DiscoveryFactory<ServiceDiscovery<HostMetadata>> factory =
-          ServiceDiscoveryProvider.provider().getDiscoveryFactory();
-      discovery = factory.getServiceDiscovery(identifier);
+      discovery = ServiceDiscoveryProvider.provider().getDiscoveryFactory().getServiceDiscovery(identifier);
     }
   }
 

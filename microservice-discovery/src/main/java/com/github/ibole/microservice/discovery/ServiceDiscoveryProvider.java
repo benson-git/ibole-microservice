@@ -9,6 +9,8 @@ public abstract class ServiceDiscoveryProvider {
 
   private static final ServiceDiscoveryProvider provider =
       load(Thread.currentThread().getContextClassLoader());
+  
+  private DiscoveryFactory<ServiceDiscovery<HostMetadata>> discoveryFactory = createDiscoveryFactory();
 
   static final ServiceDiscoveryProvider load(ClassLoader cl) {
     ServiceLoader<ServiceDiscoveryProvider> providers =
@@ -24,6 +26,7 @@ public abstract class ServiceDiscoveryProvider {
         best = current;
       }
     }
+    
     return best;
   }
 
@@ -55,7 +58,11 @@ public abstract class ServiceDiscoveryProvider {
           "No functional server found. " + "Try adding a dependency on the rpc framework artifact");
     }
     return provider;
-  }
+  } 
 
-  public abstract DiscoveryFactory<ServiceDiscovery<HostMetadata>> getDiscoveryFactory();
+  protected abstract DiscoveryFactory<ServiceDiscovery<HostMetadata>> createDiscoveryFactory();
+  
+  public DiscoveryFactory<ServiceDiscovery<HostMetadata>> getDiscoveryFactory(){
+    return discoveryFactory;
+  }
 }

@@ -25,7 +25,7 @@ public class ZkServiceDiscoveryProvider extends ServiceDiscoveryProvider {
   }
 
   @Override
-  public DiscoveryFactory<ServiceDiscovery<HostMetadata>> getDiscoveryFactory() {
+  public DiscoveryFactory<ServiceDiscovery<HostMetadata>> createDiscoveryFactory() {
 
     return new ZkDiscoveryFactory();
   }

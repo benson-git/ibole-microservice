@@ -32,6 +32,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Zookeeper registry.
  * 
+ * 通过ZooKeeper发布服务，服务启动时将自己的信息注册为临时节点，当服务断掉时ZooKeeper将此临时节点删除，
+ * 这样client就不会得到服务的信息了.
+ * 
  * @author bwang
  *
  */
@@ -83,7 +86,9 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
   private String ensureNodeExists(String znode) throws Exception {
     if (client.checkExists().creatingParentContainersIfNeeded().forPath(znode) == null) {
       try {
-        client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(znode);
+        client.create().creatingParentsIfNeeded().forPath(znode);
+        //ZK制约:临时节点下不能创建子节点
+        //client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(znode);
       } catch (KeeperException.NodeExistsException e) {
         // Another Thread/Service/Machine has just created this node for us.
       }
@@ -117,7 +122,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
                 .address(instance.getHostMetadata().getHostname())
                 .port(instance.getHostMetadata().getPort())
                 .id(instance.getHostMetadata().generateKey())
-                .payload(instance.getHostMetadata()).serviceType(ServiceType.DYNAMIC_SEQUENTIAL).build();
+                .payload(instance.getHostMetadata()).serviceType(ServiceType.DYNAMIC).build();
         serviceDiscovery.start();
         serviceDiscovery.registerService(thisInstance);
         log.info("Registed instance metadata: " + instance.toString());
@@ -258,7 +263,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
           try {
             if (curatorFramework.getZookeeperClient().blockUntilConnectedOrTimedOut()) {
               curatorFramework.create().creatingParentsIfNeeded()
-                  .withMode(CreateMode.EPHEMERAL_SEQUENTIAL)
+                  .withMode(CreateMode.PERSISTENT)
                   .forPath(zkRegPathPrefix, regContent.getBytes("UTF-8"));
               break;
             }

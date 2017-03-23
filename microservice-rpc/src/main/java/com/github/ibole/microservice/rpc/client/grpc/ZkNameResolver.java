@@ -1,7 +1,6 @@
 package com.github.ibole.microservice.rpc.client.grpc;
 
 import com.github.ibole.microservice.common.ServerIdentifier;
-import com.github.ibole.microservice.discovery.DiscoveryFactory;
 import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.ServiceDiscovery;
 import com.github.ibole.microservice.discovery.ServiceDiscoveryProvider;
@@ -60,20 +59,13 @@ public class ZkNameResolver extends NameResolver {
    */
   public ZkNameResolver(URI targetUri, Attributes params, ServerIdentifier zookeeperAddress,
       String zoneToPrefer, boolean usedTls) {
-    
     // Following just doing the check for the first authority.
-    String targetPath = Preconditions.checkNotNull(targetUri.getPath(), "targetPath");
-    Preconditions.checkArgument(targetPath.startsWith("/"),    
-        "the path component (%s) of the target (%s) must start with '/'", targetPath, targetUri);
-
+    Preconditions.checkNotNull(targetUri.getAuthority(), "authority");
     this.targetUri = targetUri;
     this.params = params;
     this.zoneToPrefer = zoneToPrefer;
     this.usedTls = usedTls;
-    
-    DiscoveryFactory<ServiceDiscovery<HostMetadata>> factory =
-        ServiceDiscoveryProvider.provider().getDiscoveryFactory();
-    this.discovery = factory.getServiceDiscovery(zookeeperAddress);
+    this.discovery = ServiceDiscoveryProvider.provider().getDiscoveryFactory().getServiceDiscovery(zookeeperAddress);
   }
 
   /*
@@ -89,6 +81,7 @@ public class ZkNameResolver extends NameResolver {
 
   @Override
   public final synchronized void start(Listener listener) {
+    discovery.start();
     String serviceName = new StringBuilder(targetUri.getAuthority()).reverse().toString();
     List<HostMetadata> hostList = discovery.listAll(serviceName);
     if (hostList == null || hostList.isEmpty()) {

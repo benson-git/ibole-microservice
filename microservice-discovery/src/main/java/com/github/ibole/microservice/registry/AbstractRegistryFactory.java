@@ -16,6 +16,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Common logic handling for the implementation of {@code DiscoveryFactory}.
+ * 统一处理zk服务的关闭.
+ * 通过ZooKeeper发布服务，服务启动时将自己的信息注册为临时节点，当服务断掉时ZooKeeper将此临时节点删除，
+ * 这样client就不会得到服务的信息了.
  * 
  * @author bwang
  *

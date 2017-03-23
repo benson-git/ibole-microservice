@@ -1,9 +1,4 @@
 package com.github.ibole.microservice.rpc.server;
-import com.google.common.base.Strings;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.ibole.infrastructure.common.properties.ConfigurationBuilder;
 import com.github.ibole.infrastructure.common.properties.ConfigurationHolder;
 import com.github.ibole.microservice.common.ServerIdentifier;
@@ -14,11 +9,15 @@ import com.github.ibole.microservice.container.IocContainerProvider;
 import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.RegisterEntry;
 import com.github.ibole.microservice.registry.AbstractRegistryFactory;
-import com.github.ibole.microservice.registry.RegistryFactory;
 import com.github.ibole.microservice.registry.ServiceRegistry;
 import com.github.ibole.microservice.registry.ServiceRegistryProvider;
 import com.github.ibole.microservice.registry.instance.grpc.GrpcServiceDefinitionLoader;
 import com.github.ibole.microservice.rpc.server.exception.RpcServerException;
+
+import com.google.common.base.Strings;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -163,10 +162,8 @@ public class ServerBootstrap {
       rpcServer = NetworkUtil.getDefaultLocalHost();
     }
     ServerIdentifier identifier = new ServerIdentifier(registryBaseKey, hosts);
-    RegistryFactory<ServiceRegistry<HostMetadata>> registryFactory =
-        ServiceRegistryProvider.provider().getRegistryFactory();
     ServiceRegistry<HostMetadata> serviceRegistry =
-        registryFactory.getServiceRegistry(identifier);
+        ServiceRegistryProvider.provider().getRegistryFactory().getServiceRegistry(identifier);
     serviceRegistry.start();
 
     //TODO should not be specific GrpcServiceDefinitionLoader

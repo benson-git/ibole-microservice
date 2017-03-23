@@ -14,6 +14,8 @@ public abstract class ServiceRegistryProvider {
 
   private static final ServiceRegistryProvider provider =
       load(Thread.currentThread().getContextClassLoader());
+  
+  private RegistryFactory<ServiceRegistry<HostMetadata>> registryFactory = createRegistryFactory();
 
   static final ServiceRegistryProvider load(ClassLoader cl) {
     ServiceLoader<ServiceRegistryProvider> providers =
@@ -62,5 +64,9 @@ public abstract class ServiceRegistryProvider {
     return provider;
   }
 
-  public abstract RegistryFactory<ServiceRegistry<HostMetadata>> getRegistryFactory();
+  protected abstract RegistryFactory<ServiceRegistry<HostMetadata>> createRegistryFactory();
+  
+  public RegistryFactory<ServiceRegistry<HostMetadata>> getRegistryFactory(){
+    return registryFactory;
+  }
 }

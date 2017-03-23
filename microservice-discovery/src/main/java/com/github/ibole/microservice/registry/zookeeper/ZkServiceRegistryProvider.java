@@ -22,7 +22,7 @@ public class ZkServiceRegistryProvider extends ServiceRegistryProvider {
   }
 
   @Override
-  public ZkRegistryFactory getRegistryFactory() {
+  public ZkRegistryFactory createRegistryFactory() {
 
     return new ZkRegistryFactory();
   }
