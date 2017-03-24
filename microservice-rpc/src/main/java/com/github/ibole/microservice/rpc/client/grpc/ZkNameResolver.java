@@ -33,7 +33,7 @@ import java.util.stream.Stream;
  * FORMAT WILL BE: zk://serviceContract
  *                      ---------------
  *                            |
- *                      Service Name (e.g. zk://UserService.user.service.ibole.github.com)     
+ *                      Service Name (e.g. zk://com.github.ibole.user.service.UserService)     
  * </pre>
  * @see ZkNameResolverProvider
  * 
@@ -82,7 +82,7 @@ public class ZkNameResolver extends NameResolver {
   @Override
   public final synchronized void start(Listener listener) {
     discovery.start();
-    String serviceName = new StringBuilder(targetUri.getAuthority()).reverse().toString();
+    String serviceName = targetUri.getAuthority();
     List<HostMetadata> hostList = discovery.listAll(serviceName);
     if (hostList == null || hostList.isEmpty()) {
       LOGGER.error("No services are registered for '{}' in registry center '{}'!", serviceName,

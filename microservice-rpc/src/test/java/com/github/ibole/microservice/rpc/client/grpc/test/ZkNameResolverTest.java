@@ -27,6 +27,8 @@ import com.github.ibole.microservice.rpc.client.grpc.ZkNameResolverProvider;
 import com.google.common.net.HostAndPort;
 
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.retry.RetryNTimes;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,7 +63,7 @@ import java.util.List;
 @RunWith(JUnit4.class)
 public class ZkNameResolverTest {
 
-  private URI targetService = URI.create("zk://myservice.com");
+  private URI targetService = URI.create("zk://com.myservice");
   private ServerIdentifier identifier;
   private CuratorFramework client;
   private ServiceRegistry<HostMetadata> serviceRegistry;
@@ -77,10 +79,17 @@ public class ZkNameResolverTest {
     identifier = new ServerIdentifier(rootZnode, list);
     serviceRegistry = ServiceRegistryProvider.provider().getRegistryFactory().getServiceRegistry(identifier);
     serviceRegistry.start();
+    
+    // 1.Connect to zk
+    client =
+        CuratorFrameworkFactory.newClient(identifier.getConnectionString(), new RetryNTimes(10,
+            5000));
+    client.start();
+    
   }
-  
+    
   @Test
-  public void testServiceRegistry() {
+  public void testServiceRegistry() throws Exception {
     
     entry = new RegisterEntry();
     HostMetadata metadata = new HostMetadata("localhost", 4443, zone, true);
@@ -90,6 +99,9 @@ public class ZkNameResolverTest {
     entry.setLastUpdated(Calendar.getInstance().getTime());
     entry.setHostMetadata(metadata);
     serviceRegistry.register(entry);
+                      
+    List<String> services = client.getChildren().forPath(rootZnode+"/"+targetService.getAuthority());
+    services.size();
   }
 
   @Test

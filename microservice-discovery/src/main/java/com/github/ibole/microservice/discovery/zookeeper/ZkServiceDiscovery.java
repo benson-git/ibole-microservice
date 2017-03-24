@@ -18,6 +18,7 @@ import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheListener;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.utils.CloseableUtils;
+import org.apache.curator.utils.ZKPaths;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.curator.x.discovery.ServiceInstance;
@@ -83,13 +84,17 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
     try {
       serviceDiscovery.start();
       instances = serviceDiscovery.queryForInstances(serviceContract);
+      
+      
+      Collection<String> names = serviceDiscovery.queryForNames();
+      
       for (ServiceInstance<HostMetadata> serviceInstance : instances) {
         metadatum.add(serviceInstance.getPayload());
       }
 
     } catch (Exception e) {
       logger.error("List all instances error happened with path '{}'!",
-          buildBasePath() + Constants.ZK_DELIMETER + serviceContract, e);
+          ZKPaths.makePath(buildBasePath(), serviceContract), e);
       throw new DiscoveryManagerException(e);
 
     }
@@ -118,7 +123,7 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
 
     } catch (Exception e) {
       logger.error("Retrieve instance error happened with with path '{}'!",
-          buildBasePath() + Constants.ZK_DELIMETER + serviceContract, e);
+          ZKPaths.makePath(buildBasePath(), serviceContract), e);
       throw new DiscoveryManagerException(e);
     }
     return instance;
@@ -138,7 +143,7 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
       metadata = instance.getPayload();
     } catch (Exception e) {
       logger.error("Retrieve instance error happened with '{}'!",
-          buildBasePath() + Constants.ZK_DELIMETER + serviceContract, e);
+          ZKPaths.makePath(buildBasePath(), serviceContract), e);
       throw new DiscoveryManagerException(e);
     }
     return metadata;
@@ -152,7 +157,7 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
    * @return true if the watch is success, otherwise return false
    */
   public boolean watchForUpdates(final String serviceName, ServiceStateListener listener){
-    String znode = buildBasePath() + Constants.ZK_DELIMETER + serviceName;
+    String znode = ZKPaths.makePath(buildBasePath(), serviceName);
     return watchNodeForUpdates(znode, listener);
   }
  
@@ -241,7 +246,7 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
     List<String> children = client.getChildren().forPath(znode);
     return children.stream().map(child -> {
       try {
-        return client.getData().forPath(znode + Constants.ZK_DELIMETER + child);
+        return client.getData().forPath(ZKPaths.makePath(znode, child));
       } catch (Exception e) {
         throw Throwables.propagate(e);
       }
