@@ -10,14 +10,14 @@ package com.github.ibole.microservice.registry;
  *********************************************************************************************/
 
 
-public class RegistryManagerException extends RuntimeException {
+public class ServiceRegistryException extends RuntimeException {
 
   /**
    * 
    */
   private static final long serialVersionUID = 1279037803020153757L;
 
-  public RegistryManagerException(Throwable cause) {
+  public ServiceRegistryException(Throwable cause) {
     super(cause);
   }
 

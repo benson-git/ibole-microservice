@@ -83,7 +83,7 @@ public class ZkNameResolver extends NameResolver {
   public final synchronized void start(Listener listener) {
     discovery.start();
     String serviceName = targetUri.getAuthority();
-    List<HostMetadata> hostList = discovery.listAll(serviceName);
+    List<HostMetadata> hostList = discovery.getInstanceList(serviceName);
     if (hostList == null || hostList.isEmpty()) {
       LOGGER.error("No services are registered for '{}' in registry center '{}'!", serviceName,
           discovery.getIdentifier());
@@ -103,12 +103,16 @@ public class ZkNameResolver extends NameResolver {
     listener.onUpdate(resolvedServers, params);
     
     //watch service node changes and fire the even
-    discovery.watchForUpdates(serviceName, hostMetadateList -> {
+    discovery.watchForCacheUpdates(serviceName, hostMetadateList -> {
       List<ResolvedServerInfoGroup> updatedServers = filterResolvedServers(hostMetadateList, predicateWithZoneAndTls);
       if(updatedServers.isEmpty()){
         updatedServers = filterResolvedServers(hostMetadateList, predicateWithTls);
       }
       listener.onUpdate(updatedServers, params);
+      if (LOGGER.isDebugEnabled()) {
+           LOGGER.info("Watch updates '{}' for service '{}' and finish launching the update listener.",
+               updatedServers.toString(), serviceName);
+      }
     });
 
     if (LOGGER.isInfoEnabled()) {

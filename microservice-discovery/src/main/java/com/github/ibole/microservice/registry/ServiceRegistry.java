@@ -16,7 +16,7 @@ public interface ServiceRegistry<T> {
 
   void register(RegisterEntry entry);
 
-  void unregisterService(RegisterEntry entry);
+  void unregisterService(String serviceName);
 
   void destroy() throws IOException;
 

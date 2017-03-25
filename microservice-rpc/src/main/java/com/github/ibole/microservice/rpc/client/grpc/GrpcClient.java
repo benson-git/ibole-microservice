@@ -132,7 +132,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
     Method stubInitializationMethod;
     try {
       if (!STUBS.containsKey(type)) {
-        List<HostMetadata> instances = discovery.listAll(type.getName());
+        List<HostMetadata> instances = discovery.getInstanceList(type.getName());
         if (instances == null || instances.isEmpty()) {
           log.error("No services are registered for '{}' in registry center '{}'!", type.getName(),
               discovery.getIdentifier());

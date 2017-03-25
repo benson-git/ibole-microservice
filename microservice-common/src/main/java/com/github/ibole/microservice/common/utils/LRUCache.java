@@ -4,6 +4,14 @@ import java.util.LinkedHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 利用LinkedHashMap实现简单的LRU缓存， 必须实现removeEldestEntry方法.
+ * 
+ * @author bwang
+ *
+ * @param <K> the type of key
+ * @param <V> the type of value
+ */
 public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 
   private static final long serialVersionUID = -5167631809472116969L;

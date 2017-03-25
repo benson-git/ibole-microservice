@@ -20,6 +20,7 @@ import com.github.ibole.microservice.common.ServerIdentifier;
 import com.github.ibole.microservice.discovery.AbstractDiscoveryFactory;
 import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.RegisterEntry;
+import com.github.ibole.microservice.discovery.zookeeper.test.AbstractZkServerStarter;
 import com.github.ibole.microservice.registry.ServiceRegistry;
 import com.github.ibole.microservice.registry.ServiceRegistryProvider;
 import com.github.ibole.microservice.rpc.client.grpc.ZkNameResolverProvider;
@@ -29,8 +30,10 @@ import com.google.common.net.HostAndPort;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.RetryNTimes;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -61,19 +64,22 @@ import java.util.List;
  *
  */
 @RunWith(JUnit4.class)
-public class ZkNameResolverTest {
+public class ZkNameResolverTest extends AbstractZkServerStarter {
 
-  private URI targetService = URI.create("zk://com.myservice");
-  private ServerIdentifier identifier;
-  private CuratorFramework client;
-  private ServiceRegistry<HostMetadata> serviceRegistry;
-  private String rootZnode = "/root/rpc";
-  private RegisterEntry entry;
-  private String zone = "myzone";
+  private static URI targetService = URI.create("zk://com.myservice");
+  private static ServerIdentifier identifier;
+  private static CuratorFramework client;
+  private static ServiceRegistry<HostMetadata> serviceRegistry;
+  private static String rootZnode = "/root/rpc";
+  private static String zone = "myzone";
+  private static RegisterEntry entry;
   
-  @Before
-  public void setup() {
-    HostAndPort hostAndPort1 = HostAndPort.fromString("localhost:2181");
+  @BeforeClass
+  public static void setup() {
+    // start the zk server
+    initialize();
+    
+    HostAndPort hostAndPort1 = HostAndPort.fromString("localhost:"+PORT);
     ArrayList<HostAndPort> list = new ArrayList<HostAndPort>();
     list.add(hostAndPort1);
     identifier = new ServerIdentifier(rootZnode, list);
@@ -84,12 +90,7 @@ public class ZkNameResolverTest {
     client =
         CuratorFrameworkFactory.newClient(identifier.getConnectionString(), new RetryNTimes(10,
             5000));
-    client.start();
-    
-  }
-    
-  @Test
-  public void testServiceRegistry() throws Exception {
+    client.start();  
     
     entry = new RegisterEntry();
     HostMetadata metadata = new HostMetadata("localhost", 4443, zone, true);
@@ -98,14 +99,17 @@ public class ZkNameResolverTest {
     entry.setDescription(targetService.getAuthority());
     entry.setLastUpdated(Calendar.getInstance().getTime());
     entry.setHostMetadata(metadata);
+    
+  }
+  
+  @Before
+  public void registerService(){
+   
     serviceRegistry.register(entry);
-                      
-    List<String> services = client.getChildren().forPath(rootZnode+"/"+targetService.getAuthority());
-    services.size();
   }
 
   @Test
-  public void testZk() {
+  public void testNameResolver() throws Exception {
      
     NameResolver zkNameResolver =
         ZkNameResolverProvider.newBuilder().setPreferredZone(zone).setUsedTls(true)
@@ -123,12 +127,20 @@ public class ZkNameResolverTest {
         
         ResolvedServerInfoGroup serverGroup = resolvedServers.get(0);
         ResolvedServerInfo serverInfo = serverGroup.getResolvedServerInfoList().get(0);
-        org.junit.Assert.assertEquals("localhost", serverInfo.getAddress().toString());
+        org.junit.Assert.assertTrue(serverInfo.getAddress().toString().contains("127.0.0.1"));
       }
       
     });
+    
 
+        
   }
+  
+  @After
+  public void deleteService() throws Exception{
+    client.delete().deletingChildrenIfNeeded().forPath(rootZnode+"/"+targetService.getAuthority());
+  }
+  
   
   @AfterClass
   public static void destroy(){

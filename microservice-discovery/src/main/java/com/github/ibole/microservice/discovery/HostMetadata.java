@@ -1,6 +1,7 @@
 package com.github.ibole.microservice.discovery;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.net.URI;
@@ -63,7 +64,7 @@ public class HostMetadata implements TransferObject {
    * @param hostname String
    * @param useTls boolean
    */
-  @JsonCreator
+  @JsonIgnore
   public HostMetadata(@JsonProperty("hostname") String hostname,
       @JsonProperty("port") int port, @JsonProperty("useTls") boolean useTls) {
       this(hostname, port, "*", useTls);
@@ -78,6 +79,7 @@ public class HostMetadata implements TransferObject {
     return builder.append(hostname).append(":").append(port).toString();
   }
 
+  @JsonIgnore
   public URI getHostEndpoint() {
     return URI.create("//"+hostname+":"+port+"/?tls="+useTls+"&zone="+zone);
   }

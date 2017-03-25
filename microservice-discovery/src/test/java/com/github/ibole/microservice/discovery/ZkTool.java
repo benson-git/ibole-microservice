@@ -148,7 +148,7 @@ public class ZkTool {
         "com.github.ibole.demo.protos.GreeterGrpc$GreeterFutureStub"};
     for (String name : serviceNames) {
 
-      List<HostMetadata> services = discovery.listAll(name);
+      List<HostMetadata> services = discovery.getInstanceList(name);
       for (HostMetadata service : services) {
 
         String path = identifier.getRootPath().getPath() + "/" + name + "/" + service.generateKey();

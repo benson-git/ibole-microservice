@@ -5,7 +5,7 @@ import com.github.ibole.microservice.common.utils.Constants;
 import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.RegisterEntry;
 import com.github.ibole.microservice.registry.AbstractServiceRegistry;
-import com.github.ibole.microservice.registry.RegistryManagerException;
+import com.github.ibole.microservice.registry.ServiceRegistryException;
 
 import com.google.common.base.Throwables;
 
@@ -17,16 +17,15 @@ import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.framework.state.ConnectionStateListener;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.utils.CloseableUtils;
+import org.apache.curator.utils.ZKPaths;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
-import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -74,32 +73,8 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
     } catch (Exception e) {
       log.error("Service registry start error for server identifier '{}' !",
           getIdentifier().getConnectionString(), e);
-      throw new RegistryManagerException(e);
+      throw new ServiceRegistryException(e);
     }
-  }
-
-  private String ensureNodeForServiceExists(String serviceName) throws Exception {
-    String znode = buildBasePath() + Constants.ZK_DELIMETER + serviceName;
-    return ensureNodeExists(znode);
-  }
-
-  private String ensureNodeExists(String znode) throws Exception {
-    if (client.checkExists().creatingParentContainersIfNeeded().forPath(znode) == null) {
-      try {
-        client.create().creatingParentsIfNeeded().forPath(znode);
-        //ZK制约:临时节点下不能创建子节点
-        //client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(znode);
-      } catch (KeeperException.NodeExistsException e) {
-        // Another Thread/Service/Machine has just created this node for us.
-      }
-    }
-    return znode;
-  }
-
-  private String buildServicePath(RegisterEntry instance) {
-
-    return buildBasePath() + Constants.ZK_DELIMETER + instance.getServiceContract()
-            + Constants.ZK_DELIMETER + instance.getHostMetadata().generateKey();
   }
   
   @Override
@@ -129,7 +104,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
       }
     } catch (Exception ex) {
       log.error("Register instance {} error happened!", instance.toString(), ex);
-      throw new RegistryManagerException(ex);
+      throw new ServiceRegistryException(ex);
     } finally {
       try {
         if (acquiredLock) {
@@ -137,48 +112,37 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
         }
       } catch (Exception ex) {
         log.error("Lock release error happened!", ex);
-        throw new RegistryManagerException(ex);
+        throw new ServiceRegistryException(ex);
       }
     }
 
   }
 
   @Override
-  public void unregisterService(RegisterEntry entry) {
-    ServiceInstance<HostMetadata> thisInstance;
+  public void unregisterService(String serviceName) {
+    boolean acquiredLock = false;
     try {
       if (lock.acquire(LOCK_TIME, TimeUnit.SECONDS)) {
-        thisInstance = ServiceInstance.<HostMetadata>builder().name(entry.getServiceContract())
-            .id(entry.getHostMetadata().generateKey()).payload(entry.getHostMetadata())
-            .build();
-        serviceDiscovery.unregisterService(thisInstance);
+        acquiredLock = true;
+        removeServiceRegistry(serviceName);
       }
     } catch (Exception e) {
-      log.error("Unregister instance error happened with 'register entry {}'!", entry, e);
-      throw new RegistryManagerException(e);
+      log.error("Unregister instance error happened with 'register entry {}'!", serviceName, e);
+      throw new ServiceRegistryException(e);
     } finally {
       try {
-        lock.release();
+        if (acquiredLock) {
+          lock.release();
+        }
       } catch (Exception e) {
         log.error("Lock release error happened!", e);
-        throw new RegistryManagerException(e);
+        throw new ServiceRegistryException(e);
       }
     }
   }
-
-  public void unregisterService(final String serviceContractPath) throws Exception {
-    List<String> children = client.getChildren().forPath(serviceContractPath);
-    children.stream().forEach(child -> {
-      try {
-        client.delete().forPath(serviceContractPath + Constants.ZK_DELIMETER + children);
-      } catch (Exception e) {
-        throw Throwables.propagate(e);
-      }
-    });
-  }
   
-  public boolean removeServiceRegistry(String serviceContractPath) throws Exception {
-    String znode = ensureNodeExists(serviceContractPath);
+  private boolean removeServiceRegistry(String serviceName) throws Exception {
+    String znode = ensureNodeForServiceExists(serviceName);
     try {
       client.delete().guaranteed().deletingChildrenIfNeeded().forPath(znode);
       return true;
@@ -194,48 +158,28 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
    */
   @Override
   public void destroy() throws IOException {
+    boolean acquiredLock = false;
     try {
       if (lock != null && lock.acquire(LOCK_TIME, TimeUnit.SECONDS)) {
-        close();
+        acquiredLock = true;
+        CloseableUtils.closeQuietly(serviceDiscovery);
         serializer = null;
         serviceDiscovery = null;
       }
-      client = null;
     } catch (Exception e) {
       log.error("Destroy service registry error happened !", e);
-      throw new RegistryManagerException(e);
+      throw new ServiceRegistryException(e);
     } finally {
       try {
-        lock.release();
+        if (acquiredLock) {
+          lock.release();
+        }
+        //must release lock first and then close CuratorFramework
+        CloseableUtils.closeQuietly(client);
+        client = null;
       } catch (Exception e) {
         log.error("Lock release error happened!", e);
-        throw new RegistryManagerException(e);
-      }
-    }
-  }
-
-  /**
-   * All the nodes and their datum will be deleted once the connection is broken(by call
-   * {@code close()} or session timeout) between the zookeeper's client and server.
-   * 
-   * @throws IOException if I/O exception happen
-   * 
-   */
-  public void close() throws IOException {
-    try {
-      if (lock != null && lock.acquire(LOCK_TIME, TimeUnit.SECONDS)) {
-        CloseableUtils.closeQuietly(serviceDiscovery);
-      }
-      CloseableUtils.closeQuietly(client);
-    } catch (Exception e) {
-      log.error("Close service registry error happened !", e);
-      throw new RegistryManagerException(e);
-    } finally {
-      try {
-        lock.release();
-      } catch (Exception e) {
-        log.error("Lock release error happened!", e);
-        throw new RegistryManagerException(e);
+        throw new ServiceRegistryException(e);
       }
     }
   }
@@ -245,13 +189,6 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
    *
    */
   public class ZkConnectionStateListener implements ConnectionStateListener {
-    private String zkRegPathPrefix;
-    private String regContent;
-
-    public ZkConnectionStateListener(String zkRegPathPrefix, String regContent) {
-      this.zkRegPathPrefix = zkRegPathPrefix;
-      this.regContent = regContent;
-    }
 
     @Override
     public void stateChanged(CuratorFramework curatorFramework, ConnectionState connectionState) {
@@ -262,9 +199,8 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
         while (true) {
           try {
             if (curatorFramework.getZookeeperClient().blockUntilConnectedOrTimedOut()) {
-              curatorFramework.create().creatingParentsIfNeeded()
-                  .withMode(CreateMode.PERSISTENT)
-                  .forPath(zkRegPathPrefix, regContent.getBytes("UTF-8"));
+              //force to create a root path if the node is not exist.
+              ensureNodeExists(buildBasePath());
               break;
             }
           } catch (InterruptedException e) {
@@ -276,5 +212,29 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
         }
       }
     }
+  }
+  
+  private String ensureNodeForServiceExists(String serviceName) throws Exception {
+    String znode = ZKPaths.makePath(buildBasePath(), serviceName);
+    return ensureNodeExists(znode);
+  }
+
+  private String ensureNodeExists(String znode) throws Exception {
+    if (client.checkExists().creatingParentContainersIfNeeded().forPath(znode) == null) {
+      try {
+        client.create().creatingParentsIfNeeded().forPath(znode);
+        //ZK制约:临时节点下不能创建子节点
+        //client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(znode);
+      } catch (KeeperException.NodeExistsException e) {
+        // Another Thread/Service/Machine has just created this node for us.
+      }
+    }
+    return znode;
+  }
+
+  private String buildServicePath(RegisterEntry instance) {
+
+    return buildBasePath() + Constants.ZK_DELIMETER + instance.getServiceContract()
+            + Constants.ZK_DELIMETER + instance.getHostMetadata().generateKey();
   }
 }

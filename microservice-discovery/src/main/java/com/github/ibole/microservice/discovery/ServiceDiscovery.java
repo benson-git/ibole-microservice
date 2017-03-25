@@ -15,15 +15,13 @@ public interface ServiceDiscovery<T> extends Closeable {
 
   void start();
 
-  List<T> listAll(String serviceContract);
-
-  T getInstance(String serviceContract);
+  List<T> getInstanceList(String serviceContract);
 
   T getInstanceById(String serviceContract, String id);
 
   void destroy() throws IOException;
 
-  void addListener(ServiceRegistryChangeListener listener);
+  void watchForCacheUpdates(final String serviceName, ServiceStateListener listener);
 
   boolean watchForUpdates(String serviceName, ServiceStateListener listener);
 

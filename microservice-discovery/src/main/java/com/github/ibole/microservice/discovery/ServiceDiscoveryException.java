@@ -10,14 +10,14 @@ package com.github.ibole.microservice.discovery;
  *********************************************************************************************/
 
 
-public class DiscoveryManagerException extends RuntimeException {
+public class ServiceDiscoveryException extends RuntimeException {
 
   /**
    * 
    */
   private static final long serialVersionUID = 7876885183854612257L;
 
-  public DiscoveryManagerException(Throwable cause) {
+  public ServiceDiscoveryException(Throwable cause) {
     super(cause);
   }
 }
