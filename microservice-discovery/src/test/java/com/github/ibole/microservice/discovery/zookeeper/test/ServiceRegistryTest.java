@@ -83,7 +83,7 @@ public class ServiceRegistryTest extends AbstractZkServerStarter {
     client.start();
 
     entry = new RegisterEntry();
-    HostMetadata metadata = new HostMetadata("rd", 4442, zone, true);
+    HostMetadata metadata = new HostMetadata("localhost", 4442, zone, true);
     entry.setServiceName(ServerIdentifier.BASE_KEY_PREFIX);
     entry.setServiceContract(targetService.getAuthority());
     entry.setDescription(targetService.getAuthority());

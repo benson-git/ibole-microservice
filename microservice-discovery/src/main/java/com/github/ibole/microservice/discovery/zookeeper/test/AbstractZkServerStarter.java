@@ -48,7 +48,7 @@ public abstract class AbstractZkServerStarter {
   protected static void initialize() {
       
       Properties startupProperties = new Properties();
-      startupProperties.put("dataDir", System.getProperty("java.io.tmpdir"));
+      startupProperties.put("dataDir", System.getProperty("java.io.tmpdir")+'/'+System.nanoTime());
       startupProperties.put("clientPort", PORT);
 
       

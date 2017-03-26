@@ -25,8 +25,8 @@ public class IntegrationTest {
 		
 		Properties startupProperties = new Properties();
 		
-	    startupProperties.put("dataDir", System.getProperty("java.io.tmpdir"));
-	    startupProperties.put("clientPort", "2181");
+	    startupProperties.put("dataDir", System.getProperty("java.io.tmpdir")+'/'+System.nanoTime());
+	    startupProperties.put("clientPort", "12181");
 
 		
 		QuorumPeerConfig quorumConfiguration = new QuorumPeerConfig();
