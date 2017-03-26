@@ -49,6 +49,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /*********************************************************************************************.
  * 
@@ -110,41 +113,53 @@ public class ZkNameResolverTest extends AbstractZkServerStarter {
 
   @Test
   public void testNameResolver() throws Exception {
-     
+    
     NameResolver zkNameResolver =
         ZkNameResolverProvider.newBuilder().setPreferredZone(zone).setUsedTls(true)
             .setZookeeperAddress(identifier).build().newNameResolver(targetService, Attributes.EMPTY);
     
-    zkNameResolver.start(new Listener(){
+    final CountDownLatch updateLatch = new CountDownLatch(2);
+    
+    try {
 
-      @Override
-      public void onError(Status arg0) {
-        
-      }
+      zkNameResolver.start(new Listener() {
+        @Override
+        public void onError(Status arg0) {
+          updateLatch.countDown();
+        }
 
-      @Override
-      public void onUpdate(List<ResolvedServerInfoGroup> resolvedServers, Attributes attrs) {
-        
-        ResolvedServerInfoGroup serverGroup = resolvedServers.get(0);
-        ResolvedServerInfo serverInfo = serverGroup.getResolvedServerInfoList().get(0);
-        org.junit.Assert.assertTrue(serverInfo.getAddress().toString().contains("127.0.0.1"));
-      }
+        @Override
+        public void onUpdate(List<ResolvedServerInfoGroup> resolvedServers, Attributes attrs) {
+
+          if (resolvedServers.size() > 0) {
+            ResolvedServerInfoGroup serverGroup = resolvedServers.get(0);
+            ResolvedServerInfo serverInfo = serverGroup.getResolvedServerInfoList().get(0);
+            org.junit.Assert.assertTrue(serverInfo.getAddress().toString().contains("127.0.0.1"));
+          }
+          updateLatch.countDown();
+        }
+      });
       
-    });
-    
+      updateLatch.await();
+      Thread.currentThread().sleep(2000);
 
+    } catch (Exception e) {
+      updateLatch.countDown();
+      throw new RuntimeException(e);
+    }
         
   }
-  
+
   @After
-  public void deleteService() throws Exception{
-    client.delete().deletingChildrenIfNeeded().forPath(rootZnode+"/"+targetService.getAuthority());
-  }
-  
-  
-  @AfterClass
-  public static void destroy(){
+  public void deleteService() throws Exception {
+    // MoreExecutors.
     
+    client.delete().deletingChildrenIfNeeded()
+        .forPath(rootZnode + "/" + targetService.getAuthority());
+  }
+    
+  @AfterClass
+  public static void destroy() throws Exception{
     AbstractDiscoveryFactory.destroyAll();
   }
   

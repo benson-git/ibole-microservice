@@ -58,6 +58,9 @@ com.google.common.base.Throwables.getStackTraceAsString
 https://github.com/grpc/grpc-java/blob/master/documentation/server-reflection-tutorial.md
 
 --------
+https://github.com/grpc/proposal/blob/master/A6-client-retries.md
+
+--------
 微服务的故障可能是瞬时故障：如慢的网络连接、超时，资源过度使用而暂时不可用；也可能是不容易预见的突发事件的情况下需要更长时间来纠正的故障。
 分布式服务的容错是一个不得不考虑的问题，通常的做法有两种：
 + 重试机制：对于预期的短暂故障问题，通过重试模式是可以解决的。

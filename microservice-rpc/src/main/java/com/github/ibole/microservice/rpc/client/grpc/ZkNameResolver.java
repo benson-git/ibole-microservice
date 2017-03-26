@@ -109,9 +109,12 @@ public class ZkNameResolver extends NameResolver {
         updatedServers = filterResolvedServers(hostMetadateList, predicateWithTls);
       }
       listener.onUpdate(updatedServers, params);
-      if (LOGGER.isDebugEnabled()) {
-           LOGGER.info("Watch updates '{}' for service '{}' and finish launching the update listener.",
-               updatedServers.toString(), serviceName);
+      
+      if(updatedServers.isEmpty()){
+        LOGGER.warn("Watch updates - no servers are found for service '{}'.", serviceName);
+        
+      } else if (LOGGER.isDebugEnabled()) {
+           LOGGER.info("Watch updates '{}' for service '{}'.", updatedServers.toString(), serviceName);
       }
     });
 

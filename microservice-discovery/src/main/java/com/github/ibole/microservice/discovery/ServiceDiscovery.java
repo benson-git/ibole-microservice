@@ -21,7 +21,7 @@ public interface ServiceDiscovery<T> extends Closeable {
 
   void destroy() throws IOException;
 
-  void watchForCacheUpdates(final String serviceName, ServiceStateListener listener);
+  void watchForCacheUpdates(String serviceName, ServiceStateListener listener);
 
   boolean watchForUpdates(String serviceName, ServiceStateListener listener);
 

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractServiceDiscovery implements ServiceDiscovery<HostMetadata> {
 
-  protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+  protected final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
   private ServerIdentifier identifier;
 

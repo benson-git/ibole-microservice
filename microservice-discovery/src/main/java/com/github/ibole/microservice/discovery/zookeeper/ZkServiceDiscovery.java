@@ -7,23 +7,20 @@ import com.github.ibole.microservice.discovery.ServiceDiscoveryException;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.framework.recipes.cache.PathChildrenCache;
-import org.apache.curator.framework.recipes.cache.PathChildrenCache.StartMode;
-import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
-import org.apache.curator.framework.recipes.cache.PathChildrenCacheListener;
+import org.apache.curator.framework.recipes.cache.ChildData;
+import org.apache.curator.framework.recipes.cache.TreeCache;
+import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
+import org.apache.curator.framework.recipes.cache.TreeCacheListener;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.utils.CloseableUtils;
 import org.apache.curator.utils.ZKPaths;
-import org.apache.curator.x.discovery.ServiceProvider;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -38,10 +35,8 @@ import java.util.stream.Collectors;
 public class ZkServiceDiscovery extends AbstractServiceDiscovery {
 
   private CuratorFramework client = null;
-  private Map<String, ServiceProvider<HostMetadata>> providers = Maps.newHashMap();
-  private List<Closeable> closeableList = Lists.newArrayList();
   private JsonInstanceSerializer<HostMetadata> serializer;
-  private PathChildrenCache cache = null;
+  private TreeCache cache = null;
 
   protected ZkServiceDiscovery(ServerIdentifier identifier) {
     super(identifier);
@@ -56,7 +51,7 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
           new ExponentialBackoffRetry(1000, 3));
       client.start();
       client.getZookeeperClient().blockUntilConnectedOrTimedOut();
-
+      cache = TreeCache.newBuilder(client, buildBasePath()).build();
       serializer = new JsonInstanceSerializer<HostMetadata>(HostMetadata.class);
 
     } catch (Exception e) {
@@ -115,50 +110,51 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
   }
 
   /**
-   * Path Cache：监视一个路径下1）孩子结点的创建、2）删除，3）以及结点数据的更新. 
-   * 产生的事件会传递给注册的PathChildrenCacheListener
-   * 能监听所有的子节点且是无限监听的模式 但是指定目录下节点的子节点不再监听 
-   * @param serviceName the servie name
+   * 监控指定节点和节点下的所有的节点的变化-无限监听.
+   * <pre>Cache synchronization:
+   * http://stackoverflow.com/questions/39557653/zookeeper-curator-cache-how-to-wait-for-synchronization
+   * <pre>The problem of treecache-eventual-consistency:
+   * http://stackoverflow.com/questions/41922928/curator-treecache-eventual-consistency
+   * @param serviceName the service name to retrieve the cache
    * @param listener the service state listener
    */
   @Override
-  public void watchForCacheUpdates(final String serviceName, ServiceStateListener listener) {
-    cache = new PathChildrenCache(client, ZKPaths.makePath(buildBasePath(), serviceName), true);
-    cache.getListenable().addListener(new PathChildrenCacheListener() {
+  public void watchForCacheUpdates(String serviceName, ServiceStateListener listener) {
+    cache.getListenable().addListener(new TreeCacheListener() {
       @Override
-      public void childEvent(CuratorFramework client, PathChildrenCacheEvent event)
+      public void childEvent(CuratorFramework client, TreeCacheEvent event)
           throws Exception {
-        switch (event.getType()) {
-          case CHILD_ADDED:
-            //update the all children
-            listener.update(getServiceInstancesForNode(ZKPaths.makePath(buildBasePath(), serviceName)));
-            if (logger.isInfoEnabled()) {
-              logger.info("Service is added at path '{}'", event.getData().getPath());
-            }
-            break;
-          case CHILD_REMOVED:
-            listener.update(getServiceInstancesForNode(ZKPaths.makePath(buildBasePath(), serviceName)));
-            if (logger.isInfoEnabled()) {
-              logger.info("Service is removed at path '{}'", event.getData().getPath());
-            }
-            break;
-          case CHILD_UPDATED:
-            listener.update(getServiceInstancesForNode(ZKPaths.makePath(buildBasePath(), serviceName)));
-            if (logger.isInfoEnabled()) {
-              logger.info("Service is updated at path '{}'", event.getData().getPath());
-            }
-          default:
-            break;
+        if (event.getData() != null) {
+          switch (event.getType()) {
+            case NODE_ADDED:
+              // update the all children
+              listener.update(getServiceInstancesFromCache(serviceName));
+              if (logger.isInfoEnabled()) {
+                logger.info("Service is added at path '{}'", event.getData().getPath());
+              }
+              break;
+            case NODE_REMOVED:
+              listener.update(getServiceInstancesFromCache(serviceName));
+              if (logger.isInfoEnabled()) {
+                logger.info("Service is removed at path '{}'", event.getData().getPath());
+              }
+              break;
+            case NODE_UPDATED:
+              listener.update(getServiceInstancesFromCache(serviceName));
+              if (logger.isInfoEnabled()) {
+                logger.info("Service is updated at path '{}'", event.getData().getPath());
+              }
+            default:
+              break;
+          }
         }
       }
 
     });
-
     try {
-      cache.start(StartMode.POST_INITIALIZED_EVENT);
+      cache.start();
     } catch (Exception e) {
-      logger.error("Watch for cache updates error happened with path '{}'!",
-          ZKPaths.makePath(buildBasePath(), serviceName), e);
+      logger.error("Watch start error happened for path '{}'!", buildBasePath(), e);
       throw new ServiceDiscoveryException(e);
     }
   } 
@@ -172,10 +168,8 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
   public void destroy() throws IOException {
     close();
     serializer = null;
+    cache = null;
     client = null;
-    closeableList.clear();
-    providers.clear();
-    cache.clear();
   }
 
   /**
@@ -184,9 +178,6 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
    * 
    */
   public void close() throws IOException {
-    for (Closeable closeable : closeableList) {
-      CloseableUtils.closeQuietly(closeable);
-    }
     CloseableUtils.closeQuietly(cache);
     CloseableUtils.closeQuietly(client);
 
@@ -213,12 +204,37 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
     return children.stream().map(child -> {
       try {
         return client.getData().forPath(ZKPaths.makePath(znode, child));
+      } catch (KeeperException.NoNodeException ignore) {
+        if (logger.isDebugEnabled()){
+           logger.debug("No data found for path '{}'!", znode);
+        }
+        return null;
       } catch (Exception e) {
         throw Throwables.propagate(e);
       }
-    }).map(data -> {
+    }).filter( data -> data != null && data.length != 0).map(data -> {
       try {
         return serializer.deserialize(data).getPayload();
+      } catch (Exception e) {
+        throw Throwables.propagate(e);
+      }
+    }).collect(Collectors.toList());
+  }
+  
+  private List<HostMetadata> getServiceInstancesFromCache(String serviceName) {
+    Map<String, ChildData> children = cache.getCurrentChildren(ZKPaths.makePath(buildBasePath(), serviceName));
+    if(children == null){
+      return Lists.newArrayList();
+    }
+    return children.entrySet().stream().map(entry -> {
+      try {
+        return entry.getValue();
+      } catch (Exception e) {
+        throw Throwables.propagate(e);
+      }
+    }).filter( data -> data != null).map(data -> {
+      try {
+        return serializer.deserialize(data.getData()).getPayload();
       } catch (Exception e) {
         throw Throwables.propagate(e);
       }
