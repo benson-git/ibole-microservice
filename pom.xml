@@ -49,7 +49,8 @@
 		<module>microservice-config</module>
 		<module>microservice-test</module>
         <module>microservice-all</module>
-  </modules>
+        <module>microservice-metrics</module>
+	</modules>
 	<profiles>
 		<profile>
 			<id>oss</id>
@@ -101,6 +102,8 @@
 		<springframework_version>4.2.6.RELEASE</springframework_version>
 		<zookeeper_version>3.4.9</zookeeper_version>
 		<curator_version>2.12.0</curator_version>
+		<dropwizard_metrics_version>3.2.2</dropwizard_metrics_version>
+		<caffeine_version>2.4.0</caffeine_version>
 		<junit_version>4.11</junit_version>
 		<mockito_all_version>1.10.19</mockito_all_version>	
 		<servlet-api_version>2.5</servlet-api_version>
@@ -337,6 +340,18 @@
 				<artifactId>log4j</artifactId>
 				<version>${log4j_version}</version>
 			</dependency>
+			<!-- Metrics lib -->
+			<dependency>
+				<groupId>io.dropwizard.metrics</groupId>
+				<artifactId>metrics-core</artifactId>
+				<version>${dropwizard_metrics_version}</version>
+			</dependency>
+			<!-- LRU Cache lib -->
+			<dependency>
+			    <groupId>com.github.ben-manes.caffeine</groupId>
+			    <artifactId>caffeine</artifactId>
+			    <version>${caffeine_version}</version>
+			</dependency>			
 			<!-- A high-performance JDBC connection pool. http://brettwooldridge.github.io/HikariCP/ -->
 			<dependency>
 			    <groupId>com.zaxxer</groupId>

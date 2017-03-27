@@ -45,11 +45,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.ibole</groupId>
-			<artifactId>microservice-remoting</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.ibole</groupId>
 			<artifactId>microservice-discovery</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
