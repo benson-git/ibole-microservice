@@ -4,7 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.github.ibole.microservice.rpc.client.exception.RpcClientException;
-import com.github.ibole.microservice.rpc.client.grpc.HeaderGrpcClientInterceptor;
+import com.github.ibole.microservice.rpc.client.grpc.HeaderClientInterceptor;
 
 import io.grpc.Channel;
 import io.grpc.ManagedChannel;
@@ -31,7 +31,7 @@ public class GrpcTestClient  {
   public void initialize(int port) {
 
     channel = ManagedChannelBuilder.forAddress("localhost", port).usePlaintext(true)
-        .intercept(new HeaderGrpcClientInterceptor()).build();
+        .intercept(new HeaderClientInterceptor()).build();
   }
 
   /**

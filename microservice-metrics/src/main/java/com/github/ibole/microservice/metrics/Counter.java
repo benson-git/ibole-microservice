@@ -19,6 +19,7 @@ package com.github.ibole.microservice.metrics;
  * An incrementing counter metric.
  */
 public interface Counter {
+  
   void inc();
 
   void dec();

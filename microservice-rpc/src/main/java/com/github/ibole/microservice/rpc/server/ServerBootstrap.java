@@ -85,7 +85,7 @@ public class ServerBootstrap {
     //Create rpc server
     RpcServer rpcServer = RpcServerProvider.provider().createServer();
     rpcServer.configure(port, useTls);
-    Runtime.getRuntime().addShutdownHook(new Thread("SHUTDOWN-RPC-Server") {
+    Runtime.getRuntime().addShutdownHook(new Thread("SHUTDOWN-RPC-SERVER") {
       @Override
       public void run() {
         try {

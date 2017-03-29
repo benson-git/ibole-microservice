@@ -28,10 +28,10 @@ import com.github.ibole.microservice.rpc.core.RpcContext;
  * @author bwang (chikaiwang@hotmail.com)
  *
  */
-public class HeaderGrpcClientInterceptor extends AbstractGrpcClientInterceptor {
+public class HeaderClientInterceptor extends AbstractGrpcClientInterceptor {
 
-  private static final Logger logger =
-      LoggerFactory.getLogger(HeaderGrpcClientInterceptor.class.getName());
+  private static final Logger LOG =
+      LoggerFactory.getLogger(HeaderClientInterceptor.class.getName());
 
   private static Metadata.Key<UserPrincipal> userPrincipalKey =
       ProtoUtils.keyForProto(UserPrincipal.getDefaultInstance());
@@ -91,7 +91,7 @@ public class HeaderGrpcClientInterceptor extends AbstractGrpcClientInterceptor {
              */
             UserPrincipal userPrincipal = headers.get(userPrincipalKey);
             if (userPrincipal != null) {
-              logger.info("Token renew?: " + userPrincipal.getAuthToken().getRenewAccessToken());
+              LOG.info("Token renew?: " + userPrincipal.getAuthToken().getRenewAccessToken());
             }
             super.onHeaders(headers);
           }
@@ -103,7 +103,7 @@ public class HeaderGrpcClientInterceptor extends AbstractGrpcClientInterceptor {
               if (errorDetails != null) {
                 String errors = errorDetails.getSpecificMessage();
                 if (errorDetails.getDetailedMessageList().size() > 0) {
-                  logger.error("Error happened from service server: " + errors + "; Root cause: "
+                  LOG.error("Error happened from service server: " + errors + "; Root cause: "
                       + errorDetails.getDetailedMessage(0));
                 }
               }

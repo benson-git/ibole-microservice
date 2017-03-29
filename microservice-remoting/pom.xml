@@ -25,10 +25,6 @@
             <artifactId>microservice-rpc</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-        </dependency>
 		<dependency>
 			 <groupId>com.zaxxer</groupId>
 			 <artifactId>HikariCP</artifactId>

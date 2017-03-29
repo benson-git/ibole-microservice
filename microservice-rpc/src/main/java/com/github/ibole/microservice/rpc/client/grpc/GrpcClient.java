@@ -169,7 +169,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
       service = (AbstractStub<?>) stubInitializationMethod.invoke(null, channel);
       //Customizes the CallOptions passed the deadline to interceptor
       if (timeout > 0) {
-         service.withOption(CallerDeadlineGrpcClientInterceptor.DEADLINE_KEY, Integer.valueOf(timeout));
+         service.withOption(StubDeadlineClientInterceptor.DEADLINE_KEY, Integer.valueOf(timeout));
       }
 
     } catch (Exception ex) {
@@ -200,8 +200,8 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
           .negotiationType(NegotiationType.TLS);
     }
     // builder.nameResolverFactory(ZkNameResolverFactory.getInstance());
-    return builder.intercept(new HeaderGrpcClientInterceptor(),
-        new CallerDeadlineGrpcClientInterceptor()).build();
+    return builder.intercept(new HeaderClientInterceptor(),
+        new StubDeadlineClientInterceptor()).build();
   }
 
   private boolean isUsedTls(List<HostMetadata> instances) {

@@ -3,10 +3,9 @@ package com.github.ibole.microservice.rpc.client.grpc;
 
 
 import io.grpc.CallOptions;
+import io.grpc.CallOptions.Key;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
-import io.grpc.CallOptions.Key;
-import io.grpc.ForwardingClientCall.SimpleForwardingClientCall;
 import io.grpc.MethodDescriptor;
 
 import java.util.concurrent.TimeUnit;
@@ -28,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @author bwang
  *
  */
-public class CallerDeadlineGrpcClientInterceptor extends AbstractGrpcClientInterceptor {
+public class StubDeadlineClientInterceptor extends AbstractGrpcClientInterceptor {
 
   /**
    * Key for deadline duration, unit： MILLISECONDS

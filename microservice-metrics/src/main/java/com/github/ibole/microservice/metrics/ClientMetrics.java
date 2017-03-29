@@ -24,22 +24,22 @@ import org.slf4j.LoggerFactory;
  * Singleton Container for a {@link MetricRegistry}. The default behavior is to return
  * implementations that do nothing. Exporting of metrics can be turned on by either adding TRACE
  * level logging for this class, which will write out all metrics to a log file. Alternatively, call
- * {@link BigtableClientMetrics#setMetricRegistry(MetricRegistry)}.
+ * {@link ClientMetrics#setMetricRegistry(MetricRegistry)}.
  *
  * <p>We provide a {@link DropwizardMetricRegistry} which can be configured with a variety of {@link
  * Reporter}s as per the instructions on <a
  * href="http://metrics.dropwizard.io/3.1.0/getting-started/">the Dropwizards Metrics Getting
  * Started docs</a>.
  *
- * <p>{@link BigtableClientMetrics#setMetricRegistry(MetricRegistry)} must be called before any
- * Cloud Bigtable connections are created.
+ * <p>{@link ClientMetrics#setMetricRegistry(MetricRegistry)} must be called before any
+ * microservice rpc connections are created.
  *
  * @author sduskis
  * @version $Id: $Id
  */
-public final class BigtableClientMetrics {
+public final class ClientMetrics {
 
-  private static final String METRIC_PREFIX = "google-cloud-bigtable.";
+  private static final String METRIC_PREFIX = "ibole-microservices-client.";
   private static MetricRegistry registry = MetricRegistry.NULL_METRICS_REGISTRY;
   private static MetricLevel levelToLog = MetricLevel.Info;
 
@@ -59,7 +59,7 @@ public final class BigtableClientMetrics {
 
   // Simplistic initialization via slf4j
   static {
-    Logger logger = LoggerFactory.getLogger(BigtableClientMetrics.class);
+    Logger logger = LoggerFactory.getLogger(ClientMetrics.class);
     if (logger.isDebugEnabled()) {
       if (registry == MetricRegistry.NULL_METRICS_REGISTRY) {
         DropwizardMetricRegistry dropwizardRegistry = new DropwizardMetricRegistry();
@@ -82,7 +82,7 @@ public final class BigtableClientMetrics {
    * @param registry
    */
   public static void setMetricRegistry(MetricRegistry registry) {
-    BigtableClientMetrics.registry = registry;
+    ClientMetrics.registry = registry;
   }
 
   public static MetricRegistry getMetricRegistry(MetricLevel level) {
@@ -91,7 +91,7 @@ public final class BigtableClientMetrics {
 
   /**
    * Creates a named {@link Counter}. This is a shortcut for
-   * {@link BigtableClientMetrics#getMetricRegistry(MetricLevel)}.
+   * {@link ClientMetrics#getMetricRegistry(MetricLevel)}.
    * {@link MetricRegistry#counter(String)}.
    *
    * @return a {@link Counter}
@@ -101,7 +101,7 @@ public final class BigtableClientMetrics {
   }
 
   /** Creates a named {@link Timer}. This is a shortcut for
-   * {@link BigtableClientMetrics#getMetricRegistry(MetricLevel)}.
+   * {@link ClientMetrics#getMetricRegistry(MetricLevel)}.
    * {@link MetricRegistry#timer(String)}.
    *
    * @return a {@link Timer}
@@ -111,7 +111,7 @@ public final class BigtableClientMetrics {
   }
 
   /** Creates a named {@link Meter}.  This is a shortcut for
-   * {@link BigtableClientMetrics#getMetricRegistry(MetricLevel)}.
+   * {@link ClientMetrics#getMetricRegistry(MetricLevel)}.
    * {@link MetricRegistry#meter(String)}.
    *
    * @return a {@link Meter}
@@ -126,7 +126,7 @@ public final class BigtableClientMetrics {
    * @param levelToLog
    */
   public static void setLevelToLog(MetricLevel levelToLog) {
-    BigtableClientMetrics.levelToLog = levelToLog;
+    ClientMetrics.levelToLog = levelToLog;
   }
 
   /** @return the levelToLog */
@@ -144,6 +144,6 @@ public final class BigtableClientMetrics {
     return levelToLog.getLevel() >= level.getLevel();
   }
 
-  private BigtableClientMetrics(){
+  private ClientMetrics(){
   }
 }
