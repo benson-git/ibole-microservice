@@ -75,6 +75,8 @@ public class GrpcClientInitializer implements Closeable {
   private static SslContextBuilder sslBuilder;
   
   private static ChannelPool channelPool;
+  //Corresponding to the setting of registry center server
+  private static ClientOptions globalClientOptions;
   
   private static int getDefaultChannelCount() {
     // 10 Channels seemed to work well on a 4 CPU machine, and this seems to scale well for higher
@@ -88,11 +90,11 @@ public class GrpcClientInitializer implements Closeable {
     performWarmup();
   }
 
-  public GrpcClientInitializer(ClientOptions clientOptions,
+  public GrpcClientInitializer(ClientOptions pClientOptions,
       List<ClientInterceptor> clientInterceptosr, int pInitialCapacity, int pMaximumSize) {
     LOG.info("Rpc client initializer with initial capacity {} and maximum size {} for channel pool.",
         pInitialCapacity, pInitialCapacity);
-    LOG.info("Client options: \n'{}'.", clientOptions);
+    LOG.info("Global client options: \n'{}'.", pClientOptions);
     
     if (!isAlpnProviderEnabled()) {
       LOG.error(
@@ -109,7 +111,9 @@ public class GrpcClientInitializer implements Closeable {
         "No NameResolverProviders found via ServiceLoader, including for DNS. "
             + "This is probably due to a broken build. If using ProGuard, check your configuration");
     
-    channelPool = createChannelPool(clientOptions, clientInterceptosr, pInitialCapacity, pMaximumSize);
+    globalClientOptions = pClientOptions;
+    
+    channelPool = createChannelPool(globalClientOptions, clientInterceptosr, pInitialCapacity, pMaximumSize);
     
     ClientMetrics.counter(MetricLevel.Info, "Initializer.active").inc();
   }
@@ -122,10 +126,13 @@ public class GrpcClientInitializer implements Closeable {
     this(clientOptions, null, CHANNEL_COUNT_DEFAULT, CHANNEL_COUNT_DEFAULT);
   }
   
+  public ClientOptions getGlobalClientOptions() {
+    return globalClientOptions;
+  }
+
   public ChannelPool getChannelPool() {
     return channelPool;
   }
-
   /**
    * The netty {@link Recycler} has caused some problems for long running operations in some
    * versions of netty. As of this comment (10/21/2016), we are using netty 4.1.3.Final. The
@@ -253,17 +260,17 @@ public class GrpcClientInitializer implements Closeable {
    *
    * @param pInitialCapacity
    * @param pMaximumSize
-   * @param clientOptions a {@link ClientOptions} object with registry center server address and other connection options.
+   * @param globalClientOptions a {@link ClientOptions} object with registry center server address and other connection options.
    * @param interceptors a list of interceptor
    * @return a {@link ChannelPool} object.
    */
-  private ChannelPool createChannelPool(ClientOptions clientOptions, List<ClientInterceptor> interceptors, int pInitialCapacity, int pMaximumSize) {
+  private ChannelPool createChannelPool(ClientOptions globalClientOptions, List<ClientInterceptor> interceptors, int pInitialCapacity, int pMaximumSize) {
     return ChannelPool.newBuilder().withChannelFactory(new ChannelPool.ChannelFactory() {
       @Override
-      public ManagedChannel create(String serviceName) throws IOException {
+      public ManagedChannel create(String serviceName, String preferredZone, boolean usedTls) throws IOException {
         //build service endpoint with the default scheme and the service name provided
         String serviceEndpoint = AbstractNameResolverProvider.provider().getDefaultScheme() + "://" + serviceName;
-        return createNettyChannel(clientOptions.withServiceEndpoint(serviceEndpoint), interceptors);
+        return createNettyChannel(globalClientOptions.withServiceEndpoint(serviceEndpoint).withZoneToPrefer(preferredZone).withUsedTls(usedTls), interceptors);
       }
     }).withInitialCapacity(pInitialCapacity).withMaximumSize(pMaximumSize).build();
   }
@@ -274,7 +281,7 @@ public class GrpcClientInitializer implements Closeable {
    * </p>
    *
    * @param interceptors a {@link List} object.
-   * @param clientOptions a {@link ClientOptions} object.
+   * @param globalClientOptions a {@link ClientOptions} object.
    * @return a {@link ManagedChannel} object.
    * @throws SSLException if any.
    * @throws IOException if any.

@@ -33,8 +33,12 @@ public class MockRpcClient implements RpcClient<DemoService> {
     
   }
 
+  /* (non-Javadoc)
+   * @see com.github.ibole.microservice.config.rpc.client.RpcClient#getRemotingService(java.lang.Class, java.lang.String, boolean, int)
+   */
   @Override
-  public DemoService getRemotingService(Class<? extends DemoService> type, int timeout) {
+  public DemoService getRemotingService(Class<? extends DemoService> type, String preferredZone,
+      boolean usedTls, int timeout) {
     
     return new DemoServiceImpl();
   }

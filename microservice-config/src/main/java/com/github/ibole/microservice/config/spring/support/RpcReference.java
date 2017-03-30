@@ -53,7 +53,7 @@ public class RpcReference<T> implements FactoryBean<T>, InitializingBean, Dispos
   @SuppressWarnings({"unchecked", "rawtypes"})
   @Override
   public T getObject() throws Exception {
-    return (T) RpcClientProvider.provider().getRpcClient().getRemotingService((Class)getObjectType(), timeout);
+    return (T) RpcClientProvider.provider().getRpcClient().getRemotingService((Class)getObjectType(), preferredZone, usedTls, timeout);
   }
 
   

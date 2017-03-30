@@ -135,16 +135,18 @@ public class ChannelPool {
    * new channel with the specified service name and return it to caller.
    * 
    * @param serviceName the service name
+   * @param preferredZone the preferred zone, if provided, it will override the one in global client options
+   * @param usedTls if need to use TLS, if provided, it will override the one in global client options
    * @return the instance of ManagedChannel mapping with the service name, or create a new channel
    *         with the specified service name if no mapping for the key
    * @throws IOException if I/O exception happen
    */
-  public ManagedChannel getChannel(String serviceName) throws IOException {
+  public ManagedChannel getChannel(String serviceName, String preferredZone, boolean usedTls) throws IOException {
     InstrumentedChannel channel = channelPool.getIfPresent(serviceName);
     if(channel != null){
       return channel;
     } else {
-      channel = new InstrumentedChannel(factory.create(serviceName));
+      channel = new InstrumentedChannel(factory.create(serviceName, preferredZone, usedTls));
       channelPool.put(serviceName, channel);
       return channel;
     }
@@ -343,6 +345,7 @@ public class ChannelPool {
    *
    */
   public interface ChannelFactory {
-    ManagedChannel create(String serviceName) throws IOException;
+    
+    ManagedChannel create(String serviceName, String preferredZone, boolean usedTls) throws IOException;
   }
 }

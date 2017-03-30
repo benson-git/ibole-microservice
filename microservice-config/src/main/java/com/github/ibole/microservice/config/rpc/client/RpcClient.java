@@ -15,6 +15,6 @@ public interface RpcClient<T> {
 
   void stop();
 
-  public T getRemotingService(Class<? extends T> type, int timeout);
+  public T getRemotingService(Class<? extends T> type, String preferredZone, boolean usedTls, int timeout);
 
 }

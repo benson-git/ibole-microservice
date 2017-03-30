@@ -14,8 +14,6 @@
 
 package com.github.ibole.microservice.rpc.client.grpc;
 
-import static org.mockito.Mockito.when;
-
 import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 import com.github.ibole.microservice.rpc.client.grpc.ChannelPool.InstrumentedChannel;
 
@@ -63,22 +61,23 @@ public class ChannelPoolTest {
     //when(channel.shutdownNow()).thenReturn(null);
 
      ClientOptions clientOptions = ClientOptions.DEFAULT;
+     // build service endpoint with the default scheme and the service name provided
+     String serviceEndpoint =
+         AbstractNameResolverProvider.provider().getDefaultScheme() + "://mytesst1";
+     clientOptions = clientOptions.withServiceEndpoint(serviceEndpoint);
     // when(channel.)
 
-    ChannelPool pool =
+    ChannelPool pool = 
         ChannelPool.newBuilder().withInitialCapacity(1).withMaximumSize(2)
             .withChannelFactory(new ChannelPool.ChannelFactory() {
               @Override
-              public ManagedChannel create(String serviceName) throws IOException {
-                // build service endpoint with the default scheme and the service name provided
-                String serviceEndpoint =
-                    AbstractNameResolverProvider.provider().getDefaultScheme() + "//" + serviceName;
+              public ManagedChannel create(String serviceName, String preferredZone, boolean usedTls) throws IOException {
                 return channel;
             }}).build();
 
-    ManagedChannel mychannel1 = pool.getChannel("mytesst1");
-    ManagedChannel mychannel2 = pool.getChannel("mytesst2");
-    ManagedChannel mychannel3 = pool.getChannel("mytesst3");
+    ManagedChannel mychannel1 = pool.getChannel("mytesst1", "myzone", true);
+    ManagedChannel mychannel2 = pool.getChannel("mytesst2", "myzone", true);
+    ManagedChannel mychannel3 = pool.getChannel("mytesst3", "myzone", true);
     Thread.currentThread().sleep(1000);
     //System.out.println(pool.size());
     org.junit.Assert.assertTrue(pool.size() == 2);

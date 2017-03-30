@@ -103,7 +103,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
    * @return T the instance of T.
    */
   @Override
-  public AbstractStub<?> getRemotingService(Class<? extends AbstractStub<?>> type, int timeout) {
+  public AbstractStub<?> getRemotingService(Class<? extends AbstractStub<?>> type, String preferredZone, boolean usedTls, int timeout) {
     checkArgument(type != null, "The type of service interface cannot be null!");
     checkState(state.get() == State.STARTED, "Grpc client is not started!");
 
@@ -131,7 +131,8 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
         stubInitializationMethod = STUBS.get(type).yobj;
       }
       // instantiate the client stub according to the stub type
-      service = (AbstractStub<?>) stubInitializationMethod.invoke(null, initializer.getChannelPool().getChannel(type.getName()));
+      service = (AbstractStub<?>) stubInitializationMethod.invoke(null, initializer.getChannelPool()
+              .getChannel(type.getName(), preferredZone, usedTls));
       //Customizes the CallOptions passed the deadline to interceptor
       if (timeout > 0) {
          service.withOption(StubDeadlineClientInterceptor.DEADLINE_KEY, Integer.valueOf(timeout));

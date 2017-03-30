@@ -77,7 +77,7 @@ public class GrpcClientInitializerTest extends AbstractZkServerStarter{
     ClientOptions clientOptions = ClientOptions.DEFAULT;
     clientOptions = clientOptions.withRegistryCenterAddress(identifier);
     initializer = new GrpcClientInitializer(clientOptions, null, 1, 1);
-    ManagedChannel channel = initializer.getChannelPool().getChannel("myService");
+    ManagedChannel channel = initializer.getChannelPool().getChannel("myService", "myzone", true);
     org.springframework.util.Assert.isInstanceOf(InstrumentedChannel.class, channel);
   }
   
