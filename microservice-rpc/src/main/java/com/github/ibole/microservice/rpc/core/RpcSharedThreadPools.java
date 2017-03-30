@@ -43,9 +43,9 @@ import java.util.concurrent.ThreadFactory;
  */
 public class RpcSharedThreadPools {
  
-  public static final String BATCH_POOL_THREAD_NAME = "microservices-batch-pool";
+  public static final String BATCH_POOL_THREAD_NAME = "ibole-microservices-batch-pool";
 
-  public static final String RPC_EVENTLOOP_GROUP_NAME = "microservices-rpc-elg";
+  public static final String RPC_EVENTLOOP_GROUP_NAME = "ibole-microservices-rpc-elg";
 
   private static RpcSharedThreadPools INSTANCE = new RpcSharedThreadPools();
 

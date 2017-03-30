@@ -31,6 +31,10 @@ public @interface Reference {
   Class<?> interfaceClass() default void.class;
 
   String interfaceName() default "";
+  
+  String preferredZone() default "";
+  
+  boolean usedTls() default false;
 
   String version() default "";
   

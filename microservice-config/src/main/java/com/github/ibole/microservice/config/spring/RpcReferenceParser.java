@@ -20,6 +20,8 @@ public class RpcReferenceParser implements BeanDefinitionParser {
 
     String interfacename = element.getAttribute("interfacename");
     String id = element.getAttribute("id");
+    String preferredZone = element.getAttribute("preferredZone");
+    boolean usedTls = Boolean.valueOf(element.getAttribute("usedTls"));
     int timeout = Strings.isNullOrEmpty(element.getAttribute("timeout")) ? 0
         : Integer.parseInt(element.getAttribute("timeout"));
     RootBeanDefinition beanDefinition = new RootBeanDefinition();
@@ -28,6 +30,8 @@ public class RpcReferenceParser implements BeanDefinitionParser {
 
     beanDefinition.getPropertyValues().addPropertyValue("interfacename", interfacename);
     beanDefinition.getPropertyValues().addPropertyValue("beanName", id);
+    beanDefinition.getPropertyValues().addPropertyValue("preferredZone", preferredZone);
+    beanDefinition.getPropertyValues().addPropertyValue("usedTls", usedTls);
     beanDefinition.getPropertyValues().addPropertyValue("timeout", timeout);
     
     parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);

@@ -1,6 +1,6 @@
 package com.github.ibole.microservice.config.spring.annotation.test;
 
-import com.github.ibole.microservice.common.ServerIdentifier;
+import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 import com.github.ibole.microservice.config.rpc.client.RpcClient;
 
 /*********************************************************************************************.
@@ -16,7 +16,7 @@ import com.github.ibole.microservice.config.rpc.client.RpcClient;
 public class MockRpcClient implements RpcClient<DemoService> {
 
   @Override
-  public void initialize(ServerIdentifier identifier) {
+  public void initialize(ClientOptions clientOptions) {
    
     
   }

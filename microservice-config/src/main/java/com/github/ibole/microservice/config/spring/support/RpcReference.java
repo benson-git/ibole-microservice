@@ -25,12 +25,18 @@ public class RpcReference<T> implements FactoryBean<T>, InitializingBean, Dispos
 
   private String beanName;
   
+  private String preferredZone;
+  
+  private boolean usedTls;
+  
   private int timeout;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RpcReference.class.getName());
 
-  public RpcReference(String interfacename, int timeout) {
+  public RpcReference(String interfacename, String zoneToPrefer, boolean usedTls, int timeout) {
     this.interfacename = interfacename;
+    this.preferredZone = zoneToPrefer;
+    this.usedTls = usedTls;
     this.timeout = timeout;
   }
   
@@ -79,7 +85,35 @@ public class RpcReference<T> implements FactoryBean<T>, InitializingBean, Dispos
     return interfacename;
   }
   
-  
+
+
+  /**
+   * @return the preferredZone
+   */
+  public String getPreferredZone() {
+    return preferredZone;
+  }
+
+  /**
+   * @param preferredZone the preferredZone to set
+   */
+  public void setPreferredZone(String preferredZone) {
+    this.preferredZone = preferredZone;
+  }
+
+  /**
+   * @return the usedTls
+   */
+  public boolean isUsedTls() {
+    return usedTls;
+  }
+
+  /**
+   * @param usedTls the usedTls to set
+   */
+  public void setUsedTls(boolean usedTls) {
+    this.usedTls = usedTls;
+  }
 
   /**
    * @return the timeout

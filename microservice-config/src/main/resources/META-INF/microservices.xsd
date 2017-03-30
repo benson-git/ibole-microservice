@@ -43,12 +43,14 @@
 				<xsd:extension base="beans:identifiedType">
 					<xsd:attribute name="address" type="xsd:string" use="required">
 						<xsd:annotation>
-							<xsd:documentation><![CDATA[ The registry address. ]]></xsd:documentation>
+							<xsd:documentation><![CDATA[ The registry center server address. ]]></xsd:documentation>
 						</xsd:annotation>
 					</xsd:attribute>
 					<xsd:attribute name="timeout" type="xsd:int" use="optional" />
 					<xsd:attribute name="token" type="xsd:string" use="optional" />
 					<xsd:attribute name="rootPath" type="xsd:string" use="required" />
+					<xsd:attribute name="preferredZone" type="xsd:string" use="optional" />
+					<xsd:attribute name="usedTls" type="xsd:boolean" use="optional" />
 				</xsd:extension>
 			</xsd:complexContent>
 		</xsd:complexType>
@@ -58,6 +60,8 @@
 			<xsd:complexContent>
 				<xsd:extension base="beans:identifiedType">
 					<xsd:attribute name="interfacename" type="xsd:string" use="required" />
+					<xsd:attribute name="preferredZone" type="xsd:string" use="optional" />
+					<xsd:attribute name="usedTls" type="xsd:boolean" use="optional" />
 					<xsd:attribute name="timeout" type="xsd:int" use="optional" />
 				</xsd:extension>
 			</xsd:complexContent>

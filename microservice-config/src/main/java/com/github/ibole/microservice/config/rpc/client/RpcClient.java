@@ -1,6 +1,5 @@
 package com.github.ibole.microservice.config.rpc.client;
 
-import com.github.ibole.microservice.common.ServerIdentifier;
 
 /**
  * The interface of RPC client.
@@ -10,7 +9,7 @@ import com.github.ibole.microservice.common.ServerIdentifier;
  */
 public interface RpcClient<T> {
 
-  void initialize(ServerIdentifier identifier);
+  void initialize(ClientOptions clientOptions);
 
   void start();
 

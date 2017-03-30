@@ -19,6 +19,10 @@ public class RpcRegistery implements InitializingBean, DisposableBean {
    * {@code ServerIdentifier.rootPath}
    */
   private String rootPath;
+  
+  private String preferredZone;
+  
+  private boolean usedTls;
 
   @Override
   public void destroy() throws Exception {
@@ -84,6 +88,34 @@ public class RpcRegistery implements InitializingBean, DisposableBean {
    */
   public String getRootPath() {
     return rootPath;
+  }
+
+  /**
+   * @return the preferredZone
+   */
+  public String getPreferredZone() {
+    return preferredZone;
+  }
+
+  /**
+   * @param preferredZone the preferredZone to set
+   */
+  public void setPreferredZone(String preferredZone) {
+    this.preferredZone = preferredZone;
+  }
+
+  /**
+   * @return the usedTls
+   */
+  public boolean isUsedTls() {
+    return usedTls;
+  }
+
+  /**
+   * @param usedTls the usedTls to set
+   */
+  public void setUsedTls(boolean usedTls) {
+    this.usedTls = usedTls;
   }
 
   /**

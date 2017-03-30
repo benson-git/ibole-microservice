@@ -21,6 +21,8 @@ public class RpcRegisteryParser implements BeanDefinitionParser {
     String rootPath = element.getAttribute("rootPath");
     int timeout = Integer.parseInt(element.getAttribute("timeout"));
     String token = element.getAttribute("token");
+    String preferredZone = element.getAttribute("preferredZone");
+    boolean usedTls = Boolean.valueOf(element.getAttribute("usedTls"));
 
     RootBeanDefinition beanDefinition = new RootBeanDefinition();
     beanDefinition.setBeanClass(RpcRegistery.class);
@@ -30,6 +32,8 @@ public class RpcRegisteryParser implements BeanDefinitionParser {
     beanDefinition.getPropertyValues().addPropertyValue("rootPath", rootPath);
     beanDefinition.getPropertyValues().addPropertyValue("timeout", timeout);
     beanDefinition.getPropertyValues().addPropertyValue("token", token);
+    beanDefinition.getPropertyValues().addPropertyValue("preferredZone", preferredZone);
+    beanDefinition.getPropertyValues().addPropertyValue("usedTls", usedTls);
     parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
 
     return beanDefinition;

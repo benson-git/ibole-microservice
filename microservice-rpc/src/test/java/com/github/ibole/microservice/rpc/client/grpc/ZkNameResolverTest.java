@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.ibole.microservice.rpc.client.grpc.test;
+package com.github.ibole.microservice.rpc.client.grpc;
 
 import com.github.ibole.microservice.common.ServerIdentifier;
 import com.github.ibole.microservice.discovery.AbstractDiscoveryFactory;
@@ -23,7 +23,7 @@ import com.github.ibole.microservice.discovery.RegisterEntry;
 import com.github.ibole.microservice.discovery.zookeeper.test.AbstractZkServerStarter;
 import com.github.ibole.microservice.registry.ServiceRegistry;
 import com.github.ibole.microservice.registry.ServiceRegistryProvider;
-import com.github.ibole.microservice.rpc.client.grpc.ZkNameResolverProvider;
+import com.github.ibole.microservice.rpc.client.grpc.AbstractNameResolverProvider;
 
 import com.google.common.net.HostAndPort;
 
@@ -50,8 +50,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /*********************************************************************************************.
  * 
@@ -111,13 +109,14 @@ public class ZkNameResolverTest extends AbstractZkServerStarter {
     serviceRegistry.register(entry);
   }
 
+  @SuppressWarnings("rawtypes")
   @Test
   public void testNameResolver() throws Exception {
     
-    NameResolver zkNameResolver =
-        ZkNameResolverProvider.newBuilder().setPreferredZone(zone).setUsedTls(true)
-            .setZookeeperAddress(identifier).build().newNameResolver(targetService, Attributes.EMPTY);
-    
+    NameResolver zkNameResolver = AbstractNameResolverProvider.provider()
+            .withZoneToPrefer(zone).withRegistryCenterAddress(identifier).withUsedTls(true)
+            .newNameResolver(targetService, Attributes.EMPTY);
+
     final CountDownLatch updateLatch = new CountDownLatch(2);
     
     try {

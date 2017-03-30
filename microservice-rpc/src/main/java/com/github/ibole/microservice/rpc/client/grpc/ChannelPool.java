@@ -27,6 +27,7 @@ import com.github.ibole.microservice.metrics.Meter;
 import com.github.ibole.microservice.metrics.Timer;
 import com.github.ibole.microservice.metrics.Timer.Context;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 
@@ -99,14 +100,6 @@ public class ChannelPool {
   
   private final ChannelFactory factory;
   
-  private static int getDefaultChannelCount() {
-    // 10 Channels seemed to work well on a 4 CPU machine, and this seems to scale well for higher
-    // CPU machines. Use no more than 250 Channels by default.
-    int availableProcessors = Runtime.getRuntime().availableProcessors();
-    return (int) Math.min(250, Math.max(1, Math.ceil(availableProcessors * 2.5d)));
-  }
-  
-  
   public static Builder newBuilder(){
     return new Builder();
   }
@@ -157,6 +150,10 @@ public class ChannelPool {
     }
   }
   
+  public long size() {
+    return channelPool.estimatedSize();
+  }
+  
   public void shutdownNow() {
     channelPool.asMap().forEach((key, value) -> {
       if (!value.isTerminated()) {
@@ -176,6 +173,7 @@ public class ChannelPool {
         }
       }
     });
+    channelPool.cleanUp();
   }
   
   class ChannelRemovalListener implements RemovalListener<String, InstrumentedChannel>{
@@ -186,16 +184,13 @@ public class ChannelPool {
     
   }
   
-  static class Builder {
+  public static class Builder {
     
     private ChannelFactory factory;
     private int initialCapacity;
     private int maximumSize;
     
     public ChannelPool build() {
-      if (initialCapacity == 0 || maximumSize == 0) {
-        initialCapacity = maximumSize = getDefaultChannelCount();
-      }
       return new ChannelPool(factory, initialCapacity, maximumSize);
     }
     
@@ -219,7 +214,8 @@ public class ChannelPool {
    * Contains a {@link ManagedChannel} and metrics for the channel
    *
    */
-  private class InstrumentedChannel extends ManagedChannel {
+  @VisibleForTesting
+  protected class InstrumentedChannel extends ManagedChannel {
     private final ManagedChannel delegate;
     // a uniquely named timer for this channel's latency
     private final Timer timer;

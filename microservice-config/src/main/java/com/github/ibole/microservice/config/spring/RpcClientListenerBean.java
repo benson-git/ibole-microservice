@@ -1,6 +1,7 @@
 package com.github.ibole.microservice.config.spring;
 
 import com.github.ibole.microservice.common.ServerIdentifier;
+import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 import com.github.ibole.microservice.config.rpc.client.RpcClientProvider;
 import com.github.ibole.microservice.config.spring.support.RpcRegistery;
 
@@ -33,9 +34,12 @@ public class RpcClientListenerBean
 
   @Override
   public void onApplicationEvent(ApplicationEvent event) {
-    onStartedEvent(event);
-    onStoppedEvent(event);
-    onClosedEvent(event);
+    //Prevent repeated execution
+    if (applicationContext.getParent() == null) {
+      onStartedEvent(event);
+      onStoppedEvent(event);
+      onClosedEvent(event);
+    }
   }
 
   private void onStartedEvent(ApplicationEvent event) {
@@ -47,7 +51,11 @@ public class RpcClientListenerBean
           BeanFactoryUtils.beanOfType(applicationContext, RpcRegistery.class);
       ServerIdentifier identifier =
           new ServerIdentifier(rpcRegistery.getRootPath(), rpcRegistery.getAddress());
-      RpcClientProvider.provider().getRpcClient().initialize(identifier);
+      ClientOptions clientOptions = ClientOptions.DEFAULT;
+      clientOptions = clientOptions.withRegistryCenterAddress(identifier)
+              .withZoneToPrefer(rpcRegistery.getPreferredZone())
+              .withUsedTls(rpcRegistery.isUsedTls());
+      RpcClientProvider.provider().getRpcClient().initialize(clientOptions);
       RpcClientProvider.provider().getRpcClient().start();
       if (LOGGER.isInfoEnabled()) {
         LOGGER.info("The RPC client ready on spring started.");

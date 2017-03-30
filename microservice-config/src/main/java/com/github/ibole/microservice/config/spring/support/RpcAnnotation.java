@@ -107,29 +107,6 @@ public class RpcAnnotation implements DisposableBean, BeanFactoryPostProcessor, 
     return bean;
   }
 
-  @SuppressWarnings({"rawtypes"})
-  private Object inferReference(Reference reference, Class<?> referenceClazz) {
-    String interfaceName;
-    if (!"".equals(reference.interfaceName())) {
-      interfaceName = reference.interfaceName();
-    } else if (!void.class.equals(reference.interfaceClass())) {
-      interfaceName = reference.interfaceClass().getName();
-    } else if (referenceClazz.isInterface()) {
-      interfaceName = referenceClazz.getName();
-    } else {
-      throw new IllegalStateException(
-          "The @Reference undefined interfaceClass or interfaceName, and the property type "
-              + referenceClazz.getName() + " is not a interface.");
-    }
-    RpcReference<?> rpcReference = new RpcReference(interfaceName, reference.timeout());
-
-    try {
-      return rpcReference.getObject();
-    } catch (Exception e) {
-      throw new BeanInitializationException("Get object error happened.", e);
-    }    
-  }
-
   @Override
   public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
     return bean;
@@ -158,6 +135,37 @@ public class RpcAnnotation implements DisposableBean, BeanFactoryPostProcessor, 
   public void destroy() throws Exception {
     //do nothing.
     
+  }
+  
+  /**
+   * @return the applicationContext
+   */
+  public ApplicationContext getApplicationContext() {
+    return applicationContext;
+  }
+
+  @SuppressWarnings({"rawtypes"})
+  private Object inferReference(Reference reference, Class<?> referenceClazz) {
+    String interfaceName;
+    if (!"".equals(reference.interfaceName())) {
+      interfaceName = reference.interfaceName();
+    } else if (!void.class.equals(reference.interfaceClass())) {
+      interfaceName = reference.interfaceClass().getName();
+    } else if (referenceClazz.isInterface()) {
+      interfaceName = referenceClazz.getName();
+    } else {
+      throw new IllegalStateException(
+          "The @Reference undefined interfaceClass or interfaceName, and the property type "
+              + referenceClazz.getName() + " is not a interface.");
+    }
+    RpcReference<?> rpcReference = new RpcReference(interfaceName, reference.preferredZone(), reference.usedTls(),
+            reference.timeout());
+
+    try {
+      return rpcReference.getObject();
+    } catch (Exception e) {
+      throw new BeanInitializationException("Get object error happened.", e);
+    }    
   }
   
   private boolean isMatchPackage(Object bean) {

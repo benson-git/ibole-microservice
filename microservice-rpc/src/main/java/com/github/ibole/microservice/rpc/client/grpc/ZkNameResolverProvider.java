@@ -1,10 +1,9 @@
 package com.github.ibole.microservice.rpc.client.grpc;
 
-import com.github.ibole.microservice.common.ServerIdentifier;
+import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 
 import io.grpc.Attributes;
 import io.grpc.NameResolver;
-import io.grpc.NameResolverProvider;
 
 import java.net.URI;
 
@@ -28,22 +27,17 @@ import java.net.URI;
  * @author bwang
  *
  */
-public class ZkNameResolverProvider extends NameResolverProvider {
+public class ZkNameResolverProvider extends AbstractNameResolverProvider<ZkNameResolverProvider> {
 
   public static final String SCHEME = "zk";
   
-  private final ServerIdentifier zookeeperAddress;
-
-  private final String zoneToPrefer;
-  
-  private final boolean usedTls;
-
-  private ZkNameResolverProvider(ServerIdentifier zookeeperAddress, String zoneToPrefer, boolean usedTls) {
-    this.zookeeperAddress = zookeeperAddress;
-    this.zoneToPrefer = zoneToPrefer;
-    this.usedTls = usedTls;
+  private ZkNameResolverProvider(ClientOptions callOptions) {
+    super(callOptions);
   }
-
+  
+  public ZkNameResolverProvider() {
+    super();
+  }
 
   @Override
   protected boolean isAvailable() {
@@ -60,45 +54,23 @@ public class ZkNameResolverProvider extends NameResolverProvider {
   @Override
   public NameResolver newNameResolver(URI targetUri, Attributes params) {
     if (SCHEME.equals(targetUri.getScheme())) {
-      return new ZkNameResolver(targetUri, params, zookeeperAddress, zoneToPrefer, usedTls);
+      return new ZkNameResolver(targetUri, params, getCallOptions());
     } else { 
       return null;
     }
   }
 
   @Override
-  public String getDefaultScheme() { 
+  public String getDefaultScheme() {
     return SCHEME;
   }
-  
-  public static Builder newBuilder() {
-    return new Builder();
-  }
 
-  public static class Builder {
-    private ServerIdentifier zookeeperAddress;
-    private String zoneToPrefer;
-    private boolean usedTls;
-
-    public Builder setZookeeperAddress(ServerIdentifier zookeeperAddress) {
-      this.zookeeperAddress = zookeeperAddress;
-      return this;
-    }
-
-    public Builder setPreferredZone(String zoneToPrefer) {
-      this.zoneToPrefer = zoneToPrefer;
-      return this;
-    }
-
-    public Builder setUsedTls(boolean usedTls) {
-      this.usedTls = usedTls;
-      return this;
-    }
-
-
-    public NameResolverProvider build() {
-      return new ZkNameResolverProvider(zookeeperAddress, zoneToPrefer, usedTls);
-    }
+  /* 
+   * @see com.github.ibole.microservice.rpc.client.grpc.AbstractNameResolverProvider#build(com.github.ibole.microservice.rpc.client.grpc.ClientOptions)
+   */
+  @Override
+  protected ZkNameResolverProvider build(ClientOptions callOptions) {
+    return new ZkNameResolverProvider(callOptions);
   }
 
 }
