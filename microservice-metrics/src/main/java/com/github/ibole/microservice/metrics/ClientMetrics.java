@@ -70,7 +70,7 @@ public final class ClientMetrics {
         DropwizardMetricRegistry.createSlf4jReporter(dropwizardRegistry, logger, 1, TimeUnit.MINUTES);
       } else {
         logger.info(
-          "Could not set up logging since the metrics registry is not a DropwizardMetricRegistry; it is a %s w.",
+          "Could not set up logging since the metrics registry is not a DropwizardMetricRegistry; it is a {}.",
           registry.getClass().getName());
       }
     }

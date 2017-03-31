@@ -90,3 +90,15 @@ https://github.com/Comcast/jrugged/blob/master/jrugged-core/src/main/java/org/fi
 
 GitHub：Netflix/hystrix
 https://github.com/Netflix/hystrix
+
+Exponential Backoff algorithm: 
+ 退避算法有多种表现形式，主要功能是发生某类事件时，为了避免频繁地触发某个行为，而采取延长行为反应时间的措施。指数退避算法需要五个参数:
+    - 初始等待周期(Initial wait period)
+    - 再次等待周期(Secondary wait period)
+    - 增长因子(Increase factor)
+    - 最长间隔时间(Maximum interval)
+    - 稳定周期因子(Stable period factor)
+    
+Throttling节流模式
+
+

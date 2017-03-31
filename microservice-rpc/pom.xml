@@ -59,6 +59,14 @@
 		</dependency>
 		<!-- <dependency> <groupId>io.netty</groupId> <artifactId>netty-tcnative</artifactId> 
 			</dependency> -->
+        <dependency>
+            <groupId>com.google.http-client</groupId>
+            <artifactId>google-http-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+        </dependency>
 		<dependency>
 			  <groupId>io.grpc</groupId>
 			  <artifactId>grpc-netty</artifactId>

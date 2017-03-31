@@ -78,7 +78,7 @@ public class ChannelPoolTest {
     ManagedChannel mychannel1 = pool.getChannel("mytesst1", "myzone", true);
     ManagedChannel mychannel2 = pool.getChannel("mytesst2", "myzone", true);
     ManagedChannel mychannel3 = pool.getChannel("mytesst3", "myzone", true);
-    Thread.currentThread().sleep(1000);
+    Thread.sleep(1000);
     //System.out.println(pool.size());
     org.junit.Assert.assertTrue(pool.size() == 2);
   }

@@ -140,7 +140,7 @@ public class ZkNameResolverTest extends AbstractZkServerStarter {
       });
       
       updateLatch.await();
-      Thread.currentThread().sleep(2000);
+      Thread.sleep(2000);
 
     } catch (Exception e) {
       updateLatch.countDown();

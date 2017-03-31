@@ -10,8 +10,12 @@
 	</appender>
 	<!-- Loggers -->
 	<logger name="com.github.ibole.microservice.rpc.server.ServerBootstrap">
-		<level value="INFO" />		
-	</logger>					
+		<level value="INFO" />
+	</logger>
+	<logger name="com.github.ibole.microservice.metrics.ClientMetrics"
+		additivity="false">
+		<level value="DEBUG" />
+	</logger>
 	<root>
 		<level value="ALL" />
 		<appender-ref ref="sysout" />

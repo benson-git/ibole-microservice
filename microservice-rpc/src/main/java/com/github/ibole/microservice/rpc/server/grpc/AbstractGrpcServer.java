@@ -39,8 +39,6 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractGrpcServer<T extends ServerBuilder<T>> extends AbstractRpcServer {
 
   protected final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
- 
-  private static final int NUM_SERVER_THREADS = 10;
   
   private Server server;
   
@@ -92,7 +90,7 @@ public abstract class AbstractGrpcServer<T extends ServerBuilder<T>> extends Abs
   public void start() {
     // executor = newFixedThreadPool(NUM_SERVER_THREADS);
     try {
-      convertGrpcServerInterceptor();
+      adapteGrpcServerInterceptor();
       server = buildServer();
       server.start();
     } catch (IOException ex) {
@@ -103,7 +101,7 @@ public abstract class AbstractGrpcServer<T extends ServerBuilder<T>> extends Abs
 
   protected abstract Server buildServer() throws IOException;
   
-  private void convertGrpcServerInterceptor(){
+  private void adapteGrpcServerInterceptor(){
     
     List<RpcServerInterceptor> interceptors = getInterceptors(); 
     

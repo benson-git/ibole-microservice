@@ -49,6 +49,8 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
+ * TODO: refactoring(client auth & Exponential backoff): refer to com.google.cloud.bigtable.grpc.io.RefreshingOAuth2CredentialsInterceptor
+ * 
  * @author bwang (chikaiwang@hotmail.com)
  *
  */
