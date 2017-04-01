@@ -19,12 +19,12 @@ public class Constants {
   public static final String RPC_SERVER_PROPERTY_FILE = "/server.properties";
   public static final String RPC_CLIENT_PROPERTY_FILE = "/client.properties";
   
-  public static final String PROPERTY_APPLICATION_NAME = "toprank.application.name";
-  public static final String PROPERTY_SERVER_HOSTNAME = "toprank.server.hostname";
-  public static final String PROPERTY_SERVER_PORT = "toprank.server.port";
-  public static final String PROPERTY_SERVER_USE_TLS = "toprank.use.tls";
-  public static final String PROPERTY_REGISTRY_HOSTS = "toprank.registry.hosts";
-  public static final String PROPERTY_REGISTRY_ROOT_PATH = "toprank.registry.rootPath";
+  public static final String PROPERTY_APPLICATION_NAME = "ibole.application.name";
+  public static final String PROPERTY_SERVER_HOSTNAME = "ibole.server.hostname";
+  public static final String PROPERTY_SERVER_PORT = "ibole.server.port";
+  public static final String PROPERTY_SERVER_USE_TLS = "ibole.use.tls";
+  public static final String PROPERTY_REGISTRY_HOSTS = "ibole.registry.hosts";
+  public static final String PROPERTY_REGISTRY_ROOT_PATH = "ibole.registry.rootPath";
 
   public enum RpcServerEnum {
 

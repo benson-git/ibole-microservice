@@ -67,7 +67,9 @@ public abstract class AbstractGrpcServer<T extends ServerBuilder<T>> extends Abs
    * Stop rpc server.
    */
   public void stop() throws InterruptedException {
-    server.shutdownNow();
+    if (server != null) {
+      server.shutdownNow();
+    }
     if (!server.awaitTermination(5, TimeUnit.SECONDS)) {
       logger.error("Timed out waiting for server shutdown");
     }

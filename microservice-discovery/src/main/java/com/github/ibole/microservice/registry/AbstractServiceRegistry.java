@@ -37,7 +37,6 @@ public abstract class AbstractServiceRegistry implements ServiceRegistry<HostMet
   protected void validateFileds(RegisterEntry entry) {
     checkArgument(entry == null, "Param cannot be null!");
     checkNotNull(entry.getServiceName(), "Property 'serviceName' cannot be null!");
-    checkNotNull(entry.getServiceContract(), "Property 'serviceContract' cannot be null!");
     checkNotNull(entry.getHostMetadata(), "Property 'instanceMetadatum' cannot be nulls!");
   }
 

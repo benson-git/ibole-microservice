@@ -46,7 +46,7 @@ public class ServerBootstrap {
     
     try {  
       //load properties
-      ConfigurationBuilder builder = new ConfigurationBuilder().defaults();
+      ConfigurationBuilder builder = new ConfigurationBuilder();
       builder.properties(ServerBootstrap.class.getResource(Constants.RPC_SERVER_PROPERTY_FILE)
           .toURI().toURL());
       builder.override(System.getProperties());
@@ -173,8 +173,7 @@ public class ServerBootstrap {
     HostMetadata metadata;
     for (ServiceDefinitionAdapter<?> service : serviceDefinition) {
       metadata = new HostMetadata(rpcServer, port, useTls);
-      entry.setServiceName(ServerIdentifier.BASE_KEY_PREFIX);
-      entry.setServiceContract(service.getServiceName());
+      entry.setServiceName(service.getServiceName());
       // TODO: add useful service description for the service consumer
       entry.setDescription(service.getServiceDescription());
       entry.setLastUpdated(Calendar.getInstance().getTime());
@@ -205,12 +204,12 @@ public class ServerBootstrap {
         break;
       }
       String value = parts[1];
-      if ("port".equals(key)) {
+      if ("hostname".equals(key)) {
+        ConfigurationHolder.get().put(Constants.PROPERTY_SERVER_HOSTNAME, value);
+      } else if ("port".equals(key)) {
         ConfigurationHolder.get().put(Constants.PROPERTY_SERVER_PORT, value);
       } else if ("use_tls".equals(key)) {
         ConfigurationHolder.get().put(Constants.PROPERTY_SERVER_USE_TLS, value);
-      } else if ("reg_servers".equals(key)) {
-        ConfigurationHolder.get().put(Constants.PROPERTY_REGISTRY_HOSTS, value);
       } else {
         log.error("Unknown argument: {}", key);
         usage = true;
@@ -222,7 +221,7 @@ public class ServerBootstrap {
           + Constants.RpcServerEnum.DEFAULT_CONFIG.getPort()
           + "\n  --use_tls=true|false  Whether to use TLS. Default "
           + Constants.RpcServerEnum.DEFAULT_CONFIG.isUseTls()
-          + "\n  --reg_servers=SERVER LIST  Where to connect to registry center. Default is skip."
+          + "\n  --hostname= SERVER_HOSTNAME use the specified hostname to expose the servie. Default is skip."
           + "\n Above all parameters also can be configured in /resources/server.properties.");
       
       System.exit(1);

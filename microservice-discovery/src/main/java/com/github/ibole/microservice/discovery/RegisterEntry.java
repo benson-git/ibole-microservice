@@ -25,10 +25,6 @@ import java.util.Date;
  *      |                   |				  |						|
  *      Service Name     	Service Name   	  Service Name          Service Name
  *            |
- *      --------------------
- *      |                  |
- *      Service Contract   Service Contract
- *              |
  *      ---------------------------------     
  *      |             					| 
  *      HostMetadata      			    HostMetadata
@@ -56,10 +52,8 @@ import java.util.Date;
 public class RegisterEntry implements TransferObject {
 
   private static final long serialVersionUID = 1L;
-  //serviceName can be the service provider application name
-  private String serviceName;
   //the specified service for discovery
-  private String serviceContract;
+  private String serviceName;
   private HostMetadata hostMetadata;
   // Service description, like simple API docs
   private String description;
@@ -77,22 +71,6 @@ public class RegisterEntry implements TransferObject {
    */
   public void setServiceName(String serviceName) {
     this.serviceName = serviceName;
-  }
-
-
-
-  /**
-   * @return the serviceContract
-   */
-  public String getServiceContract() {
-    return serviceContract;
-  }
-
-  /**
-   * @param serviceContract the serviceContract to set
-   */
-  public void setServiceContract(String serviceContract) {
-    this.serviceContract = serviceContract;
   }
 
   /**
@@ -159,7 +137,6 @@ public class RegisterEntry implements TransferObject {
     }
     final RegisterEntry other = (RegisterEntry) obj;
     return EqualsUtil.equal(serviceName, other.serviceName)
-        && EqualsUtil.equal(serviceContract, other.serviceContract)
         && EqualsUtil.equal(hostMetadata, other.hostMetadata)
         && EqualsUtil.equal(lastUpdated, other.lastUpdated);
 
@@ -177,7 +154,6 @@ public class RegisterEntry implements TransferObject {
   public int hashCode() {
     int result = HashCodeUtil.SEED;
     result = HashCodeUtil.hash(result, serviceName);
-    result = HashCodeUtil.hash(result, serviceContract);
     result = HashCodeUtil.hash(result, hostMetadata);
     result = HashCodeUtil.hash(result, lastUpdated);
     return result;
@@ -193,7 +169,6 @@ public class RegisterEntry implements TransferObject {
   @Override
   public String toString() {
     final StringBuilder sb = ToStringUtil.start("serviceName", serviceName);
-    ToStringUtil.append(sb, "serviceContract", serviceContract);
     ToStringUtil.append(sb, "hostMetadata", hostMetadata);
     ToStringUtil.append(sb, "lastUpdated", lastUpdated);
     return ToStringUtil.end(sb);

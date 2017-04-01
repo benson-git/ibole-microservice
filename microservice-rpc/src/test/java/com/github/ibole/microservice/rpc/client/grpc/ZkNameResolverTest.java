@@ -23,7 +23,6 @@ import com.github.ibole.microservice.discovery.RegisterEntry;
 import com.github.ibole.microservice.discovery.zookeeper.test.AbstractZkServerStarter;
 import com.github.ibole.microservice.registry.ServiceRegistry;
 import com.github.ibole.microservice.registry.ServiceRegistryProvider;
-import com.github.ibole.microservice.rpc.client.grpc.AbstractNameResolverProvider;
 
 import com.google.common.net.HostAndPort;
 
@@ -95,8 +94,7 @@ public class ZkNameResolverTest extends AbstractZkServerStarter {
     
     entry = new RegisterEntry();
     HostMetadata metadata = new HostMetadata("localhost", 4443, zone, true);
-    entry.setServiceName(ServerIdentifier.BASE_KEY_PREFIX);
-    entry.setServiceContract(targetService.getAuthority());     
+    entry.setServiceName(targetService.getAuthority());     
     entry.setDescription(targetService.getAuthority());
     entry.setLastUpdated(Calendar.getInstance().getTime());
     entry.setHostMetadata(metadata);

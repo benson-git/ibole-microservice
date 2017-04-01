@@ -85,7 +85,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
       
       if (client.checkExists().forPath(buildServicePath(instance)) != null) {
         log.info("Service: [{}] already has been registered on {}, skip current registery.",
-            instance.getServiceContract(), instance.getHostMetadata().toString());
+            instance.getServiceName(), instance.getHostMetadata().toString());
         acquiredLock = false;
         return;
       }
@@ -93,14 +93,14 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
       if (lock.acquire(LOCK_TIME, TimeUnit.SECONDS)) {  
         acquiredLock = true;
         ServiceInstance<HostMetadata> thisInstance =
-            ServiceInstance.<HostMetadata>builder().name(instance.getServiceContract())
+            ServiceInstance.<HostMetadata>builder().name(instance.getServiceName())
                 .address(instance.getHostMetadata().getHostname())
                 .port(instance.getHostMetadata().getPort())
                 .id(instance.getHostMetadata().generateKey())
                 .payload(instance.getHostMetadata()).serviceType(ServiceType.DYNAMIC).build();
         serviceDiscovery.start();
         serviceDiscovery.registerService(thisInstance);
-        log.info("Registed instance metadata: " + instance.toString());
+        log.info("Registed instance metadata: {}", instance.toString());
       }
     } catch (Exception ex) {
       log.error("Register instance {} error happened!", instance.toString(), ex);
@@ -234,7 +234,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
 
   private String buildServicePath(RegisterEntry instance) {
 
-    return buildBasePath() + Constants.ZK_DELIMETER + instance.getServiceContract()
+    return buildBasePath() + Constants.ZK_DELIMETER + instance.getServiceName()
             + Constants.ZK_DELIMETER + instance.getHostMetadata().generateKey();
   }
 }

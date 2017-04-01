@@ -34,6 +34,7 @@ import io.grpc.ServerServiceDefinition;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 /*********************************************************************************************.
@@ -53,13 +54,18 @@ public class SpringBeanServiceDefinitionLoader extends ServiceDefinitionLoader<G
 
   private static final Logger LOG = LoggerFactory.getLogger(SpringBeanServiceDefinitionLoader.class.getName());
   private static final ConcurrentSet<GrpcServiceDefinition> services = new ConcurrentSet<GrpcServiceDefinition>();
+  private final AtomicBoolean initialized = new AtomicBoolean(false);
 
-  public SpringBeanServiceDefinitionLoader() {
-    loadService();
+  @Override
+  public List<GrpcServiceDefinition> getServiceList() {
+    if (initialized.compareAndSet(false, true)) {
+      loadService();
+    }
+    return ImmutableList.copyOf(services);
   }
-
+  
   private void loadService() {
-    
+    LOG.info("Load service definition is starting...");
     //find and get all ServiceExporter-enabled beans
     try {
       getBeanNamesByTypeWithAnnotation(ServiceExporter.class, BindableService.class)
@@ -75,6 +81,7 @@ public class SpringBeanServiceDefinitionLoader extends ServiceDefinitionLoader<G
     } catch (Exception e) { 
       LOG.warn("Exception happened when loading all service definitions", e);
     }
+    LOG.info("Load service denifition is finished, total {} service are found.", services.size());
   }
 
   private <T> Stream<String> getBeanNamesByTypeWithAnnotation(Class<? extends Annotation> annotationType, Class<T> beanType) {
@@ -89,11 +96,6 @@ public class SpringBeanServiceDefinitionLoader extends ServiceDefinitionLoader<G
                  return null!= SpringContainer.getContext().getBeanFactory().findAnnotationOnBean(name, annotationType);
              });
  }
-
-  @Override
-  public List<GrpcServiceDefinition> getServiceList() {
-    return ImmutableList.copyOf(services);
-  }
 
   @Override
   protected boolean isAvailable() {

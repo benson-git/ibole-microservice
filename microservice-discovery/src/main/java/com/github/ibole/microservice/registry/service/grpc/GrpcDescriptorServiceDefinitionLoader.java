@@ -20,6 +20,7 @@ import io.grpc.ServerServiceDefinition;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -33,14 +34,13 @@ public final class GrpcDescriptorServiceDefinitionLoader extends ServiceDefiniti
 
   private static final Logger LOG = LoggerFactory.getLogger(GrpcDescriptorServiceDefinitionLoader.class.getName());
   private static final ConcurrentSet<GrpcServiceDefinition> services = new ConcurrentSet<GrpcServiceDefinition>();
-
-  public GrpcDescriptorServiceDefinitionLoader() {
-    loadService();
-  }
+  private final AtomicBoolean initialized = new AtomicBoolean(false);
 
   @Override
   public List<GrpcServiceDefinition> getServiceList() {
-
+    if (initialized.compareAndSet(false, true)) {
+      loadService();
+    }
     return ImmutableList.copyOf(services);
   }
 
@@ -105,6 +105,6 @@ public final class GrpcDescriptorServiceDefinitionLoader extends ServiceDefiniti
    */
   @Override
   protected int priority() {
-    return 5;
+    return 4;
   }
 }
