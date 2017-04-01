@@ -1,4 +1,4 @@
-package com.github.ibole.microservice.registry.instance.grpc;
+package com.github.ibole.microservice.registry.service.grpc;
 
 import io.grpc.HandlerRegistry;
 import io.grpc.ServerMethodDefinition;

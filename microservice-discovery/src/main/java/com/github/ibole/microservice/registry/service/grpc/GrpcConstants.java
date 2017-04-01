@@ -1,4 +1,4 @@
-package com.github.ibole.microservice.registry.instance.grpc;
+package com.github.ibole.microservice.registry.service.grpc;
 
 /**
  * Some naming Conventions for the generated Grpc class.
@@ -13,6 +13,7 @@ public final class GrpcConstants {
   public static final String SERVICE_IMPL_CLAZZ_SUFFIX = "ImplBase";
   public static final String SERVICE_BIND_METHOD = "bindService";
   //Client side constants
+  public static final String SERVICE_NAME = "SERVICE_NAME";
   public static final String CLIENT_STUB_SUFFIX_BLOCKING = "BlockingStub";
   public static final String CLIENT_STUB_SUFFIX_FUTURE = "FutureStub";
   public static final String CLIENT_STUB_SUFFIX_ASYN = "Stub";

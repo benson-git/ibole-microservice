@@ -11,7 +11,8 @@ import com.github.ibole.microservice.discovery.RegisterEntry;
 import com.github.ibole.microservice.registry.AbstractRegistryFactory;
 import com.github.ibole.microservice.registry.ServiceRegistry;
 import com.github.ibole.microservice.registry.ServiceRegistryProvider;
-import com.github.ibole.microservice.registry.instance.grpc.GrpcServiceDefinitionLoader;
+import com.github.ibole.microservice.registry.service.ServiceDefinitionAdapter;
+import com.github.ibole.microservice.registry.service.ServiceDefinitionLoader;
 import com.github.ibole.microservice.rpc.server.exception.RpcServerException;
 
 import com.google.common.base.Strings;
@@ -150,6 +151,7 @@ public class ServerBootstrap {
    * 
    * @param params the params to set
    */
+  @SuppressWarnings("unchecked")
   private void registerService(int port, boolean useTls, String hosts) {
     if (Strings.isNullOrEmpty(hosts)) {
       log.warn("No registry servers is specified in the parameters, skill the registry service!");
@@ -166,22 +168,21 @@ public class ServerBootstrap {
         ServiceRegistryProvider.provider().getRegistryFactory().getServiceRegistry(identifier);
     serviceRegistry.start();
 
-    //TODO should not be specific GrpcServiceDefinitionLoader
-    List<String> serviceStubs = GrpcServiceDefinitionLoader.load().getServiceStubList();
+    List<ServiceDefinitionAdapter<?>> serviceDefinition = ServiceDefinitionLoader.loader().getServiceList();
     RegisterEntry entry = new RegisterEntry();
     HostMetadata metadata;
-    for (String service : serviceStubs) {
+    for (ServiceDefinitionAdapter<?> service : serviceDefinition) {
       metadata = new HostMetadata(rpcServer, port, useTls);
       entry.setServiceName(ServerIdentifier.BASE_KEY_PREFIX);
-      entry.setServiceContract(service);
+      entry.setServiceContract(service.getServiceName());
       // TODO: add useful service description for the service consumer
-      entry.setDescription(service);
+      entry.setDescription(service.getServiceDescription());
       entry.setLastUpdated(Calendar.getInstance().getTime());
       entry.setHostMetadata(metadata);
       serviceRegistry.register(entry);
     }
     log.info("Register service is finished, total {} services are registered.",
-        serviceStubs.size());
+        serviceDefinition.size());
   }
 
   private static void parseArgs(String[] args) {

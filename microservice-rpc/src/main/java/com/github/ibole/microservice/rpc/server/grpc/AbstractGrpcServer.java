@@ -1,6 +1,7 @@
 package com.github.ibole.microservice.rpc.server.grpc;
 
-import com.github.ibole.microservice.registry.instance.grpc.GrpcServiceDefinitionLoader;
+import com.github.ibole.microservice.registry.service.ServiceDefinitionAdapter;
+import com.github.ibole.microservice.registry.service.ServiceDefinitionLoader;
 import com.github.ibole.microservice.rpc.server.AbstractRpcServer;
 import com.github.ibole.microservice.rpc.server.RpcServerInterceptor;
 import com.github.ibole.microservice.rpc.server.exception.RpcServerException;
@@ -51,12 +52,13 @@ public abstract class AbstractGrpcServer<T extends ServerBuilder<T>> extends Abs
    * @param serverBuilder NettyServerBuilder
    * @return the instance of NettyServerBuilder
    */
-  protected T bindService(T  serverBuilder) {
+  @SuppressWarnings("unchecked")
+  protected T bindService(T serverBuilder) {
     
-    List<ServerServiceDefinition> services = GrpcServiceDefinitionLoader.load().getServiceList();
-    for (ServerServiceDefinition service : services) {
+    List<ServiceDefinitionAdapter<?>> services = ServiceDefinitionLoader.loader().getServiceList();
+    for (ServiceDefinitionAdapter<?> service : services) {
       serverBuilder
-          .addService(ServerInterceptors.intercept(service, adaptedInterceptors));
+          .addService(ServerInterceptors.intercept((ServerServiceDefinition)service.getServiceDefinition(), adaptedInterceptors));
     }
     return serverBuilder; 
   }

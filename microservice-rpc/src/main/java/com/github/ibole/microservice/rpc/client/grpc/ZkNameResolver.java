@@ -34,7 +34,8 @@ import java.util.stream.Stream;
  * FORMAT WILL BE: zk://serviceContract
  *                      ---------------
  *                            |
- *                      Service Name (e.g. zk://com.github.ibole.user.service.UserService)     
+ *                      Service Name 
+ * (e.g. zk://routeguide.RouteGuide (grpc service name: package + service name boths are defined in proto file))     
  * </pre>
  * @see ZkNameResolverProvider
  * 

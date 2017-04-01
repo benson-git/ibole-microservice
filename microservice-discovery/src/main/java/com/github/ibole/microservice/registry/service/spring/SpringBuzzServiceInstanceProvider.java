@@ -1,8 +1,8 @@
-package com.github.ibole.microservice.registry.instance.spring;
+package com.github.ibole.microservice.registry.service.spring;
 
 import com.github.ibole.microservice.container.spring.SpringContainer;
-import com.github.ibole.microservice.registry.instance.BuzzServiceInstanceProvider;
-import com.github.ibole.microservice.registry.instance.ServiceImplementationException;
+import com.github.ibole.microservice.registry.service.BuzzServiceInstanceProvider;
+import com.github.ibole.microservice.registry.service.ServiceImplementationException;
 
 /**
  * @author bwang

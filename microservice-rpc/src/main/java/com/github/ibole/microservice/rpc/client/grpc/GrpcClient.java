@@ -3,11 +3,9 @@ package com.github.ibole.microservice.rpc.client.grpc;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.github.ibole.infrastructure.common.utils.Tuple;
-import com.github.ibole.microservice.common.utils.ClassHelper;
 import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 import com.github.ibole.microservice.config.rpc.client.RpcClient;
-import com.github.ibole.microservice.registry.instance.grpc.GrpcConstants;
+import com.github.ibole.microservice.registry.service.grpc.GrpcConstants;
 import com.github.ibole.microservice.rpc.client.exception.RpcClientException;
 
 import com.google.common.collect.Maps;
@@ -33,7 +31,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
   private static Logger log = LoggerFactory.getLogger(GrpcClient.class.getName());
   // Cache the mapping between service type and the tuple structure:
   // {X: rpc servers connection key Y: the method for initializing client stub}
-  private static final Map<Class<? extends AbstractStub<?>>, Tuple<String, Method>> STUBS = Maps.newConcurrentMap();
+  private static final Map<String, Method> STUBS = Maps.newConcurrentMap();
  
   private final AtomicReference<State> state = new AtomicReference<State>(State.LATENT);
   
@@ -94,7 +92,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
       log.info("Rpc client is stopped.");
     }
   }
-
+  
   /**
    * Get remoting service instance for client invocation.
    * 
@@ -106,33 +104,32 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
   public AbstractStub<?> getRemotingService(Class<? extends AbstractStub<?>> type, String preferredZone, boolean usedTls, int timeout) {
     checkArgument(type != null, "The type of service interface cannot be null!");
     checkState(state.get() == State.STARTED, "Grpc client is not started!");
-
     AbstractStub<?> service;
     Method stubInitializationMethod;
     try {
-      if (!STUBS.containsKey(type)) {
+      //The basic idea of instantiating grpc client stub:
+      //  Class stubClazz = ***Stub.class (parameter pass in - Class<? extends AbstractStub<?>> type);
+      //  Class grpcClazz = stubClazz.getEnclosingClass();
+      //  Field serviceNameFiled = grpcClazz.getDeclaredField("SERVICE_NAME");
+      //  String value = (String) serviceNameFiled.get(null);
+      
+      //E.g. public static final String SERVICE_NAME = "routeguide.RouteGuide";
+      String serviceName = type.getEnclosingClass().getDeclaredField(GrpcConstants.SERVICE_NAME).get(null).toString();      
+      if (!STUBS.containsKey(type.getName())) {
         // Instantiate the generated gRPC class.
-        Class<?> generatedGrpc =
-            ClassHelper.forName(type.getName().substring(0, type.getName().indexOf('$')));
         if (type.getName().endsWith(GrpcConstants.CLIENT_STUB_SUFFIX_BLOCKING)) {
-          stubInitializationMethod =
-              generatedGrpc.getMethod(GrpcConstants.NEW_CLIENT_BLOCKING_STUB, Channel.class);
+          stubInitializationMethod = type.getEnclosingClass().getMethod(GrpcConstants.NEW_CLIENT_BLOCKING_STUB, Channel.class);
         } else if (type.getName().endsWith(GrpcConstants.CLIENT_STUB_SUFFIX_FUTURE)) {
-          stubInitializationMethod =
-              generatedGrpc.getMethod(GrpcConstants.NEW_CLIENT_FUTURE_STUB, Channel.class);
+          stubInitializationMethod = type.getEnclosingClass().getMethod(GrpcConstants.NEW_CLIENT_FUTURE_STUB, Channel.class);
         } else {
-          stubInitializationMethod =
-              generatedGrpc.getMethod(GrpcConstants.NEW_CLIENT_ASYN_STUB, Channel.class);
+          stubInitializationMethod = type.getEnclosingClass().getMethod(GrpcConstants.NEW_CLIENT_ASYN_STUB, Channel.class);
         }
-        Tuple<String, Method> tuple =
-            new Tuple<String, Method>(type.getName(), stubInitializationMethod);
-        STUBS.putIfAbsent(type, tuple);
+        STUBS.putIfAbsent(type.getName(), stubInitializationMethod);
       } else {
-        stubInitializationMethod = STUBS.get(type).yobj;
+        stubInitializationMethod = STUBS.get(type.getName());
       }
       // instantiate the client stub according to the stub type
-      service = (AbstractStub<?>) stubInitializationMethod.invoke(null, initializer.getChannelPool()
-              .getChannel(type.getName(), preferredZone, usedTls));
+      service = (AbstractStub<?>) stubInitializationMethod.invoke(null, initializer.getChannelPool().getChannel(serviceName, preferredZone, usedTls));
       //Customizes the CallOptions passed the deadline to interceptor
       if (timeout > 0) {
          service.withOption(StubDeadlineClientInterceptor.DEADLINE_KEY, Integer.valueOf(timeout));
