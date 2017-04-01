@@ -23,23 +23,23 @@ import java.util.List;
 
 
 /**
- * Build the list of instance of ServerServiceDefinition by parsing the generated proto description
+ * Build the list of instance of GrpcServiceDefinition by parsing the generated proto description
  * file in the specified path.
  * 
  * @author bwang
  *
  */
-public final class GrpcServiceDefinitionLoader extends ServiceDefinitionLoader<GrpcServerServiceDefinition> {
+public final class GrpcDescriptorServiceDefinitionLoader extends ServiceDefinitionLoader<GrpcServiceDefinition> {
 
-  private static final Logger LOG = LoggerFactory.getLogger(GrpcServiceDefinitionLoader.class);
-  private static final ConcurrentSet<GrpcServerServiceDefinition> services = new ConcurrentSet<GrpcServerServiceDefinition>();
+  private static final Logger LOG = LoggerFactory.getLogger(GrpcDescriptorServiceDefinitionLoader.class.getName());
+  private static final ConcurrentSet<GrpcServiceDefinition> services = new ConcurrentSet<GrpcServiceDefinition>();
 
-  public GrpcServiceDefinitionLoader() {
+  public GrpcDescriptorServiceDefinitionLoader() {
     loadService();
   }
 
   @Override
-  public List<GrpcServerServiceDefinition> getServiceList() {
+  public List<GrpcServiceDefinition> getServiceList() {
 
     return ImmutableList.copyOf(services);
   }
@@ -84,10 +84,10 @@ public final class GrpcServiceDefinitionLoader extends ServiceDefinitionLoader<G
       if (serviceImplBean != null) {
         Method serviceBinder =
             serviceInterface.getMethod(GrpcConstants.SERVICE_BIND_METHOD);
-        services.add(new GrpcServerServiceDefinition((ServerServiceDefinition) serviceBinder.invoke(serviceImplBean)));
+        services.add(new GrpcServiceDefinition((ServerServiceDefinition) serviceBinder.invoke(serviceImplBean)));
       }
     } catch (ServiceImplementationException e) {
-      LOG.warn("Exception happened during getting the implementation of service '{}'",
+      LOG.warn("Exception happened when loading the instance of service definition '{}'",
           serviceInterface, e);
     }
   }

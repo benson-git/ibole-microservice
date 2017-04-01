@@ -1,1 +1,1 @@
-com.github.ibole.microservice.registry.instance.grpc.GrpcServiceDefinitionLoader
+com.github.ibole.microservice.registry.instance.grpc.GrpcDescriptorServiceDefinitionLoader

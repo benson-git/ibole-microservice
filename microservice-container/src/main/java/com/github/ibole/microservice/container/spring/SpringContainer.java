@@ -2,6 +2,8 @@ package com.github.ibole.microservice.container.spring;
 
 import com.github.ibole.microservice.container.IocContainer;
 
+import com.google.common.base.Preconditions;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,6 +24,7 @@ public class SpringContainer implements IocContainer {
   static ClassPathXmlApplicationContext context;
 
   public static ClassPathXmlApplicationContext getContext() {
+    Preconditions.checkNotNull(context, "Spring container is not started yet!");
     return context;
   }
 

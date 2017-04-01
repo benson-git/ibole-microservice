@@ -34,29 +34,22 @@ import io.grpc.ServerServiceDefinition;
  * @param <S>
  *
  */
-public class GrpcServerServiceDefinition extends ServiceDefinitionAdapter<ServerServiceDefinition> {
+public class GrpcServiceDefinition extends ServiceDefinitionAdapter<ServerServiceDefinition> {
   
- 
 
   /**
    * @param serviceDefinition the grpc service definition {@code ServerServiceDefinition}
    */
-  public GrpcServerServiceDefinition(ServerServiceDefinition serviceDefinition) {
+  public GrpcServiceDefinition(ServerServiceDefinition serviceDefinition) {
     super(serviceDefinition);
   }
 
-  /*
-   * @see com.github.ibole.microservice.rpc.server.ServiceDefinitionAdaptor#getServiceName()
-   */
   @Override
   public String getServiceName() {
     
     return getServiceDefinition().getServiceDescriptor().getName();
   }
 
-  /* 
-   * @see com.github.ibole.microservice.rpc.server.ServiceDefinitionAdaptor#getServiceDescription()
-   */
   @Override
   public String getServiceDescription() {
    

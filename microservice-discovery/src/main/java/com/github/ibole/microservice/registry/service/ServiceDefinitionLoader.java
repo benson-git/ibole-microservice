@@ -34,7 +34,7 @@ import java.util.ServiceLoader;
  * @author bwang
  *
  */
-public abstract class ServiceDefinitionLoader<S extends ServiceDefinitionAdapter<?>> {
+public abstract class ServiceDefinitionLoader<S> {
 
   @SuppressWarnings("rawtypes")
   private static final ServiceDefinitionLoader<ServiceDefinitionAdapter> provider =
@@ -73,7 +73,7 @@ public abstract class ServiceDefinitionLoader<S extends ServiceDefinitionAdapter
    * @return the priority int
    */
   protected abstract int priority();
-
+  
   /**
    * Locate the instance of provider ServiceDefinitionLoader.
    * 
