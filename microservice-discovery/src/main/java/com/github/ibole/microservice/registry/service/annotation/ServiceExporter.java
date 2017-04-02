@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.github.ibole.microservice.rpc.example;
+package com.github.ibole.microservice.registry.service.annotation;
 
-import com.github.ibole.microservice.registry.service.ServiceExporter;
-import com.github.ibole.microservice.rpc.example.GreeterGrpc.GreeterImplBase;
-import com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloReply;
-import com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloRequest;
-
-import org.springframework.stereotype.Service;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /*********************************************************************************************.
  * 
@@ -33,23 +32,15 @@ import org.springframework.stereotype.Service;
 
 
 /**
+ * *
+ * Marks the annotated class to be registered as micro-service bean;
+ * 
  * @author bwang
  *
  */
-@Service
-@ServiceExporter
-public class GreeterServiceImpl extends GreeterImplBase {
-  
-  /**
-   * <pre>
-   * Sends a greeting
-   * </pre>
-   */
-  public void sayHello(HelloRequest request,
-      io.grpc.stub.StreamObserver<HelloReply> responseObserver) {
-    HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + request.getName()).build();
-    responseObserver.onNext(reply);
-    responseObserver.onCompleted();
-  }
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface ServiceExporter {
 
 }

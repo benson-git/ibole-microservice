@@ -15,6 +15,7 @@ import com.github.ibole.microservice.registry.service.ServiceDefinitionAdapter;
 import com.github.ibole.microservice.registry.service.ServiceDefinitionLoader;
 import com.github.ibole.microservice.rpc.server.exception.RpcServerException;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 
 import org.slf4j.Logger;
@@ -37,6 +38,8 @@ import java.util.Map;
 public class ServerBootstrap {
 
   private static Logger log = LoggerFactory.getLogger(ServerBootstrap.class);
+  @VisibleForTesting
+  public static boolean awaitTermination = true;
  
   /**
    * The main application allowing this server to be launched from the command line.
@@ -119,8 +122,9 @@ public class ServerBootstrap {
 
     times = System.currentTimeMillis() - times;
     log.info("Microservices Server started on port {} in {} ms", port, times);
-
-    rpcServer.blockUntilShutdown();
+    if (awaitTermination) {
+      rpcServer.blockUntilShutdown();
+    }
   }
 
   /**
@@ -159,6 +163,7 @@ public class ServerBootstrap {
     }
     String rpcServer = ConfigurationHolder.get().get(Constants.PROPERTY_SERVER_HOSTNAME);
     String registryBaseKey = ConfigurationHolder.get().get(Constants.PROPERTY_REGISTRY_ROOT_PATH);
+    String zone = ConfigurationHolder.get().get(Constants.PROPERTY_REGISTRY_ZONE);
     //If has not specify the rpc server host, we just get local default host.
     if (Strings.isNullOrEmpty(rpcServer)) {
       rpcServer = NetworkUtil.getDefaultLocalHost();
@@ -172,9 +177,8 @@ public class ServerBootstrap {
     RegisterEntry entry = new RegisterEntry();
     HostMetadata metadata;
     for (ServiceDefinitionAdapter<?> service : serviceDefinition) {
-      metadata = new HostMetadata(rpcServer, port, useTls);
+      metadata = new HostMetadata(rpcServer, port, zone, useTls);
       entry.setServiceName(service.getServiceName());
-      // TODO: add useful service description for the service consumer
       entry.setDescription(service.getServiceDescription());
       entry.setLastUpdated(Calendar.getInstance().getTime());
       entry.setHostMetadata(metadata);
@@ -208,6 +212,8 @@ public class ServerBootstrap {
         ConfigurationHolder.get().put(Constants.PROPERTY_SERVER_HOSTNAME, value);
       } else if ("port".equals(key)) {
         ConfigurationHolder.get().put(Constants.PROPERTY_SERVER_PORT, value);
+      } else if ("reg_servers".equals(key)) {
+        ConfigurationHolder.get().put(Constants.PROPERTY_REGISTRY_HOSTS, value);
       } else if ("use_tls".equals(key)) {
         ConfigurationHolder.get().put(Constants.PROPERTY_SERVER_USE_TLS, value);
       } else {
@@ -217,11 +223,11 @@ public class ServerBootstrap {
       }
     }
     if (usage) {
-      log.info("Usage: [ARGS...]" + "\n" + "\n  --port=PORT Port to connect to. Default "
-          + Constants.RpcServerEnum.DEFAULT_CONFIG.getPort()
-          + "\n  --use_tls=true|false  Whether to use TLS. Default "
-          + Constants.RpcServerEnum.DEFAULT_CONFIG.isUseTls()
-          + "\n  --hostname= SERVER_HOSTNAME use the specified hostname to expose the servie. Default is skip."
+      log.info("Usage: [ARGS...]" + "\n" 
+          + "\n  --hostname=HOSTNAME use the specified hostname to expose the service. Default is skip."    
+          + "\n  --port=PORT Port to connect to. Default "+ Constants.RpcServerEnum.DEFAULT_CONFIG.getPort()
+          + "\n  --use_tls=true|false  Whether to use TLS. Default " + Constants.RpcServerEnum.DEFAULT_CONFIG.isUseTls()
+          + "\n  --reg_servers=REGISTRY_HOSTS Registry server to connect to."
           + "\n Above all parameters also can be configured in /resources/server.properties.");
       
       System.exit(1);

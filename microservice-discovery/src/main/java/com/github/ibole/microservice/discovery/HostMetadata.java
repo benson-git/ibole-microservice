@@ -67,7 +67,7 @@ public class HostMetadata implements TransferObject {
   @JsonIgnore
   public HostMetadata(@JsonProperty("hostname") String hostname,
       @JsonProperty("port") int port, @JsonProperty("useTls") boolean useTls) {
-      this(hostname, port, "*", useTls);
+      this(hostname, port, "", useTls);
   }
 
   /**

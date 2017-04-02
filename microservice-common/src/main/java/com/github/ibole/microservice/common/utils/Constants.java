@@ -25,6 +25,7 @@ public class Constants {
   public static final String PROPERTY_SERVER_USE_TLS = "ibole.use.tls";
   public static final String PROPERTY_REGISTRY_HOSTS = "ibole.registry.hosts";
   public static final String PROPERTY_REGISTRY_ROOT_PATH = "ibole.registry.rootPath";
+  public static final String PROPERTY_REGISTRY_ZONE = "ibole.registry.zone";
 
   public enum RpcServerEnum {
 

@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.github.ibole.microservice.rpc;
+package com.github.ibole.microservice.rpc.example;
 
 import com.github.ibole.microservice.discovery.zookeeper.test.AbstractZkServerStarter;
+import com.github.ibole.microservice.rpc.example.serviceconsumer.GreeterClient;
 import com.github.ibole.microservice.rpc.server.ServerBootstrap;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -43,8 +45,8 @@ public class RpcIntegrationTest extends AbstractZkServerStarter{
 
     @Before
     public void setup() {
-      String[] args1 = new String[] {"--hostname=localhost", "--port=443", "--use_tls=true"};
-      
+      String[] args1 = new String[] {"--hostname=localhost", "--port=443", "--reg_servers=localhost:2181", "--use_tls=true"};
+      ServerBootstrap.awaitTermination = false;
       ServerBootstrap.main(args1);
     }
     
@@ -54,8 +56,13 @@ public class RpcIntegrationTest extends AbstractZkServerStarter{
       initialize();
     }
     
+    @AfterClass
+    public static void destroy(){
+      Runtime.getRuntime().exit(0);
+    }
     @Test
     public void test(){
-      
+      GreeterClient client = new GreeterClient();
+      org.junit.Assert.assertTrue(client.equals("Hello world!"));
     }
 }

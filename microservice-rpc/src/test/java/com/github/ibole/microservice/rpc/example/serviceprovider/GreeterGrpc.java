@@ -1,4 +1,4 @@
-package com.github.ibole.microservice.rpc.example;
+package com.github.ibole.microservice.rpc.example.serviceprovider;
 
 import static io.grpc.stub.ClientCalls.asyncUnaryCall;
 import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
@@ -31,14 +31,14 @@ public final class GreeterGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloRequest,
-      com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloReply> METHOD_SAY_HELLO =
+  public static final io.grpc.MethodDescriptor<com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloRequest,
+      com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloReply> METHOD_SAY_HELLO =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
               "helloworld.Greeter", "SayHello"),
-          io.grpc.protobuf.ProtoUtils.marshaller(com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloReply.getDefaultInstance()));
+          io.grpc.protobuf.ProtoUtils.marshaller(com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloReply.getDefaultInstance()));
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -75,8 +75,8 @@ public final class GreeterGrpc {
      * Sends a greeting
      * </pre>
      */
-    public void sayHello(com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloRequest request,
-        io.grpc.stub.StreamObserver<com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloReply> responseObserver) {
+    public void sayHello(com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloRequest request,
+        io.grpc.stub.StreamObserver<com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloReply> responseObserver) {
       asyncUnimplementedUnaryCall(METHOD_SAY_HELLO, responseObserver);
     }
 
@@ -86,8 +86,8 @@ public final class GreeterGrpc {
             METHOD_SAY_HELLO,
             asyncUnaryCall(
               new MethodHandlers<
-                com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloRequest,
-                com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloReply>(
+                com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloRequest,
+                com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloReply>(
                   this, METHODID_SAY_HELLO)))
           .build();
     }
@@ -119,8 +119,8 @@ public final class GreeterGrpc {
      * Sends a greeting
      * </pre>
      */
-    public void sayHello(com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloRequest request,
-        io.grpc.stub.StreamObserver<com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloReply> responseObserver) {
+    public void sayHello(com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloRequest request,
+        io.grpc.stub.StreamObserver<com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloReply> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(METHOD_SAY_HELLO, getCallOptions()), request, responseObserver);
     }
@@ -152,7 +152,7 @@ public final class GreeterGrpc {
      * Sends a greeting
      * </pre>
      */
-    public com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloReply sayHello(com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloRequest request) {
+    public com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloReply sayHello(com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_SAY_HELLO, getCallOptions(), request);
     }
@@ -184,8 +184,8 @@ public final class GreeterGrpc {
      * Sends a greeting
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloReply> sayHello(
-        com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloReply> sayHello(
+        com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloRequest request) {
       return futureUnaryCall(
           getChannel().newCall(METHOD_SAY_HELLO, getCallOptions()), request);
     }
@@ -211,8 +211,8 @@ public final class GreeterGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_SAY_HELLO:
-          serviceImpl.sayHello((com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloRequest) request,
-              (io.grpc.stub.StreamObserver<com.github.ibole.microservice.rpc.example.HelloWorldProto.HelloReply>) responseObserver);
+          serviceImpl.sayHello((com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloRequest) request,
+              (io.grpc.stub.StreamObserver<com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloReply>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -233,7 +233,7 @@ public final class GreeterGrpc {
   private static final class GreeterDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return com.github.ibole.microservice.rpc.example.HelloWorldProto.getDescriptor();
+      return com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.getDescriptor();
     }
   }
 

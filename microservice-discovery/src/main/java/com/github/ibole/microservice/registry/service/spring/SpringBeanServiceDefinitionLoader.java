@@ -19,7 +19,7 @@ package com.github.ibole.microservice.registry.service.spring;
 import com.github.ibole.microservice.common.utils.ConcurrentSet;
 import com.github.ibole.microservice.container.spring.SpringContainer;
 import com.github.ibole.microservice.registry.service.ServiceDefinitionLoader;
-import com.github.ibole.microservice.registry.service.ServiceExporter;
+import com.github.ibole.microservice.registry.service.annotation.ServiceExporter;
 import com.github.ibole.microservice.registry.service.grpc.GrpcServiceDefinition;
 
 import com.google.common.collect.ImmutableList;
