@@ -312,8 +312,9 @@ public class GrpcClientInitializer implements Closeable {
         .idleTimeout(Long.MAX_VALUE, TimeUnit.SECONDS)
         .maxInboundMessageSize(MAX_MESSAGE_SIZE)
         //.sslContext(createSslContext())
-        .eventLoopGroup(RpcSharedThreadPools.getInstance().getElg())
-        .executor(RpcSharedThreadPools.getInstance().getBatchThreadPool())
+        //.eventLoopGroup(RpcSharedThreadPools.getInstance().getElg())
+        //TODO: Caused run unit testing error happen in maven if comment out below 2 lines code!!!
+        //.executor(RpcSharedThreadPools.getInstance().getBatchThreadPool())
         // .userAgent(VersionInfo.CORE_UESR_AGENT + "," + options.getUserAgent())
         .flowControlWindow(FLOW_CONTROL_WINDOW)
         .intercept(new HeaderClientInterceptor(),

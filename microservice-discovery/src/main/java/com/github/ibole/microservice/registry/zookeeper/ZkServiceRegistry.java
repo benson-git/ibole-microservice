@@ -164,7 +164,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
         acquiredLock = true;
         CloseableUtils.closeQuietly(serviceDiscovery);
         serializer = null;
-        serviceDiscovery = null;
+        serviceDiscovery = null;        
       }
     } catch (Exception e) {
       log.error("Destroy service registry error happened !", e);
@@ -174,6 +174,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
         if (acquiredLock) {
           lock.release();
         }
+        lock = null;
         //must release lock first and then close CuratorFramework
         CloseableUtils.closeQuietly(client);
         client = null;
