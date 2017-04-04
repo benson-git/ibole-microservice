@@ -1,1 +1,1 @@
-http\://code.ibole.com/schema/microservices=com.github.ibole.microservice.config.spring.RpcNamespaceHandler
+http\://github.com/ibole/schema/blob/master/microservices=com.github.ibole.microservice.config.spring.RpcNamespaceHandler

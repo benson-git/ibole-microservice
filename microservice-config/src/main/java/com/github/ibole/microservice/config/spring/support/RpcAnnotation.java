@@ -100,8 +100,8 @@ public class RpcAnnotation implements DisposableBean, BeanFactoryPostProcessor, 
           }
         }
       } catch (Throwable e) {
-        LOGGER.error("Failed to init remote service reference at filed " + field.getName()
-            + " in class " + bean.getClass().getName() + ", cause: " + e.getMessage(), e);
+        LOGGER.error("Failed to init remote service reference at filed '" + field.getName()
+            + "' in class " + bean.getClass().getName() + ", cause: " + e.getMessage(), e);
       }
     }
     return bean;
@@ -154,9 +154,8 @@ public class RpcAnnotation implements DisposableBean, BeanFactoryPostProcessor, 
     } else if (referenceClazz.isInterface()) {
       interfaceName = referenceClazz.getName();
     } else {
-      throw new IllegalStateException(
-          "The @Reference undefined interfaceClass or interfaceName, and the property type "
-              + referenceClazz.getName() + " is not a interface.");
+      //here we support to get the bean by the concrete class type 
+      interfaceName = referenceClazz.getName();
     }
     RpcReference<?> rpcReference = new RpcReference(interfaceName, reference.preferredZone(), reference.usedTls(),
             reference.timeout());

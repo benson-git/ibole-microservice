@@ -2,10 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:microservices="http://code.ibole.com/schema/microservices"
+  xmlns:microservices="http://github.com/ibole/schema/blob/master/microservices"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
-    http://code.ibole.com/schema/microservices http://code.ibole.com/schema/microservices/microservices.xsd">
+    http://github.com/ibole/schema/blob/master/microservices http://github.com/ibole/schema/blob/master/microservices/microservices.xsd">
+ 
    
 	<microservices:annotation package="com.github.ibole.microservice.config.spring.annotation.test" /> 
 

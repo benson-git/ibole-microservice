@@ -2,7 +2,7 @@
 <xsd:schema xmlns="http://code.ibole.com/schema/microservices"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:tool="http://www.springframework.org/schema/tool"
-	targetNamespace="http://code.ibole.com/schema/microservices" 
+	targetNamespace="http://github.com/ibole/schema/blob/master/microservices" 
 	elementFormDefault="qualified"
     attributeFormDefault="unqualified">
 

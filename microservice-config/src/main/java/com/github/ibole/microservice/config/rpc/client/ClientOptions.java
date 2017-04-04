@@ -81,18 +81,20 @@ public class ClientOptions implements Serializable {
 
   public ClientOptions withZoneToPrefer(String zoneToPrefer) {
     ClientOptions options = new ClientOptions(this);
-    this.zoneToPrefer = zoneToPrefer;
+    options.zoneToPrefer = zoneToPrefer;
     return options;
   }
 
   public ClientOptions withServiceEndpoint(String serviceEndpoint) {
-    this.serviceEndpoint = serviceEndpoint;
-    return this;
+    ClientOptions options = new ClientOptions(this);
+    options.serviceEndpoint = serviceEndpoint;
+    return options;
   }
   
   public ClientOptions withServerHostOverride(String serverHostOverride) {
-    this.serverHostOverride = serverHostOverride;
-    return this;
+    ClientOptions options = new ClientOptions(this);
+    options.serverHostOverride = serverHostOverride;
+    return options;
   }
 
   /**

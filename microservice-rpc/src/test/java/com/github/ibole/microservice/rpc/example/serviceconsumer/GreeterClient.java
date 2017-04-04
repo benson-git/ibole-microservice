@@ -17,8 +17,6 @@
 package com.github.ibole.microservice.rpc.example.serviceconsumer;
 
 import com.github.ibole.microservice.config.annotation.Reference;
-import com.github.ibole.microservice.rpc.example.serviceprovider.GreeterGrpc;
-import com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto;
 import com.github.ibole.microservice.rpc.example.serviceprovider.GreeterGrpc.GreeterBlockingStub;
 import com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloReply;
 import com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloRequest;

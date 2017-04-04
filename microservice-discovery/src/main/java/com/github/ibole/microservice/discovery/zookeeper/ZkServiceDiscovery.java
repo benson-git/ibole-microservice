@@ -124,13 +124,17 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
       @Override
       public void childEvent(CuratorFramework client, TreeCacheEvent event)
           throws Exception {
-        if (event.getData() != null) {
+        //Filter the even coming from leases&locks
+        if (event.getData() != null && !event.getData().getPath().contains("leases")
+            && !event.getData().getPath().contains("locks")) {
           switch (event.getType()) {
             case NODE_ADDED:
-              // update the all children
-              listener.update(getServiceInstancesFromCache(serviceName));
-              if (logger.isInfoEnabled()) {
-                logger.info("Service is added at path '{}'", event.getData().getPath());
+              // update the all children - filter the node_added even is for the parent node creation for serviceName
+              if (event.getData().getPath().contains(serviceName)) {
+                listener.update(getServiceInstancesFromCache(serviceName));
+                if (logger.isInfoEnabled()) {
+                  logger.info("Service is added at path '{}'", event.getData().getPath());
+                }
               }
               break;
             case NODE_REMOVED:

@@ -100,7 +100,6 @@ public class ZkNameResolver extends NameResolver {
     }
 
     listener.onUpdate(resolvedServers, params);
-    
     //watch service node changes and fire the even
     discovery.watchForCacheUpdates(serviceName, hostMetadateList -> {
       List<ResolvedServerInfoGroup> updatedServers = filterResolvedServers(hostMetadateList, predicateZone(callOptions));
@@ -119,6 +118,7 @@ public class ZkNameResolver extends NameResolver {
 
     if (LOGGER.isInfoEnabled()) {
       LOGGER.info("ZkNameResolver is start.");
+      LOGGER.info("ZkNameResolver resolved servers '{}'",resolvedServers) ;
     }
   }
   
@@ -156,7 +156,10 @@ public class ZkNameResolver extends NameResolver {
       if(callOptions.isUsedTls() != host.isUseTls()){
         return false;
       }  
-      return Strings.nullToEmpty(callOptions.getZoneToPrefer()).equalsIgnoreCase(Strings.nullToEmpty(host.getZone()));   
+      if(Strings.isNullOrEmpty(callOptions.getZoneToPrefer())){
+        return true;
+      } 
+      return callOptions.getZoneToPrefer().equalsIgnoreCase(Strings.nullToEmpty(host.getZone()));   
      };
     return predicateWithZoneAndTls;
   }

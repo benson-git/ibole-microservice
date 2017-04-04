@@ -19,13 +19,15 @@ package com.github.ibole.microservice.rpc.example;
 import com.github.ibole.microservice.discovery.zookeeper.test.AbstractZkServerStarter;
 import com.github.ibole.microservice.rpc.example.serviceconsumer.GreeterClient;
 import com.github.ibole.microservice.rpc.server.ServerBootstrap;
-
+  
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /*********************************************************************************************.
  * 
@@ -40,9 +42,12 @@ import org.junit.runners.JUnit4;
  * @author bwang
  *
  */
-@RunWith(JUnit4.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:META-INF/spring/service-consumer.xml"})
 public class RpcIntegrationTest extends AbstractZkServerStarter{
-
+    @Autowired
+    private GreeterClient client;
+    
     @Before
     public void setup() {
       String[] args1 = new String[] {"--hostname=localhost", "--port=443", "--reg_servers=localhost:2181", "--use_tls=true"};
@@ -50,19 +55,20 @@ public class RpcIntegrationTest extends AbstractZkServerStarter{
       ServerBootstrap.main(args1);
     }
     
-    @BeforeClass
-    public static void init() {
+    @BeforeClass  
+    public static void init() throws InterruptedException{
       // start the zk server
       initialize();
     }
     
     @AfterClass
-    public static void destroy(){
-      Runtime.getRuntime().exit(0);
+    public static void destroy() throws InterruptedException{
+      Thread.sleep(5000);
     }
     @Test
-    public void test(){
-      GreeterClient client = new GreeterClient();
-      org.junit.Assert.assertTrue(client.equals("Hello world!"));
+    public void test() {
+      String response = client.doGreeter();
+      System.out.println(response);
+      org.junit.Assert.assertTrue(response.equals("Hello world!"));
     }
 }

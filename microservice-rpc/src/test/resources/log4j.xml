@@ -3,18 +3,23 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
     <!-- Appenders -->
    <appender name="sysout" class="org.apache.log4j.ConsoleAppender">
-     <layout class="org.apache.log4j.TTCCLayout" />
-     <filter class="org.apache.log4j.varia.LevelMatchFilter">
-       <param name="levelToMatch" value="DEBUG" />
-     </filter>
-  </appender>  
+    <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value=" %d{yyyy/MM/dd HH:mm:ss,SSS}[%-5p] [%t](%C.%M:%L)%x - %m%n" />
+    </layout>
+  </appender> 
    <!-- Loggers -->
   <logger name="org.apache.zookeeper.ClientCnxn" additivity="false">
      <level value="INFO" />
   </logger>
   <logger name="com.github.ibole.microservice.metrics.ClientMetrics" additivity="false">     
     <level value="DEBUG" />   
-  </logger>    
+  </logger>
+  <logger name="io.grpc" additivity="false">     
+    <level value="INFO" />   
+  </logger>
+  <logger name="org.apache.zookeeper" additivity="false">     
+    <level value="INFO" />   
+  </logger>     
   <root>
     <level value="DEBUG" />
     <appender-ref ref="sysout" />

@@ -43,4 +43,13 @@ public class MockRpcClient implements RpcClient<DemoService> {
     return new DemoServiceImpl();
   }
 
+  /* (non-Javadoc)
+   * @see com.github.ibole.microservice.config.rpc.client.RpcClient#getState()
+   */
+  @Override
+  public com.github.ibole.microservice.config.rpc.client.RpcClient.State getState() {
+   
+    return null;
+  }
+
 }

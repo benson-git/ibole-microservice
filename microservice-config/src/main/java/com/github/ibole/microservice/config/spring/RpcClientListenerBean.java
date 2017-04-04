@@ -5,10 +5,10 @@ import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 import com.github.ibole.microservice.config.rpc.client.RpcClientProvider;
 import com.github.ibole.microservice.config.spring.support.RpcRegistery;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactoryUtils;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
@@ -19,12 +19,11 @@ import org.springframework.context.event.ContextStoppedEvent;
 
 
 public class RpcClientListenerBean
-    implements ApplicationContextAware, ApplicationListener<ApplicationEvent> {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(RpcClientListenerBean.class);
+    implements ApplicationContextAware, ApplicationListener<ApplicationEvent>, BeanFactoryPostProcessor {
 
   private ApplicationContext applicationContext;
   
+  private String serverHostOverride;
 
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -44,31 +43,33 @@ public class RpcClientListenerBean
 
   private void onStartedEvent(ApplicationEvent event) {
     if (ContextStartedEvent.class.getName().equals(event.getClass().getName())) {
-      // Map<String, RpcRegistery> providerConfigMap =
-      // BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, RpcRegistery.class,
-      // false, false);
-      RpcRegistery rpcRegistery =
-          BeanFactoryUtils.beanOfType(applicationContext, RpcRegistery.class);
-      ServerIdentifier identifier =
-          new ServerIdentifier(rpcRegistery.getRootPath(), rpcRegistery.getAddress());
-      ClientOptions clientOptions = ClientOptions.DEFAULT;
-      clientOptions = clientOptions.withRegistryCenterAddress(identifier)
-              .withZoneToPrefer(rpcRegistery.getPreferredZone())
-              .withUsedTls(rpcRegistery.isUsedTls());
-      RpcClientProvider.provider().getRpcClient().initialize(clientOptions);
-      RpcClientProvider.provider().getRpcClient().start();
-      if (LOGGER.isInfoEnabled()) {
-        LOGGER.info("The RPC client ready on spring started.");
-      }
+      startRpcClient();
     }
+  }
+
+  /**
+   * 
+   */
+  private void startRpcClient() {
+    // Map<String, RpcRegistery> providerConfigMap =
+    // BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, RpcRegistery.class,
+    // false, false);
+    RpcRegistery rpcRegistery =
+        BeanFactoryUtils.beanOfType(applicationContext, RpcRegistery.class);
+    ServerIdentifier identifier =
+        new ServerIdentifier(rpcRegistery.getRootPath(), rpcRegistery.getAddress());
+    ClientOptions clientOptions = ClientOptions.DEFAULT;
+    clientOptions = clientOptions.withRegistryCenterAddress(identifier)
+            .withZoneToPrefer(rpcRegistery.getPreferredZone())
+            .withServerHostOverride(getServerHostOverride())
+            .withUsedTls(rpcRegistery.isUsedTls());
+    RpcClientProvider.provider().getRpcClient().initialize(clientOptions);
+    RpcClientProvider.provider().getRpcClient().start();
   }
 
   private void onStoppedEvent(ApplicationEvent event) {
     if (ContextStoppedEvent.class.getName().equals(event.getClass().getName())) {
       RpcClientProvider.provider().getRpcClient().stop();
-      if (LOGGER.isInfoEnabled()) {
-        LOGGER.info("The RPC client ready on spring stopped.");
-      }
     }
   }
 
@@ -76,10 +77,31 @@ public class RpcClientListenerBean
 
     if (ContextClosedEvent.class.getName().equals(event.getClass().getName())) {
       RpcClientProvider.provider().getRpcClient().stop();
-      if (LOGGER.isInfoEnabled()) {
-        LOGGER.info("The RPC client ready on spring closed.");
-      }
     }
+  }
+
+  /* (non-Javadoc)
+   * @see org.springframework.beans.factory.config.BeanFactoryPostProcessor#postProcessBeanFactory(org.springframework.beans.factory.config.ConfigurableListableBeanFactory)
+   */
+  @Override
+  public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
+      throws BeansException {
+   
+    startRpcClient();
+  }
+
+  /**
+   * @return the serverHostOverride
+   */
+  public String getServerHostOverride() {
+    return serverHostOverride;
+  }
+
+  /**
+   * @param serverHostOverride the serverHostOverride to set
+   */
+  public void setServerHostOverride(String serverHostOverride) {
+    this.serverHostOverride = serverHostOverride;
   }
 
 

@@ -41,12 +41,6 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
     // do nothing.
   }
 
-  enum State {
-
-    LATENT, INITIALIZED, STARTED, STOPPED;
-
-  }
-
   /**
    * The server identifier is used to connect to registry center.
    */
@@ -54,8 +48,10 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
   public void initialize(ClientOptions clientOptions) {
     if (state.compareAndSet(State.LATENT, State.INITIALIZED)
         || state.compareAndSet(State.STOPPED, State.INITIALIZED)) {
-       //TODO: remove the hard code on server host override
-       initializer = new GrpcClientInitializer(clientOptions.withServerHostOverride("localhost"));
+       initializer = new GrpcClientInitializer(clientOptions);
+       if (log.isInfoEnabled()) {
+         log.info("Rpc client is initialized.");
+       }
     }
   }
 
@@ -142,6 +138,12 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
     return service;
   }
 
+  @Override
+  public State getState() {
+    
+    return this.state.get();
+  }
+
   /**
    * Load the service with lazy load style.
    * 
@@ -155,6 +157,5 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
     private static final GrpcClient INSTANCE = new GrpcClient();
 
   }
-
 
 }
