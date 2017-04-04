@@ -65,9 +65,9 @@ public class ServiceRegistryTest extends AbstractZkServerStarter {
   private static RegisterEntry entry;
 
   @BeforeClass
-  public static void setup() {
+  public static void setup() throws Exception {
     // start the zk server
-    initialize();
+    startZKServer();
 
     HostAndPort hostAndPort1 = HostAndPort.fromString("localhost:" + PORT);
     ArrayList<HostAndPort> list = new ArrayList<HostAndPort>();
@@ -133,6 +133,7 @@ public class ServiceRegistryTest extends AbstractZkServerStarter {
   public static void destroy() {
 
     AbstractRegistryFactory.destroyAll();
+    closeZKServer();
   }
 
 }

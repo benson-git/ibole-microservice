@@ -60,9 +60,9 @@ public class GrpcClientInitializerTest extends AbstractZkServerStarter{
   }
   
   @BeforeClass
-  public static void init() {
+  public static void init() throws Exception {
     // start the zk server
-    initialize();
+    startZKServer();
   }
 
   @Test
@@ -84,5 +84,6 @@ public class GrpcClientInitializerTest extends AbstractZkServerStarter{
   @AfterClass
   public static void destroy() throws IOException {
     initializer.close();
+    closeZKServer();
   }
 }

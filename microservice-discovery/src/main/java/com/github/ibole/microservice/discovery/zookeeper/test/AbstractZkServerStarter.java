@@ -16,14 +16,12 @@
 
 package com.github.ibole.microservice.discovery.zookeeper.test;
 
-import org.apache.zookeeper.server.ServerConfig;
-import org.apache.zookeeper.server.ZooKeeperServerMain;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
+import org.apache.curator.test.TestingServer;
+import org.apache.curator.utils.CloseableUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Properties;
+import java.io.File;
 
 /*********************************************************************************************.
  * 
@@ -41,37 +39,18 @@ import java.util.Properties;
 public abstract class AbstractZkServerStarter {
   
   protected final static Logger logger = LoggerFactory.getLogger(AbstractZkServerStarter.class.getName());
-  protected final static String PORT = "2181";
-  private static ZooKeeperServerMain zooKeeperServer;
+  protected final static int PORT = 2181;
+  private static TestingServer server;
+  private static File tempDirectory;
   
+  protected static void startZKServer() throws Exception {
+    tempDirectory = new File(System.getProperty("java.io.tmpdir")+'/'+System.nanoTime());
+    server = new TestingServer(PORT, tempDirectory);
+  }
   
-  protected static void initialize() {
-      
-      Properties startupProperties = new Properties();
-      startupProperties.put("dataDir", System.getProperty("java.io.tmpdir")+'/'+System.nanoTime());
-      startupProperties.put("clientPort", PORT);
-
-      
-      QuorumPeerConfig quorumConfiguration = new QuorumPeerConfig();
-      try {
-          quorumConfiguration.parseProperties(startupProperties);
-      } catch(Exception e) {
-          throw new RuntimeException(e);
-      }
-
-      zooKeeperServer = new ZooKeeperServerMain();
-      final ServerConfig configuration = new ServerConfig();
-      configuration.readFrom(quorumConfiguration);
-
-      new Thread() {
-          public void run() {
-              try {
-                  zooKeeperServer.runFromConfig(configuration);
-              } catch (IOException e) {
-                logger.error("ZkServerStarter initialize error", e);
-              }
-          }
-      }.start();   
+  protected static void closeZKServer() {
+    CloseableUtils.closeQuietly(server);
+    tempDirectory.deleteOnExit();
   }
   
 }

@@ -20,6 +20,7 @@ import com.github.ibole.microservice.discovery.zookeeper.test.AbstractZkServerSt
 import com.github.ibole.microservice.rpc.example.serviceconsumer.GreeterClient;
 import com.github.ibole.microservice.rpc.server.ServerBootstrap;
   
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -56,14 +57,15 @@ public class RpcIntegrationTest extends AbstractZkServerStarter{
     }
     
     @BeforeClass  
-    public static void init() throws InterruptedException{
+    public static void init() throws Exception{
       // start the zk server
-      initialize();
+      startZKServer();
     }
     
     @AfterClass
     public static void destroy() throws InterruptedException{
-      Thread.sleep(5000);
+      Thread.sleep(2000);
+      closeZKServer();
     }
     @Test
     public void test() {
