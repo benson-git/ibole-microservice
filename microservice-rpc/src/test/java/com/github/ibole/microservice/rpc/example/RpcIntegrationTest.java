@@ -57,8 +57,9 @@ public class RpcIntegrationTest extends AbstractZkServerStarter{
       ServerBootstrap.main(args1);
     }
     @After
-    public void destroy(){ 
+    public void destroy() throws InterruptedException{ 
       AbstractRegistryFactory.destroyAll();
+      Thread.sleep(4000);
     }
     @BeforeClass  
     public static void start() throws Exception{
@@ -67,8 +68,7 @@ public class RpcIntegrationTest extends AbstractZkServerStarter{
     }
    
     @AfterClass
-    public static void close() throws InterruptedException{
-      Thread.sleep(2000);
+    public static void close() {
       closeZKServer();
     }
     @Test
