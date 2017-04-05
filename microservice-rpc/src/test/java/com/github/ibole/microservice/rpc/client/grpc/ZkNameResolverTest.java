@@ -107,7 +107,6 @@ public class ZkNameResolverTest extends AbstractZkServerStarter {
     serviceRegistry.register(entry);
   }
 
-  @SuppressWarnings("rawtypes")
   @Test
   public void testNameResolver() throws Exception {
     
@@ -138,7 +137,6 @@ public class ZkNameResolverTest extends AbstractZkServerStarter {
       });
       
       updateLatch.await();
-      Thread.sleep(2000);
 
     } catch (Exception e) {
       updateLatch.countDown();
@@ -153,6 +151,7 @@ public class ZkNameResolverTest extends AbstractZkServerStarter {
     
     client.delete().deletingChildrenIfNeeded()
         .forPath(rootZnode + "/" + targetService.getAuthority());
+    Thread.sleep(2000);
   }
     
   @AfterClass

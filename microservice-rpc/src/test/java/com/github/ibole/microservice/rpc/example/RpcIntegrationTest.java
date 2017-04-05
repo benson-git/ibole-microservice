@@ -52,7 +52,7 @@ public class RpcIntegrationTest extends AbstractZkServerStarter{
     
     @Before
     public void setup() {
-      String[] args1 = new String[] {"--hostname=localhost", "--port=443", "--reg_servers=localhost:2181", "--use_tls=true"};
+      String[] args1 = new String[] {"--hostname=localhost", "--port=8443", "--reg_servers=localhost:2181", "--use_tls=true"};
       ServerBootstrap.awaitTermination = false;
       ServerBootstrap.main(args1);
     }
