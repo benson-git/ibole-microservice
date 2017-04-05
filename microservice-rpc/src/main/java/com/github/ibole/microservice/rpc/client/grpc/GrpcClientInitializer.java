@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import io.grpc.ClientInterceptor;
 import io.grpc.ManagedChannel;
+import io.grpc.grpclb.GrpclbLoadBalancerFactory;
 import io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
@@ -309,6 +310,7 @@ public class GrpcClientInitializer implements Closeable {
                 .withZoneToPrefer(clientOptions.getZoneToPrefer())
                 .withServiceEndpoint(clientOptions.getServiceEndpoint())
                 .withUsedTls(clientOptions.isUsedTls()))
+        .loadBalancerFactory(GrpclbLoadBalancerFactory.getInstance())
         .idleTimeout(Long.MAX_VALUE, TimeUnit.SECONDS)
         .maxInboundMessageSize(MAX_MESSAGE_SIZE)
         //.sslContext(createSslContext())

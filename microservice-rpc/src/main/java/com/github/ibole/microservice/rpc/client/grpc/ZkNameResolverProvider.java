@@ -4,6 +4,7 @@ import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 
 import io.grpc.Attributes;
 import io.grpc.NameResolver;
+import io.grpc.grpclb.GrpclbConstants;
 
 import java.net.URI;
 
@@ -54,8 +55,11 @@ public class ZkNameResolverProvider extends AbstractNameResolverProvider<ZkNameR
   @Override
   public NameResolver newNameResolver(URI targetUri, Attributes params) {
     if (SCHEME.equals(targetUri.getScheme())) {
+      //TODO: don't override the pass in params
+      params = Attributes.newBuilder()
+                .set(GrpclbConstants.ATTR_LB_POLICY, GrpclbConstants.LbPolicy.ROUND_ROBIN).build();
       return new ZkNameResolver(targetUri, params, getCallOptions());
-    } else { 
+    } else {
       return null;
     }
   }
