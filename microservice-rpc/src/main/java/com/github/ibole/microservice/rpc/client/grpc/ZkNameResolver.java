@@ -122,6 +122,19 @@ public class ZkNameResolver extends NameResolver {
     }
   }
   
+  /**
+   * Re-resolve the name.
+   *
+   * <p>Can only be called after {@link #start} has been called.
+   *
+   * <p>This is only a hint. Implementation takes it as a signal but may not start resolution
+   * immediately. It should never throw.
+   *
+   * <p>The default implementation is no-op.
+   */
+  @Override
+  public void refresh() {}
+  
   @Override
   public final synchronized void shutdown() {
     try {

@@ -8,12 +8,30 @@
     </layout>
   </appender> 
    <!-- Loggers -->
-  <logger name="org.apache.zookeeper.ClientCnxn" additivity="false">
-     <level value="INFO" />
-  </logger>
   <logger name="com.github.ibole.microservice.metrics.ClientMetrics" additivity="false">     
-    <level value="DEBUG" />   
-  </logger>    
+    <level value="DEBUG" /> 
+    <appender-ref ref="sysout" /> 
+  </logger>
+  <logger name="io.grpc" additivity="false">     
+    <level value="INFO" /> 
+    <appender-ref ref="sysout" />  
+  </logger>
+  <logger name="org.springframework" additivity="false">     
+    <level value="INFO" />
+    <appender-ref ref="sysout" />
+  </logger>
+  <logger name="org.apache.zookeeper" additivity="false">     
+    <level value="INFO" />   
+    <appender-ref ref="sysout" />
+  </logger>
+  <logger name="org.apache.curator" additivity="false">     
+    <level value="INFO" />  
+    <appender-ref ref="sysout" /> 
+  </logger>
+  <logger name="io.netty" additivity="false">     
+    <level value="INFO" />   
+    <appender-ref ref="sysout" />
+  </logger>      
   <root>
     <level value="DEBUG" />
     <appender-ref ref="sysout" />
