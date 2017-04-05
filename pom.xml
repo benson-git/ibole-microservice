@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ibole</groupId>
 	<artifactId>microservice-parent</artifactId>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	<description>The parent project of IBole microservice framework</description>
@@ -86,7 +86,7 @@
 		</profile>
 	</profiles>
 	<properties>
-		<infrastructure_all_version>1.0.9</infrastructure_all_version>
+		<infrastructure_all_version>1.10.0</infrastructure_all_version>
 		<!-- Common libs -->
 		<slf4j_log4j12_version>1.7.5</slf4j_log4j12_version>
 		<commons_logging_api_version>1.1</commons_logging_api_version>
