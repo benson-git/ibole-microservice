@@ -56,10 +56,10 @@ public class EmbedZkServer {
           main.close();
           DirectoryUtils.deleteRecursively(dataDirectory);
         } catch (IOException ex) {
-          logger.error("Shutdowning ZK Server error", ex);
+          logger.error("Shutdowning ZK Server error.", ex);
         }
   
-        logger.info("ZK Server has been shut down");
+        logger.info("ZK Server has been shut down.");
       }
     });
     
@@ -73,11 +73,11 @@ public class EmbedZkServer {
               }
               catch ( Exception e )
               {
-                  logger.error("Starting ZK Server error", e);
+                  logger.error("Starting ZK Server error.", e);
               }
           }
       }).start();
-
+      logger.info("Zookeeper Server started successfully.");
       main.blockUntilStarted();
   }
   
