@@ -14,13 +14,13 @@ This is the first time I have ever seen dual interface in generics actually used
  https://github.com/opentracing/opentracing-java
  https://github.com/grpc-ecosystem/grpc-opentracing
  
-------- 
+------- ## About the API version discussion
+
 If the RPC completes normally, onCompleted will be called. If there is an error, onError will be called. If an RPC has not yet started, it will try to reconnect until it is ready. If there is a disconnect in the middle of an RPC, it will not be retried.
 If you are using a Streaming RPC, your connection will be kept alive. You can send your batch of data, and then just wait for the RPC to complete. As long as you have not yet received onCompleted or onError, the connection will be kept alive.
 
 ------
 
-## About the API version discussion
 
 + Microservices will not required to maintain a version number in its path. Version number of an API is a metadata information, which need to maintain separately. Best option is to use swagger annotations for this.  
 + Maintaining several version of same API in a single product is cumbersome and will be difficult maintain. Hence every time we will expose only one versions of the API in a product.
@@ -91,7 +91,10 @@ https://github.com/Comcast/jrugged/blob/master/jrugged-core/src/main/java/org/fi
 GitHub：Netflix/hystrix
 https://github.com/Netflix/hystrix
 
-Exponential Backoff algorithm: 
+Failfast -> 自动降级也即“Fail Fast(快速失败)
+Fallover -> 故障转移
+Backoff -> 补偿
+Exponential Backoff algorithm -> 退避算法: 
  退避算法有多种表现形式，主要功能是发生某类事件时，为了避免频繁地触发某个行为，而采取延长行为反应时间的措施。指数退避算法需要五个参数:
     - 初始等待周期(Initial wait period)
     - 再次等待周期(Secondary wait period)
@@ -100,5 +103,26 @@ Exponential Backoff algorithm:
     - 稳定周期因子(Stable period factor)
     
 Throttling节流模式
+
+- gPRC容错机制(retries):
+  https://github.com/grpc/proposal/blob/master/A6-client-retries.md
+
+- Dubbo容错机制(retries):
+  Dubbo服务集群，常见容错机制：failover ，failsafe，failfase ，failback，forking
+   常见容错机制：failover ，failsafe，failfase ，failback，forking，来源于阿里的定义。
+  Failover 失败自动切换 
+       当出现失败，重试其它服务器，通常用于读操作（推荐使用）。 重试会带来更长延迟。
+  Failfast  快速失败
+       只发起一次调用，失败立即报错,通常用于非幂等性的写操作。 如果有机器正在重启，可能会出现调用失败 。
+  Failsafe 失败安全
+       出现异常时，直接忽略，通常用于写入审计日志等操作。 调用信息丢失 可用于生产环境 Monitor。
+  Failback  失败自动恢复
+       后台记录失败请求，定时重发。通常用于消息通知操作 不可靠，重启丢失。 可用于生产环境 Registry。
+  Forking  并行调用多个服务器
+       只要一个成功即返回，通常用于实时性要求较高的读操作。 需要浪费更多服务资源   。
+  Broadcast 
+       广播调用，所有提供逐个调用，任意一台报错则报错。通常用于更新提供方本地状态 速度慢，任意一台报错则报错 。 
+
+
 
 

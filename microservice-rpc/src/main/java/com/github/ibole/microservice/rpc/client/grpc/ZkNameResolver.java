@@ -35,7 +35,7 @@ import java.util.stream.Stream;
  *                      ---------------
  *                            |
  *                      Service Name 
- * (e.g. zk://routeguide.RouteGuide (grpc service name: package + service name boths are defined in proto file))     
+ * (e.g. zk://routeguide.RouteGuide (grpc service name: 'service package' + 'service name' boths are defined in proto file))     
  * </pre>
  * @see ZkNameResolverProvider
  * 
@@ -152,6 +152,7 @@ public class ZkNameResolver extends NameResolver {
     return newList.stream().filter(predicate).map( hostandZone -> {
         InetAddress[] allByName;
         try {
+             //DNS:One hostname can map to multi-ip address
              allByName = InetAddress.getAllByName(hostandZone.getHostname());
              Builder builder = ResolvedServerInfoGroup.builder();
              Stream.of(allByName).forEach( inetAddress -> {
