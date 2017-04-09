@@ -19,7 +19,10 @@ import java.lang.annotation.Target;
 
 
 /**
- * Annotation for service reference.
+ * Annotation for service reference. 
+ * Discover the expected service from registry center and return
+ * instantiated client stub with the specific custom options
+ * 
  * @author bwang
  *
  */
