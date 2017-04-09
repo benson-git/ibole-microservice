@@ -32,8 +32,8 @@ import java.lang.annotation.Target;
 
 
 /**
- * *
- * Marks the annotated class to be registered as micro-service bean;
+ * Marks the annotated class to be registered as the implementation bean as part of service
+ * definition of micro-service;
  * 
  * @author bwang
  *
