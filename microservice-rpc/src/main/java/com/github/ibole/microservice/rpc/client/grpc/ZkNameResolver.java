@@ -112,7 +112,8 @@ public class ZkNameResolver extends NameResolver {
         LOGGER.warn("Watch updates - no servers are found for service '{}'.", serviceName);
         
       } else if (LOGGER.isDebugEnabled()) {
-           LOGGER.info("Watch updates '{}' for service '{}'.", updatedServers.toString(), serviceName);
+           LOGGER.info("Watch updates for service '{}', "
+               + "latest server list {} after the updating.", serviceName, updatedServers.toString());
       }
     });
 
