@@ -311,6 +311,8 @@ public class GrpcClientInitializer implements Closeable {
                 .withServiceEndpoint(clientOptions.getServiceEndpoint())
                 .withUsedTls(clientOptions.isUsedTls()))
         .loadBalancerFactory(GrpclbLoadBalancerFactory.getInstance())
+        //The TCP connections are shutdown when you shutdown the Channel. 
+        //Specify an idleTimeout() to have the Channel automatically close the TCP connection after a period of inactivity.
         .idleTimeout(Long.MAX_VALUE, TimeUnit.SECONDS)
         .maxInboundMessageSize(MAX_MESSAGE_SIZE)
         //.sslContext(createSslContext())

@@ -59,6 +59,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
               .retryPolicy(retryPolicy)
               //.namespace("text")
               .build();
+      client.getConnectionStateListenable().addListener(new ZkConnectionStateListener());
       client.start();
       if (client.getZookeeperClient().blockUntilConnectedOrTimedOut()) {
         
@@ -197,18 +198,20 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
         
       }
       else if (connectionState == ConnectionState.LOST) {
+        log.error("Connection is lost on {}!", getIdentifier());
         while (true) {
           try {
             if (curatorFramework.getZookeeperClient().blockUntilConnectedOrTimedOut()) {
               //force to create a root path if the node is not exist.
               ensureNodeExists(buildBasePath());
+              log.info("Connection is resumed on {}!", getIdentifier());
               break;
             }
           } catch (InterruptedException e) {
-            // TODO: log something
+            log.error("Try to resume connecton error happen", e);
             break;
           } catch (Exception e) {
-            // TODO: log something
+            log.info("Try to resume connecton error happen", e);
           }
         }
       }
