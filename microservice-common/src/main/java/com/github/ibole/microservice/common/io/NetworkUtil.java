@@ -1,5 +1,10 @@
 package com.github.ibole.microservice.common.io;
 
+import com.github.ibole.microservice.common.utils.LRUCache;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -16,11 +21,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.github.ibole.microservice.common.utils.LRUCache;
 
 public class NetworkUtil {
 
