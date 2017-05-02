@@ -65,8 +65,6 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
 
   private static PublicJsonWebKey senderPublicJwk;
 
-  private static PublicJsonWebKey receiverPublicJwk;
-
   private static Metadata.Key<UserPrincipal> userPrincipalKey =
       ProtoUtils.keyForProto(UserPrincipal.getDefaultInstance());
 
@@ -91,9 +89,6 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
     try {
       senderPublicJwk = JwtUtils
           .toJsonWebKey(getClass().getResource(Constants.SENDER_JWK_PATH).toURI().getPath());
-      receiverPublicJwk = JwtUtils
-          .toJsonWebKey(getClass().getResource(Constants.RECEIVER_JWK_PATH).toURI().getPath());
-      
       tokenAuthenticator =
           JwtProvider.provider().createTokenGenerator(redisTemplate);
 
@@ -122,7 +117,7 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
       final Stopwatch stopwatch = Stopwatch.createStarted();
       TokenStatus tokenStatus = tokenAuthenticator.validAccessToken(
           userPrincipal.getAuthToken().getAccessToken(), userPrincipal.getClientId(),
-          userPrincipal.getLoginId(), senderPublicJwk, receiverPublicJwk);
+          userPrincipal.getLoginId(), senderPublicJwk);
       String elapsedString = Long.toString(stopwatch.elapsed(TimeUnit.MILLISECONDS));
       logger.info("AuthGrpcServerInterceptor elapsed time: {} ms", elapsedString);
       if (!TokenStatus.VALIDATED.getCode().equals(tokenStatus.getCode())) {
@@ -131,9 +126,9 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
           Metadata trailers = new Metadata();
           try {
             String accessToken =
-                tokenAuthenticator.renewToken(userPrincipal.getAuthToken().getAccessToken(),
+                tokenAuthenticator.renewAccessToken(userPrincipal.getAuthToken().getAccessToken(),
                     Integer.parseInt(ConfigurationHolder.get().get(Constants.ACCESS_TOKEN_TTL)),
-                    false, senderPublicJwk, receiverPublicJwk);
+                    false, senderPublicJwk);
             userPrincipal = userPrincipal.toBuilder().setAuthToken(
                 AuthTokenInfo.newBuilder().setAccessToken(accessToken).setRenewAccessToken(true))
                 .build();
@@ -209,7 +204,7 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
   private <ReqT, RespT> Listener<ReqT> handleAuthTokenException(ServerCall<ReqT, RespT> call, TokenStatus tokenStatus) {
     Metadata trailers = new Metadata();
     // illegal rpc access or the refresh token is expired
-    if (TokenStatus.ILLEGAL.getCode().equals(tokenStatus.getCode())
+    if (TokenStatus.INVALID.getCode().equals(tokenStatus.getCode())
         || TokenStatus.REFRESH_TOKEN_EXPIRED.getCode().equals(tokenStatus.getCode())) {
       trailers.put(errorDetailsKey, ErrorReporter.UNAUTHENTICATED
           .withSpecificErrorMsg(MessageErrorCode.ERROR_UNAUTHENTICATED_KEY, true).toErrorDetails());
