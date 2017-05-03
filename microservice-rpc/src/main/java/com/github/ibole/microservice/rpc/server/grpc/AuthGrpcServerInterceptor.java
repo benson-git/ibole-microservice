@@ -1,8 +1,22 @@
 package com.github.ibole.microservice.rpc.server.grpc;
+import com.github.ibole.infrastructure.common.UserPrincipalProto.AuthTokenInfo;
+import com.github.ibole.infrastructure.common.UserPrincipalProto.UserPrincipal;
+import com.github.ibole.infrastructure.common.exception.ErrorDetailsProto.ErrorDetails;
+import com.github.ibole.infrastructure.common.exception.ErrorReporter;
+import com.github.ibole.infrastructure.common.i18n.MessageErrorCode;
+import com.github.ibole.infrastructure.common.properties.ConfigurationHolder;
+import com.github.ibole.infrastructure.common.utils.Constants;
+import com.github.ibole.infrastructure.security.jwt.JwtProvider;
+import com.github.ibole.infrastructure.security.jwt.TokenAuthenticator;
+import com.github.ibole.infrastructure.security.jwt.TokenHandlingException;
+import com.github.ibole.infrastructure.security.jwt.TokenStatus;
+import com.github.ibole.infrastructure.spi.cache.redis.RedisSimpleTempalte;
+import com.github.ibole.microservice.rpc.core.RpcContext;
+import com.github.ibole.microservice.rpc.server.RpcServerInterceptor;
+
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 
-import org.jose4j.jwk.PublicJsonWebKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,24 +30,7 @@ import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
 import io.grpc.Status;
 import io.grpc.protobuf.ProtoUtils;
-import com.github.ibole.infrastructure.cache.redis.RedisSimpleTempalte;
-import com.github.ibole.infrastructure.common.UserPrincipalProto.AuthTokenInfo;
-import com.github.ibole.infrastructure.common.UserPrincipalProto.UserPrincipal;
-import com.github.ibole.infrastructure.common.exception.ErrorDetailsProto.ErrorDetails;
-import com.github.ibole.infrastructure.common.exception.ErrorReporter;
-import com.github.ibole.infrastructure.common.exception.TechnicalException;
-import com.github.ibole.infrastructure.common.i18n.MessageErrorCode;
-import com.github.ibole.infrastructure.common.properties.ConfigurationHolder;
-import com.github.ibole.infrastructure.common.utils.Constants;
-import com.github.ibole.infrastructure.security.jwt.JwtProvider;
-import com.github.ibole.infrastructure.security.jwt.TokenAuthenticator;
-import com.github.ibole.infrastructure.security.jwt.TokenParseException;
-import com.github.ibole.infrastructure.security.jwt.TokenStatus;
-import com.github.ibole.infrastructure.security.jwt.jose4j.JwtUtils;
-import com.github.ibole.microservice.rpc.core.RpcContext;
-import com.github.ibole.microservice.rpc.server.RpcServerInterceptor;
 
-import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
 
 /*********************************************************************************************
@@ -63,15 +60,12 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
 
   private static RedisSimpleTempalte redisTemplate;
 
-  private static PublicJsonWebKey senderPublicJwk;
-
   private static Metadata.Key<UserPrincipal> userPrincipalKey =
       ProtoUtils.keyForProto(UserPrincipal.getDefaultInstance());
 
   private static Metadata.Key<ErrorDetails> errorDetailsKey =
       ProtoUtils.keyForProto(ErrorDetails.getDefaultInstance());
   
-  @SuppressWarnings("rawtypes")
   private static TokenAuthenticator tokenAuthenticator;
 
   /**
@@ -85,20 +79,9 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
     int redisPort = Integer.parseInt(ConfigurationHolder.get().get(Constants.CACHE_REDIS_PORT));
     String password = ConfigurationHolder.get().get(Constants.CACHE_REDIS_PASSWORD);
     redisTemplate = new RedisSimpleTempalte(redisHost, redisPort, password);
-    // cache sender/receiver jwk
-    try {
-      senderPublicJwk = JwtUtils
-          .toJsonWebKey(getClass().getResource(Constants.SENDER_JWK_PATH).toURI().getPath());
-      tokenAuthenticator =
-          JwtProvider.provider().createTokenGenerator(redisTemplate);
-
-    } catch (URISyntaxException ex) {
-      throw new TechnicalException(ErrorReporter.INTERNAL.withCause(ex));
-    }
-
+    tokenAuthenticator =JwtProvider.provider().createTokenGenerator(redisTemplate);
   }
 
-  @SuppressWarnings({"unchecked"})
   @Override
   public <ReqT, RespT> Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> call,
       Metadata requestHeaders, ServerCallHandler<ReqT, RespT> next) {
@@ -116,8 +99,7 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
         && !Constants.ANONYMOUS_ID.equalsIgnoreCase(userPrincipal.getLoginId())) {
       final Stopwatch stopwatch = Stopwatch.createStarted();
       TokenStatus tokenStatus = tokenAuthenticator.validAccessToken(
-          userPrincipal.getAuthToken().getAccessToken(), userPrincipal.getClientId(),
-          userPrincipal.getLoginId(), senderPublicJwk);
+          userPrincipal.getAuthToken().getAccessToken(), userPrincipal.getClientId(), userPrincipal.getLoginId());
       String elapsedString = Long.toString(stopwatch.elapsed(TimeUnit.MILLISECONDS));
       logger.info("AuthGrpcServerInterceptor elapsed time: {} ms", elapsedString);
       if (!TokenStatus.VALIDATED.getCode().equals(tokenStatus.getCode())) {
@@ -127,12 +109,11 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
           try {
             String accessToken =
                 tokenAuthenticator.renewAccessToken(userPrincipal.getAuthToken().getAccessToken(),
-                    Integer.parseInt(ConfigurationHolder.get().get(Constants.ACCESS_TOKEN_TTL)),
-                    false, senderPublicJwk);
+                    Integer.parseInt(ConfigurationHolder.get().get(Constants.ACCESS_TOKEN_TTL)), false);
             userPrincipal = userPrincipal.toBuilder().setAuthToken(
                 AuthTokenInfo.newBuilder().setAccessToken(accessToken).setRenewAccessToken(true))
                 .build();
-          } catch (NumberFormatException | TokenParseException ex) {
+          } catch (NumberFormatException | TokenHandlingException ex) {
             logger.error("Failed to renew access token", ex);
             trailers.put(errorDetailsKey,
                 ErrorReporter.UNAUTHENTICATED
