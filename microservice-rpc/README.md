@@ -14,6 +14,10 @@ This is the first time I have ever seen dual interface in generics actually used
  https://github.com/opentracing/opentracing-java
  https://github.com/grpc-ecosystem/grpc-opentracing
  
+ gRPC service monitoring:
+ 
+ https://github.com/grpc/grpc-java/blob/master/documentation/monitoring-service-tutorial.md
+ 
 ------- ## About the API version discussion
 
 If the RPC completes normally, onCompleted will be called. If there is an error, onError will be called. If an RPC has not yet started, it will try to reconnect until it is ready. If there is a disconnect in the middle of an RPC, it will not be retried.
