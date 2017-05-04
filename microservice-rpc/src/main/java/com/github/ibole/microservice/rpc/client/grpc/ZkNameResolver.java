@@ -14,13 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.grpc.Attributes;
+import io.grpc.EquivalentAddressGroup;
 import io.grpc.NameResolver;
-import io.grpc.ResolvedServerInfo;
-import io.grpc.ResolvedServerInfoGroup;
-import io.grpc.ResolvedServerInfoGroup.Builder;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.net.URI;
 import java.util.List;
 import java.util.function.Predicate;
@@ -52,6 +51,7 @@ public class ZkNameResolver extends NameResolver {
   private final ClientOptions callOptions;
   
   /**
+   * ZkNameResolver Constructor.
    * @param targetUri the target service Uri
    * @param params the additional parameters
    * @param zookeeperAddress 
@@ -91,7 +91,7 @@ public class ZkNameResolver extends NameResolver {
       throw new RpcClientException("No services found!");
     }
    
-    List<ResolvedServerInfoGroup> resolvedServers;
+    List<EquivalentAddressGroup> resolvedServers;
     // Find the service servers with the same preference zone.
     resolvedServers = filterResolvedServers(hostList, predicateZone(callOptions));
     // Find the service servers without preference zone filtering if no preference service server found.
@@ -99,14 +99,14 @@ public class ZkNameResolver extends NameResolver {
       resolvedServers = filterResolvedServers(hostList, predicateTls(callOptions));
     }
 
-    listener.onUpdate(resolvedServers, params);
+    listener.onAddresses(resolvedServers, params);
     //watch service node changes and fire the even
     discovery.watchForCacheUpdates(serviceName, hostMetadateList -> {
-      List<ResolvedServerInfoGroup> updatedServers = filterResolvedServers(hostMetadateList, predicateZone(callOptions));
+      List<EquivalentAddressGroup> updatedServers = filterResolvedServers(hostMetadateList, predicateZone(callOptions));
       if(updatedServers.isEmpty()){
         updatedServers = filterResolvedServers(hostMetadateList, predicateTls(callOptions));
       }
-      listener.onUpdate(updatedServers, params);
+      listener.onAddresses(updatedServers, params);
       
       if(updatedServers.isEmpty()){
         LOGGER.warn("Watch updates - no servers are found for service '{}'.", serviceName);
@@ -149,17 +149,15 @@ public class ZkNameResolver extends NameResolver {
     }
   }
   
-  private List<ResolvedServerInfoGroup> filterResolvedServers(List<HostMetadata> newList, Predicate<HostMetadata> predicate) {
+  private List<EquivalentAddressGroup> filterResolvedServers(List<HostMetadata> newList, Predicate<HostMetadata> predicate) {
     return newList.stream().filter(predicate).map( hostandZone -> {
         InetAddress[] allByName;
         try {
              //DNS:One hostname can map to multi-ip address
              allByName = InetAddress.getAllByName(hostandZone.getHostname());
-             Builder builder = ResolvedServerInfoGroup.builder();
-             Stream.of(allByName).forEach( inetAddress -> {
-                   builder.add(new ResolvedServerInfo(new InetSocketAddress(inetAddress, hostandZone.getPort())));
-             });
-             return builder.build();
+             List<SocketAddress> addrs = Stream.of(allByName).map( inetAddress -> 
+                 new InetSocketAddress(inetAddress, hostandZone.getPort())).collect(Collectors.toList());
+             return new EquivalentAddressGroup(addrs, params);
             } catch (Exception e) {
                throw Throwables.propagate(e);
             }

@@ -38,12 +38,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import io.grpc.Attributes;
+import io.grpc.EquivalentAddressGroup;
 import io.grpc.NameResolver;
 import io.grpc.NameResolver.Listener;
-import io.grpc.ResolvedServerInfo;
 import io.grpc.ResolvedServerInfoGroup;
 import io.grpc.Status;
 
+import java.net.SocketAddress;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -125,14 +126,17 @@ public class ZkNameResolverTest extends AbstractZkServerStarter {
         }
 
         @Override
-        public void onUpdate(List<ResolvedServerInfoGroup> resolvedServers, Attributes attrs) {
+        public void onUpdate(List<ResolvedServerInfoGroup> resolvedServers, Attributes attrs) {}
 
+        @Override
+        public void onAddresses(List<EquivalentAddressGroup> resolvedServers, Attributes arg1) {
           if (resolvedServers.size() > 0) {
-            ResolvedServerInfoGroup serverGroup = resolvedServers.get(0);
-            ResolvedServerInfo serverInfo = serverGroup.getResolvedServerInfoList().get(0);
-            org.junit.Assert.assertTrue(serverInfo.getAddress().toString().contains("127.0.0.1"));
+            EquivalentAddressGroup serverGroup = resolvedServers.get(0);
+            SocketAddress serverInfo = serverGroup.getAddresses().get(0);
+            org.junit.Assert.assertTrue(serverInfo.toString().contains("127.0.0.1"));
           }
           updateLatch.countDown();
+          
         }
       });
       
