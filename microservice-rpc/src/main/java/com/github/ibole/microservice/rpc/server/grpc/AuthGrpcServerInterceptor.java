@@ -98,13 +98,15 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
     if (!serviceRpcName.toLowerCase().contains("login")
         && !Constants.ANONYMOUS_ID.equalsIgnoreCase(userPrincipal.getLoginId())) {
       final Stopwatch stopwatch = Stopwatch.createStarted();
-      TokenStatus tokenStatus = tokenAuthenticator.validAccessToken(
-          userPrincipal.getAuthToken().getAccessToken(), userPrincipal.getClientId(), userPrincipal.getLoginId());
+//      TokenStatus tokenStatus = tokenAuthenticator.validAccessToken(
+//          userPrincipal.getAuthToken().getAccessToken(), userPrincipal.getClientId(), userPrincipal.getLoginId());
+      //TODO: refactoring based on the new validAccessToken API
+      TokenStatus tokenStatus = TokenStatus.VALIDATED;
       String elapsedString = Long.toString(stopwatch.elapsed(TimeUnit.MILLISECONDS));
       logger.info("AuthGrpcServerInterceptor elapsed time: {} ms", elapsedString);
       if (!TokenStatus.VALIDATED.getCode().equals(tokenStatus.getCode())) {
         // handle expired access token
-        if (TokenStatus.ACCESS_TOKEN_EXPIRED.getCode().equals(tokenStatus.getCode())) {
+        if (TokenStatus.EXPIRED.getCode().equals(tokenStatus.getCode())) {
           Metadata trailers = new Metadata();
           try {
             String accessToken =
@@ -186,7 +188,7 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
     Metadata trailers = new Metadata();
     // illegal rpc access or the refresh token is expired
     if (TokenStatus.INVALID.getCode().equals(tokenStatus.getCode())
-        || TokenStatus.REFRESH_TOKEN_EXPIRED.getCode().equals(tokenStatus.getCode())) {
+        || TokenStatus.EXPIRED.getCode().equals(tokenStatus.getCode())) {
       trailers.put(errorDetailsKey, ErrorReporter.UNAUTHENTICATED
           .withSpecificErrorMsg(MessageErrorCode.ERROR_UNAUTHENTICATED_KEY, true).toErrorDetails());
       call.close(Status.UNAUTHENTICATED, trailers);
