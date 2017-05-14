@@ -111,7 +111,7 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
           try {
             String accessToken =
                 tokenAuthenticator.renewAccessToken(userPrincipal.getAuthToken().getAccessToken(),
-                    Integer.parseInt(ConfigurationHolder.get().get(Constants.ACCESS_TOKEN_TTL)), false);
+                    Integer.parseInt(ConfigurationHolder.get().get(Constants.ACCESS_TOKEN_TTL)));
             userPrincipal = userPrincipal.toBuilder().setAuthToken(
                 AuthTokenInfo.newBuilder().setAccessToken(accessToken).setRenewAccessToken(true))
                 .build();
