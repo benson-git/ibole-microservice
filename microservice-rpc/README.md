@@ -25,6 +25,9 @@ If you are using a Streaming RPC, your connection will be kept alive. You can se
 
 ------
 
+The direct executor just means they are run on the network thread.
+
+------
 
 + Microservices will not required to maintain a version number in its path. Version number of an API is a metadata information, which need to maintain separately. Best option is to use swagger annotations for this.  
 + Maintaining several version of same API in a single product is cumbersome and will be difficult maintain. Hence every time we will expose only one versions of the API in a product.
