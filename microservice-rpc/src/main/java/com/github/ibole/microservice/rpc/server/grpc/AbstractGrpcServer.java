@@ -16,6 +16,7 @@ import io.grpc.ServerBuilder;
 import io.grpc.ServerInterceptor;
 import io.grpc.ServerInterceptors;
 import io.grpc.ServerServiceDefinition;
+import io.grpc.protobuf.services.ProtoReflectionService;
 
 import java.io.IOException;
 import java.util.List;
@@ -60,6 +61,7 @@ public abstract class AbstractGrpcServer<T extends ServerBuilder<T>> extends Abs
       serverBuilder
           .addService(ServerInterceptors.intercept((ServerServiceDefinition)service.getServiceDefinition(), adaptedInterceptors));
     }
+    serverBuilder.addService(ProtoReflectionService.newInstance());
     return serverBuilder; 
   }
 
