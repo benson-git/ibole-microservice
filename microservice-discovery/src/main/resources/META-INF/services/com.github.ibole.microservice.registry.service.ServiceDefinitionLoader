@@ -1,2 +1,2 @@
-com.github.ibole.microservice.registry.service.grpc.GrpcDescriptorServiceDefinitionLoader
 com.github.ibole.microservice.registry.service.spring.SpringBeanServiceDefinitionLoader
+com.github.ibole.microservice.registry.service.grpc.GrpcDescriptorServiceDefinitionLoader
