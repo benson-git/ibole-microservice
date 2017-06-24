@@ -22,7 +22,13 @@ import com.github.ibole.infrastructure.common.exception.ErrorReporter;
  * </p>
  *********************************************************************************************/
 
-
+/**
+ * 
+ * @author bwang
+ * 
+ *TODO: consider use "TransmitStatusRuntimeExceptionInterceptor" in grpv-v1.4.0?
+ *
+ */
 public class ServerErrorHandler {
 
   private static final Logger logger = LoggerFactory.getLogger(ServerErrorHandler.class.getName());
