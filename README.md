@@ -32,7 +32,7 @@ Download [the JARs](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22microservi
 
 Or for Gradle with non-Android, add to your dependencies:
 ```gradle
-compile 'com.github.ibole:microservice-all:1.0.6'
+compile 'com.github.ibole:microservice-all:1.0.7'
 ```
 ------
 
@@ -47,7 +47,7 @@ iBole-microservices depends on iBole-infrastructure. Please install iBole-infras
     git clone https://github.com/benson-git/ibole-microservice.git ibole-microservice  
 
     git checkout master  
-    or: git checkout -b -v1.0.6  
+    or: git checkout -b -v1.0.7  
     ```
 2. Import the ibole-microservice source code to eclipse project:
     ```
