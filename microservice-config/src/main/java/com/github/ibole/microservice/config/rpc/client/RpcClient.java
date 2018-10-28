@@ -1,5 +1,7 @@
 package com.github.ibole.microservice.config.rpc.client;
 
+import com.github.ibole.microservice.common.TLS;
+
 
 /**
  * The interface of RPC client.
@@ -24,6 +26,6 @@ public interface RpcClient<T> {
   
   State getState();
 
-  public T getRemotingService(Class<? extends T> type, String preferredZone, boolean usedTls, int timeout);
+  public T getRemotingService(Class<? extends T> type, String preferredZone, TLS usedTls, int timeout);
 
 }

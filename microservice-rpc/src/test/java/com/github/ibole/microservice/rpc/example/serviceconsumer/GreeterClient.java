@@ -16,6 +16,7 @@
 
 package com.github.ibole.microservice.rpc.example.serviceconsumer;
 
+import com.github.ibole.microservice.common.TLS;
 import com.github.ibole.microservice.config.annotation.Reference;
 import com.github.ibole.microservice.rpc.example.serviceprovider.GreeterGrpc.GreeterBlockingStub;
 import com.github.ibole.microservice.rpc.example.serviceprovider.HelloWorldProto.HelloReply;
@@ -40,7 +41,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GreeterClient {
 
-  @Reference(timeout = 3000, preferredZone="myzone", usedTls=true)
+  @Reference(timeout = 3000, preferredZone="myzone", usedTls=TLS.ON)
   private GreeterBlockingStub blockingStub;
   
   public String doGreeter(){

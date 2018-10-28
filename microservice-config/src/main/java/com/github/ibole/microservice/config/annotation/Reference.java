@@ -3,6 +3,8 @@
  */
 package com.github.ibole.microservice.config.annotation;
 
+import com.github.ibole.microservice.common.TLS;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -37,7 +39,7 @@ public @interface Reference {
   
   String preferredZone() default "";
   
-  boolean usedTls() default false;
+  TLS usedTls() default TLS.UNKNOWN;
 
   String version() default "";
   

@@ -17,6 +17,7 @@
 package com.github.ibole.microservice.rpc.client.grpc;
 
 import com.github.ibole.microservice.common.ServerIdentifier;
+import com.github.ibole.microservice.common.TLS;
 import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 import com.github.ibole.microservice.discovery.zookeeper.test.AbstractZkServerStarter;
 import com.github.ibole.microservice.rpc.client.grpc.ChannelPool.InstrumentedChannel;
@@ -77,7 +78,7 @@ public class GrpcClientInitializerTest extends AbstractZkServerStarter{
     ClientOptions clientOptions = ClientOptions.DEFAULT;
     clientOptions = clientOptions.withRegistryCenterAddress(identifier);
     initializer = new GrpcClientInitializer(clientOptions, null, 1, 1);
-    ManagedChannel channel = initializer.getChannelPool().getChannel("myService", "myzone", true);
+    ManagedChannel channel = initializer.getChannelPool().getChannel("myService", "myzone", TLS.ON);
     org.springframework.util.Assert.isInstanceOf(InstrumentedChannel.class, channel);
   }
   

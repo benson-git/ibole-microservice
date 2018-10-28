@@ -20,6 +20,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.github.benmanes.caffeine.cache.RemovalListener;
+import com.github.ibole.microservice.common.TLS;
 import com.github.ibole.microservice.metrics.ClientMetrics;
 import com.github.ibole.microservice.metrics.ClientMetrics.MetricLevel;
 import com.github.ibole.microservice.metrics.Counter;
@@ -141,7 +142,7 @@ public class ChannelPool {
    *         with the specified service name if no mapping for the key
    * @throws IOException if I/O exception happen
    */
-  public ManagedChannel getChannel(String serviceName, String preferredZone, boolean usedTls) throws IOException {
+  public ManagedChannel getChannel(String serviceName, String preferredZone, TLS usedTls) throws IOException {
     InstrumentedChannel channel = channelPool.getIfPresent(serviceName);
     if(channel != null){
       return channel;
@@ -346,6 +347,6 @@ public class ChannelPool {
    */
   public interface ChannelFactory {
     
-    ManagedChannel create(String serviceName, String preferredZone, boolean usedTls) throws IOException;
+    ManagedChannel create(String serviceName, String preferredZone, TLS usedTls) throws IOException;
   }
 }

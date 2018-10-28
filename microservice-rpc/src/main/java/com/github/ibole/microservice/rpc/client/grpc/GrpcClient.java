@@ -3,6 +3,7 @@ package com.github.ibole.microservice.rpc.client.grpc;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.github.ibole.microservice.common.TLS;
 import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 import com.github.ibole.microservice.config.rpc.client.RpcClient;
 import com.github.ibole.microservice.registry.service.grpc.GrpcConstants;
@@ -29,8 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public final class GrpcClient implements RpcClient<AbstractStub<?>> {
 
   private static Logger log = LoggerFactory.getLogger(GrpcClient.class.getName());
-  // Cache the mapping between service type and the tuple structure:
-  // {X: rpc servers connection key Y: the method for initializing client stub}
+  // Cache the mapping between service type and the method for initializing client stub
   private static final Map<String, Method> STUBS = Maps.newConcurrentMap();
  
   private final AtomicReference<State> state = new AtomicReference<State>(State.LATENT);
@@ -97,7 +97,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
    * @return T the instance of T.
    */
   @Override
-  public AbstractStub<?> getRemotingService(Class<? extends AbstractStub<?>> type, String preferredZone, boolean usedTls, int timeout) {
+  public AbstractStub<?> getRemotingService(Class<? extends AbstractStub<?>> type, String preferredZone, TLS usedTls, int timeout) {
     checkArgument(type != null, "The type of service interface cannot be null!");
     checkState(state.get() == State.STARTED, "Grpc client is not started!");
     AbstractStub<?> service;

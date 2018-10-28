@@ -14,6 +14,7 @@
 
 package com.github.ibole.microservice.rpc.client.grpc;
 
+import com.github.ibole.microservice.common.TLS;
 import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 import com.github.ibole.microservice.rpc.client.grpc.ChannelPool.InstrumentedChannel;
 
@@ -71,13 +72,13 @@ public class ChannelPoolTest {
         ChannelPool.newBuilder().withInitialCapacity(1).withMaximumSize(2)
             .withChannelFactory(new ChannelPool.ChannelFactory() {
               @Override
-              public ManagedChannel create(String serviceName, String preferredZone, boolean usedTls) throws IOException {
+              public ManagedChannel create(String serviceName, String preferredZone, TLS usedTls) throws IOException {
                 return channel;
             }}).build();
 
-    ManagedChannel mychannel1 = pool.getChannel("mytesst1", "myzone", true);
-    ManagedChannel mychannel2 = pool.getChannel("mytesst2", "myzone", true);
-    ManagedChannel mychannel3 = pool.getChannel("mytesst3", "myzone", true);
+    ManagedChannel mychannel1 = pool.getChannel("mytesst1", "myzone", TLS.ON);
+    ManagedChannel mychannel2 = pool.getChannel("mytesst2", "myzone", TLS.ON);
+    ManagedChannel mychannel3 = pool.getChannel("mytesst3", "myzone", TLS.ON);
     Thread.sleep(1000);
     //System.out.println(pool.size());
     org.junit.Assert.assertTrue(pool.size() == 2);

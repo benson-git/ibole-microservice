@@ -1,5 +1,6 @@
 package com.github.ibole.microservice.config.spring.support;
 
+import com.github.ibole.microservice.common.TLS;
 import com.github.ibole.microservice.common.utils.ClassHelper;
 import com.github.ibole.microservice.config.rpc.client.RpcClientProvider;
 
@@ -27,13 +28,13 @@ public class RpcReference<T> implements FactoryBean<T>, InitializingBean, Dispos
   
   private String preferredZone;
   
-  private boolean usedTls;
+  private TLS usedTls;
   
   private int timeout;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RpcReference.class.getName());
 
-  public RpcReference(String interfacename, String zoneToPrefer, boolean usedTls, int timeout) {
+  public RpcReference(String interfacename, String zoneToPrefer, TLS usedTls, int timeout) {
     this.interfacename = interfacename;
     this.preferredZone = zoneToPrefer;
     this.usedTls = usedTls;
@@ -104,14 +105,14 @@ public class RpcReference<T> implements FactoryBean<T>, InitializingBean, Dispos
   /**
    * @return the usedTls
    */
-  public boolean isUsedTls() {
+  public TLS isUsedTls() {
     return usedTls;
   }
 
   /**
    * @param usedTls the usedTls to set
    */
-  public void setUsedTls(boolean usedTls) {
+  public void setUsedTls(TLS usedTls) {
     this.usedTls = usedTls;
   }
 

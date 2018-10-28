@@ -1,5 +1,6 @@
 package com.github.ibole.microservice.config.spring.annotation.test;
 
+import com.github.ibole.microservice.common.TLS;
 import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 import com.github.ibole.microservice.config.rpc.client.RpcClient;
 
@@ -38,7 +39,7 @@ public class MockRpcClient implements RpcClient<DemoService> {
    */
   @Override
   public DemoService getRemotingService(Class<? extends DemoService> type, String preferredZone,
-      boolean usedTls, int timeout) {
+      TLS usedTls, int timeout) {
     
     return new DemoServiceImpl();
   }

@@ -14,6 +14,7 @@
 
 package com.github.ibole.microservice.rpc.client.grpc;
 
+import com.github.ibole.microservice.common.TLS;
 import com.github.ibole.microservice.common.utils.SslUtils;
 import com.github.ibole.microservice.config.rpc.client.ClientOptions;
 import com.github.ibole.microservice.metrics.ClientMetrics;
@@ -22,6 +23,7 @@ import com.github.ibole.microservice.rpc.core.RpcSharedThreadPools;
 import com.github.ibole.microservice.rpc.core.ThreadPoolUtil;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -268,10 +270,17 @@ public class GrpcClientInitializer implements Closeable {
   private ChannelPool createChannelPool(ClientOptions globalClientOptions, List<ClientInterceptor> interceptors, int pInitialCapacity, int pMaximumSize) {
     return ChannelPool.newBuilder().withChannelFactory(new ChannelPool.ChannelFactory() {
       @Override
-      public ManagedChannel create(String serviceName, String preferredZone, boolean usedTls) throws IOException {
+      public ManagedChannel create(String serviceName, String preferredZone, TLS usedTls) throws IOException {
         //build service endpoint with the default scheme and the service name provided
         String serviceEndpoint = AbstractNameResolverProvider.provider().getDefaultScheme() + "://" + serviceName;
-        return createNettyChannel(globalClientOptions.withServiceEndpoint(serviceEndpoint).withZoneToPrefer(preferredZone).withUsedTls(usedTls), interceptors);
+        ClientOptions clientOpt = globalClientOptions.withServiceEndpoint(serviceEndpoint);
+        if(!Strings.isNullOrEmpty(preferredZone)) {
+          clientOpt = clientOpt.withZoneToPrefer(preferredZone);
+        }
+        if(!usedTls.isUnknown()) {
+          clientOpt = clientOpt.withUsedTls(usedTls.isOn());
+        }
+        return createNettyChannel(clientOpt, interceptors);
       }
     }).withInitialCapacity(pInitialCapacity).withMaximumSize(pMaximumSize).build();
   }
