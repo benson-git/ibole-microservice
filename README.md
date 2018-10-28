@@ -26,7 +26,7 @@ Download [the JARs](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22microservi
 <dependency>
     <groupId>com.github.ibole</groupId>
     <artifactId>microservice-all</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
 </dependency>
 ```
 
