@@ -16,6 +16,7 @@
 
 package com.github.ibole.microservice.rpc.example;
 
+import com.github.ibole.microservice.discovery.AbstractDiscoveryFactory;
 import com.github.ibole.microservice.discovery.zookeeper.test.AbstractZkServerStarter;
 import com.github.ibole.microservice.registry.AbstractRegistryFactory;
 import com.github.ibole.microservice.rpc.example.serviceconsumer.GreeterClient;
@@ -58,6 +59,8 @@ public class RpcIntegrationTest extends AbstractZkServerStarter{
     }
     @After
     public void destroy() throws InterruptedException{ 
+      AbstractDiscoveryFactory.destroyAll();
+      Thread.sleep(4000);
       AbstractRegistryFactory.destroyAll();
       Thread.sleep(4000);
     }

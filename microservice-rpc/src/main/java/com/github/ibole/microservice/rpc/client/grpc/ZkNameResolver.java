@@ -101,25 +101,31 @@ public class ZkNameResolver extends NameResolver {
 
     listener.onAddresses(resolvedServers, params);
     //watch service node changes and fire the even
-    discovery.watchForCacheUpdates(serviceName, hostMetadateList -> {
-      List<EquivalentAddressGroup> updatedServers = filterResolvedServers(hostMetadateList, predicateZone(callOptions));
-      if(updatedServers.isEmpty()){
-        updatedServers = filterResolvedServers(hostMetadateList, predicateTls(callOptions));
-      }
-      listener.onAddresses(updatedServers, params);
-      
-      if(updatedServers.isEmpty()){
-        LOGGER.warn("Watch updates - no servers are found for service '{}'.", serviceName);
-        
-      } else if (LOGGER.isDebugEnabled()) {
-           LOGGER.info("Watch updates for service '{}', "
-               + "latest server list {} after the updating.", serviceName, updatedServers.toString());
-      }
-    });
+    discovery.watchForCacheUpdates(
+        serviceName,
+        hostMetadateList -> {
+          //filtering with zone condition
+          List<EquivalentAddressGroup> updatedServers =
+              filterResolvedServers(hostMetadateList, predicateZone(callOptions));
+          if (updatedServers.isEmpty()) {
+            //filtering without zone condition
+            updatedServers = filterResolvedServers(hostMetadateList, predicateTls(callOptions));
+          }
+
+          if (!updatedServers.isEmpty()) {
+            listener.onAddresses(updatedServers, params);
+              LOGGER.info("Watch updates for service '{}', "
+                  + "latest server list {} after the updating.", serviceName,
+                  updatedServers.toString());
+          } else {
+            LOGGER.warn("Watch updates - no servers are found for service '{}'.", serviceName);
+
+          }
+        });
 
     if (LOGGER.isInfoEnabled()) {
       LOGGER.info("ZkNameResolver is start.");
-      LOGGER.info("ZkNameResolver resolved servers '{}'",resolvedServers) ;
+      LOGGER.info("ZkNameResolver resolved servers '{}'", resolvedServers);
     }
   }
   

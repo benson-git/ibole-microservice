@@ -16,16 +16,19 @@ import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreMutex;
 import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.framework.state.ConnectionStateListener;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.shaded.com.google.common.collect.Sets;
 import org.apache.curator.utils.CloseableUtils;
 import org.apache.curator.utils.ZKPaths;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.curator.x.discovery.ServiceInstance;
+import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
 import org.apache.zookeeper.KeeperException;
 
 import java.io.IOException;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -44,6 +47,7 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
   private ServiceDiscovery<HostMetadata> serviceDiscovery;
   private JsonInstanceSerializer<HostMetadata> serializer;
   private InterProcessSemaphoreMutex lock;
+  private Set<RegisterEntry> entriesCache = Sets.newConcurrentHashSet();
 
   public ZkServiceRegistry(ServerIdentifier identifier) {
     super(identifier);
@@ -93,14 +97,19 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
       
       if (lock.acquire(LOCK_TIME, TimeUnit.SECONDS)) {  
         acquiredLock = true;
-        ServiceInstance<HostMetadata> thisInstance =
-            ServiceInstance.<HostMetadata>builder().name(instance.getServiceName())
-                .address(instance.getHostMetadata().getHostname())
-                .port(instance.getHostMetadata().getPort())
-                .id(instance.getHostMetadata().generateKey())
-                .payload(instance.getHostMetadata()).serviceType(ServiceType.DYNAMIC).build();
+         ServiceInstanceBuilder<HostMetadata> builder = ServiceInstance.<HostMetadata>builder().name(instance.getServiceName())
+            .address(instance.getHostMetadata().getHostname())
+            .id(instance.getHostMetadata().generateKey())
+            .payload(instance.getHostMetadata()).serviceType(ServiceType.DYNAMIC);
+        if(instance.getHostMetadata().isUseTls()) {
+          builder.sslPort(instance.getHostMetadata().getPort());
+        } else {
+          builder.port(instance.getHostMetadata().getPort());
+        }
+        ServiceInstance<HostMetadata> thisInstance = builder.build();
         serviceDiscovery.start();
         serviceDiscovery.registerService(thisInstance);
+        entriesCache.add(instance);
         log.info("Registed instance metadata: {}", instance.toString());
       }
     } catch (Exception ex) {
@@ -139,6 +148,12 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
         log.error("Lock release error happened!", e);
         throw new ServiceRegistryException(e);
       }
+    }
+  }
+  
+  private void reRegister() {
+    for(RegisterEntry instance : this.entriesCache) {
+      this.register(instance);
     }
   }
   
@@ -205,6 +220,8 @@ public class ZkServiceRegistry extends AbstractServiceRegistry {
               //force to create a root path if the node is not exist.
               ensureNodeExists(buildBasePath());
               log.info("Connection is resumed on {}!", getIdentifier());
+              //previous registry entries maybe lost, need to re-register here 
+              reRegister();
               break;
             }
           } catch (InterruptedException e) {

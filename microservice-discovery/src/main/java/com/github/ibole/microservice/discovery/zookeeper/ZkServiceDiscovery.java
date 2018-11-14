@@ -133,20 +133,20 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
               if (event.getData().getPath().contains(serviceName)) {
                 listener.update(getServiceInstancesFromCache(serviceName));
                 if (logger.isInfoEnabled()) {
-                  logger.info("Service is added at path '{}'", event.getData().getPath());
+                  logger.info("Service is added at path '{}' in cache", event.getData().getPath());
                 }
               }
               break;
             case NODE_REMOVED:
               listener.update(getServiceInstancesFromCache(serviceName));
               if (logger.isInfoEnabled()) {
-                logger.info("Service is removed at path '{}'", event.getData().getPath());
+                logger.info("Service is removed at path '{}' in cache", event.getData().getPath());
               }
               break;
             case NODE_UPDATED:
               listener.update(getServiceInstancesFromCache(serviceName));
               if (logger.isInfoEnabled()) {
-                logger.info("Service is updated at path '{}'", event.getData().getPath());
+                logger.info("Service is updated at path '{}' in cache", event.getData().getPath());
               }
             default:
               break;

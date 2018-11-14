@@ -9,9 +9,9 @@ package com.github.ibole.microservice.common;
  */
 public enum TLS {
 
-  OFF(1),
+  OFF(0),
 
-  ON(0),
+  ON(1),
 
   UNKNOWN(-1);
 
