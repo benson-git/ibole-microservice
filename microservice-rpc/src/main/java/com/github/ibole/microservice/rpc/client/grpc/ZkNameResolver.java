@@ -124,7 +124,7 @@ public class ZkNameResolver extends NameResolver {
         });
 
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("ZkNameResolver is start.");
+      LOGGER.info("ZkNameResolver is start for '{}'.", getServiceAuthority());
       LOGGER.info("ZkNameResolver resolved servers '{}'", resolvedServers);
     }
   }
@@ -151,7 +151,7 @@ public class ZkNameResolver extends NameResolver {
       throw new RpcClientException(ex);
     }
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("ZkNameResolver is shutdown.");
+      LOGGER.info("ZkNameResolver is shutdown for '{}'.", getServiceAuthority());
     }
   }
   

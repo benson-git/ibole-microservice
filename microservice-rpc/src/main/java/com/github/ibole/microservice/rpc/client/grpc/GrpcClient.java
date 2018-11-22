@@ -125,6 +125,7 @@ public final class GrpcClient implements RpcClient<AbstractStub<?>> {
         stubInitializationMethod = STUBS.get(type.getName());
       }
       // instantiate the client stub according to the stub type
+      // the same service name uses the same ManagedChannel and the ManagedChannel is cached in ChannelPool.
       service = (AbstractStub<?>) stubInitializationMethod.invoke(null, initializer.getChannelPool().getChannel(serviceName, preferredZone, usedTls));
       //Customizes the CallOptions passed the deadline to interceptor
       if (timeout > 0) {

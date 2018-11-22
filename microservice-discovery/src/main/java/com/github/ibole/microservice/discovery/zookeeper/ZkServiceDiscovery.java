@@ -7,6 +7,7 @@ import com.github.ibole.microservice.discovery.ServiceDiscoveryException;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -24,6 +25,7 @@ import org.apache.zookeeper.Watcher;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -36,14 +38,19 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
 
   private CuratorFramework client = null;
   private JsonInstanceSerializer<HostMetadata> serializer;
-  private TreeCache cache = null;
-
+  private Map<String, TreeCache> monitorCache = Maps.newConcurrentMap();
+  private final AtomicReference<State> state = new AtomicReference<State>(State.LATENT);
+  
   protected ZkServiceDiscovery(ServerIdentifier identifier) {
     super(identifier);
   }
 
   @Override
   public void start() {
+    if (!state.compareAndSet(State.LATENT, State.STARTED)) {
+      return;
+    }
+
     try {
       // 1000ms - initial amount of time to wait between retries
       // 3 times - max number of times to retry
@@ -51,14 +58,18 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
           new ExponentialBackoffRetry(1000, 3));
       client.start();
       client.getZookeeperClient().blockUntilConnectedOrTimedOut();
-      cache = TreeCache.newBuilder(client, buildBasePath()).build();
       serializer = new JsonInstanceSerializer<HostMetadata>(HostMetadata.class);
 
     } catch (Exception e) {
       logger.error("Service registry start error for server identifier '{}' !",
           getIdentifier().getConnectionString(), e);
       throw new ServiceDiscoveryException(e);
+    }    
+    
+    if (logger.isInfoEnabled()) {
+      logger.info("Zk service discovery is started.");
     }
+    
   }
   
   @Override
@@ -120,6 +131,12 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
    */
   @Override
   public void watchForCacheUpdates(String serviceName, ServiceStateListener listener) {
+    
+    if(monitorCache.containsKey(serviceName)) {
+      return;
+    } 
+    TreeCache cache = TreeCache.newBuilder(client, buildBasePath()).build();
+    monitorCache.putIfAbsent(serviceName, cache);
     cache.getListenable().addListener(new TreeCacheListener() {
       @Override
       public void childEvent(CuratorFramework client, TreeCacheEvent event)
@@ -172,7 +189,7 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
   public void destroy() throws IOException {
     close();
     serializer = null;
-    cache = null;
+    monitorCache = null;
     client = null;
   }
 
@@ -182,8 +199,16 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
    * 
    */
   public void close() throws IOException {
-    CloseableUtils.closeQuietly(cache);
+    if (!state.compareAndSet(State.STARTED, State.STOPPED)) {
+      return;
+    }
+    monitorCache.forEach( (servinceName, cache) -> {
+      CloseableUtils.closeQuietly(cache);
+    });
     CloseableUtils.closeQuietly(client);
+    if (logger.isInfoEnabled()) {
+      logger.info("Zk service discovery is stopped.");
+    }
 
   }
   
@@ -226,7 +251,7 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
   }
   
   private List<HostMetadata> getServiceInstancesFromCache(String serviceName) {
-    Map<String, ChildData> children = cache.getCurrentChildren(ZKPaths.makePath(buildBasePath(), serviceName));
+    Map<String, ChildData> children = monitorCache.get(serviceName).getCurrentChildren(ZKPaths.makePath(buildBasePath(), serviceName));
     if(children == null){
       return Lists.newArrayList();
     }
@@ -243,6 +268,11 @@ public class ZkServiceDiscovery extends AbstractServiceDiscovery {
         throw Throwables.propagate(e);
       }
     }).collect(Collectors.toList());
+  }
+  
+  @Override
+  public State getState() {
+    return state.get();
   }
 
 }

@@ -277,7 +277,9 @@ public class GrpcClientInitializer implements Closeable {
         if(!Strings.isNullOrEmpty(preferredZone)) {
           clientOpt = clientOpt.withZoneToPrefer(preferredZone);
         }
-        if(!usedTls.isUnknown()) {
+        if(usedTls.isUnknown()) {
+          clientOpt = clientOpt.withUsedTls(globalClientOptions.isUsedTls());
+        } else {
           clientOpt = clientOpt.withUsedTls(usedTls.isOn());
         }
         return createNettyChannel(clientOpt, interceptors);

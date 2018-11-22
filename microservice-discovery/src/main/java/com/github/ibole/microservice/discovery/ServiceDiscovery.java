@@ -12,6 +12,14 @@ import java.util.List;
  *
  */
 public interface ServiceDiscovery<T> extends Closeable {
+  
+  enum State {
+
+    LATENT, STARTED, STOPPED;
+
+  }
+  
+  State getState();
 
   void start();
 
