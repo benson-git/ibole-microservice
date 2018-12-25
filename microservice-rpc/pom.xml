@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.github.ibole</groupId>
 		<artifactId>microservice-parent</artifactId>
-		<version>1.0.8</version>
+		<version>1.0.9</version>
 	</parent>
 	<artifactId>microservice-rpc</artifactId>
 	<packaging>jar</packaging>

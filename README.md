@@ -39,8 +39,6 @@ compile 'com.github.ibole:microservice-all:1.0.8'
 Source Building
 --------
 
-iBole-microservices depends on iBole-infrastructure. Please install iBole-infrastructure first before source building.
-
 1. Checkout the ibole-microservice source code:
     ```
     cd ~  

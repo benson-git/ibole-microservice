@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ibole</groupId>
 	<artifactId>microservice-parent</artifactId>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	<description>The parent project of IBole microservice framework</description>
@@ -51,7 +51,7 @@
         <module>microservice-all</module>
         <module>microservice-metrics</module>
         <module>microservice-security</module>
-    <module>microservice-cache</module>
+        <module>microservice-cache</module>
   </modules>
 	<profiles>
 		<profile>
@@ -88,7 +88,6 @@
 		</profile>
 	</profiles>
 	<properties>
-		<infrastructure_all_version>1.10.0</infrastructure_all_version>
 		<!-- Common libs -->
 		<slf4j_log4j12_version>1.7.22</slf4j_log4j12_version>
 		<commons_logging_api_version>1.1</commons_logging_api_version>
@@ -126,7 +125,7 @@
 		<argline>-server -Xms64m -Xmx64m -XX:PermSize=64m -XX:MaxPermSize=64m</argline>
 		<skip_maven_deploy>false</skip_maven_deploy>
 		<updateReleaseInfo>true</updateReleaseInfo>
-		<!--指定Maven用什么编码来读取源码及文�?? -->
+		<!--指定Maven用什么编码来读取源码及文�?? -->
 		<project.build.sourceEncoding>${file_encoding}</project.build.sourceEncoding>
 		<!--指定Maven用什么编码来呈现站点的HTML文件 -->
         <project.reporting.outputEncoding>${file_encoding}</project.reporting.outputEncoding>
@@ -169,21 +168,6 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
-		<!-- 	<dependency>
-				<groupId>com.github.ibole</groupId>
-				<artifactId>infrastructure-common</artifactId>
-				<version>${infrastructure_all_version}</version>
-			</dependency>	
-			<dependency>
-				<groupId>com.github.ibole</groupId>
-				<artifactId>infrastructure-security</artifactId>
-				<version>${infrastructure_all_version}</version>
-		    </dependency>
-			<dependency>
-				<groupId>com.github.ibole</groupId>
-				<artifactId>infrastructure-cache</artifactId>
-				<version>${infrastructure_all_version}</version>
-		    </dependency> -->
 			<!-- Common libs -->
 			<dependency>
 				<groupId>com.google.guava</groupId>
