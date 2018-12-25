@@ -1,13 +1,14 @@
 package com.github.ibole.microservice.rpc.test;
-import io.grpc.Server;
-import io.grpc.ServerBuilder;
-import com.github.ibole.infrastructure.common.properties.ConfigurationBuilder;
-import com.github.ibole.infrastructure.common.properties.ConfigurationHolder;
 import com.github.ibole.microservice.common.utils.Constants;
+import com.github.ibole.microservice.config.property.ConfigurationBuilder;
+import com.github.ibole.microservice.config.property.ConfigurationHolder;
 import com.github.ibole.microservice.rpc.server.RpcServerInterceptor;
 import com.github.ibole.microservice.rpc.server.RpcServerInterceptorProvider;
 import com.github.ibole.microservice.rpc.server.ServerBootstrap;
 import com.github.ibole.microservice.rpc.server.grpc.AbstractGrpcServer;
+
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,5 +1,8 @@
 package com.github.ibole.microservice.rpc.server.grpc;
 
+import com.github.ibole.microservice.common.exception.ErrorDetailsProto.ErrorDetails;
+import com.github.ibole.microservice.common.exception.ErrorReporter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,8 +10,6 @@ import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.protobuf.ProtoUtils;
 import io.grpc.stub.StreamObserver;
-import com.github.ibole.infrastructure.common.exception.ErrorDetailsProto.ErrorDetails;
-import com.github.ibole.infrastructure.common.exception.ErrorReporter;
 
 
 /*********************************************************************************************

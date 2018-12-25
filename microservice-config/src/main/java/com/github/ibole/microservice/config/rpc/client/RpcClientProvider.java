@@ -1,6 +1,6 @@
 package com.github.ibole.microservice.config.rpc.client;
 
-import com.github.ibole.infrastructure.common.exception.ProviderNotFoundException;
+import com.github.ibole.microservice.common.exception.ProviderNotFoundException;
 
 import java.util.ServiceLoader;
 

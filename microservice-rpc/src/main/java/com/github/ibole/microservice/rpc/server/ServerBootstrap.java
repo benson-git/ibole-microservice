@@ -1,9 +1,9 @@
 package com.github.ibole.microservice.rpc.server;
-import com.github.ibole.infrastructure.common.properties.ConfigurationBuilder;
-import com.github.ibole.infrastructure.common.properties.ConfigurationHolder;
 import com.github.ibole.microservice.common.ServerIdentifier;
 import com.github.ibole.microservice.common.io.NetworkUtil;
 import com.github.ibole.microservice.common.utils.Constants;
+import com.github.ibole.microservice.config.property.ConfigurationBuilder;
+import com.github.ibole.microservice.config.property.ConfigurationHolder;
 import com.github.ibole.microservice.container.IocContainer;
 import com.github.ibole.microservice.container.IocContainerProvider;
 import com.github.ibole.microservice.discovery.HostMetadata;

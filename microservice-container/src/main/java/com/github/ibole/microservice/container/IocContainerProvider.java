@@ -2,7 +2,7 @@ package com.github.ibole.microservice.container;
 
 
 
-import com.github.ibole.infrastructure.common.exception.ProviderNotFoundException;
+import com.github.ibole.microservice.common.exception.ProviderNotFoundException;
 
 import java.util.ServiceLoader;
 

@@ -50,7 +50,9 @@
 		<module>microservice-test</module>
         <module>microservice-all</module>
         <module>microservice-metrics</module>
-	</modules>
+        <module>microservice-security</module>
+    <module>microservice-cache</module>
+  </modules>
 	<profiles>
 		<profile>
 			<id>oss</id>
@@ -90,6 +92,8 @@
 		<!-- Common libs -->
 		<slf4j_log4j12_version>1.7.22</slf4j_log4j12_version>
 		<commons_logging_api_version>1.1</commons_logging_api_version>
+		<commons-io_version>2.5</commons-io_version>
+		<commons-lang3_version>3.4</commons-lang3_version>
 		<log4j_version>1.2.17</log4j_version>
 		<netty_tcnative_boringssl_static_version>1.1.33.Fork26</netty_tcnative_boringssl_static_version>
 		<netty_tcnative_version>1.1.33.Fork26</netty_tcnative_version>
@@ -113,6 +117,7 @@
 		<!-- Java 7 and Java 8 maven artifact: -->
 		<hikariCP_version>2.4.5</hikariCP_version>
 		<lombok_version>1.16.8</lombok_version>
+		<jose4j_version>0.5.5</jose4j_version>
 		<!-- Java 6 maven artifact: 
 		<hikariCP_version>2.3.13</hikariCP_version>-->
 		
@@ -121,7 +126,7 @@
 		<argline>-server -Xms64m -Xmx64m -XX:PermSize=64m -XX:MaxPermSize=64m</argline>
 		<skip_maven_deploy>false</skip_maven_deploy>
 		<updateReleaseInfo>true</updateReleaseInfo>
-		<!--指定Maven用什么编码来读取源码及文档 -->
+		<!--指定Maven用什么编码来读取源码及文�?? -->
 		<project.build.sourceEncoding>${file_encoding}</project.build.sourceEncoding>
 		<!--指定Maven用什么编码来呈现站点的HTML文件 -->
         <project.reporting.outputEncoding>${file_encoding}</project.reporting.outputEncoding>
@@ -164,7 +169,7 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
+		<!-- 	<dependency>
 				<groupId>com.github.ibole</groupId>
 				<artifactId>infrastructure-common</artifactId>
 				<version>${infrastructure_all_version}</version>
@@ -178,7 +183,7 @@
 				<groupId>com.github.ibole</groupId>
 				<artifactId>infrastructure-cache</artifactId>
 				<version>${infrastructure_all_version}</version>
-		    </dependency>
+		    </dependency> -->
 			<!-- Common libs -->
 			<dependency>
 				<groupId>com.google.guava</groupId>
@@ -339,6 +344,16 @@
 				<version>${commons_logging_api_version}</version>
 			</dependency>
 			<dependency>
+			    <groupId>commons-io</groupId>
+			    <artifactId>commons-io</artifactId>
+			    <version>${commons-io_version}</version>
+			</dependency>			
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-lang3</artifactId>
+			    <version>${commons-lang3_version}</version>
+			</dependency>			
+			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>${log4j_version}</version>
@@ -377,6 +392,11 @@
 			    <artifactId>lombok</artifactId>
 			    <version>${lombok_version}</version>
 			</dependency>
+			<dependency>
+			    <groupId>org.bitbucket.b_c</groupId>
+			    <artifactId>jose4j</artifactId>
+			    <version>${jose4j_version}</version>
+			</dependency>			
 			<!-- 
 			<dependency>
 			    <groupId>com.zaxxer</groupId>
@@ -413,10 +433,6 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.ibole</groupId>
-			<artifactId>infrastructure-common</artifactId>
 		</dependency>
 	</dependencies>
 	<!-- 

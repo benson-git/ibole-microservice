@@ -51,6 +51,16 @@
 			<artifactId>microservice-config</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.ibole</groupId>
+			<artifactId>microservice-metrics</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.ibole</groupId>
+			<artifactId>microservice-security</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>					
 	</dependencies>
 	<build>
 		<plugins>
@@ -110,6 +120,8 @@
 								    <include>com.github.ibole:microservice-rpc</include>
 								    <include>com.github.ibole:microservice-discovery</include>
                                     <include>com.github.ibole:microservice-config</include>
+                                    <include>com.github.ibole:microservice-metrics</include>
+                                    <include>com.github.ibole:microservice-security</include>
                                     <include>com.github.ibole:microservice-test</include>
 								</includes>
 							</artifactSet>

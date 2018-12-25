@@ -1,13 +1,15 @@
 package com.github.ibole.microservice.rpc.client.grpc;
 
+import com.github.ibole.microservice.common.exception.ErrorDetailsProto.ErrorDetails;
+import com.github.ibole.microservice.common.exception.ErrorReporter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.protobuf.ProtoUtils;
-import com.github.ibole.infrastructure.common.exception.ErrorDetailsProto.ErrorDetails;
-import com.github.ibole.infrastructure.common.exception.ErrorReporter;
+
 
 
 /*********************************************************************************************
@@ -52,20 +54,20 @@ public class ClientErrorHandler {
     switch (status.getCode()) {
       case FAILED_PRECONDITION:
         return ErrorReporter.FUNCTION.withCause(throwable)
-            .withSpecificErrorCode(errorDetails.getSpecificCode())
-            .withSpecificErrorMsg(errorDetails.getSpecificMessage());
+            .withErrorCode(errorDetails.getSpecificCode())
+            .withErrorMsg(errorDetails.getSpecificMessage());
       case UNAVAILABLE:
         return ErrorReporter.UNAVAILABLE.withCause(throwable)
-            .withSpecificErrorCode(errorDetails.getSpecificCode())
-            .withSpecificErrorMsg(errorDetails.getSpecificMessage());
+            .withErrorCode(errorDetails.getSpecificCode())
+            .withErrorMsg(errorDetails.getSpecificMessage());
       case INTERNAL:
         return ErrorReporter.INTERNAL.withCause(throwable)
-            .withSpecificErrorCode(errorDetails.getSpecificCode())
-            .withSpecificErrorMsg(errorDetails.getSpecificMessage());
+            .withErrorCode(errorDetails.getSpecificCode())
+            .withErrorMsg(errorDetails.getSpecificMessage());
       default:
         return ErrorReporter.UNKNOWN.withCause(throwable)
-            .withSpecificErrorCode(errorDetails.getSpecificCode())
-            .withSpecificErrorMsg(errorDetails.getSpecificMessage());
+            .withErrorCode(errorDetails.getSpecificCode())
+            .withErrorMsg(errorDetails.getSpecificMessage());
     }
   }
 }

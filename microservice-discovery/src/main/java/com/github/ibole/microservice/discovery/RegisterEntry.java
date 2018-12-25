@@ -1,10 +1,10 @@
 package com.github.ibole.microservice.discovery;
 
-import com.github.ibole.infrastructure.common.dto.TransferObject;
 import com.github.ibole.microservice.common.utils.EqualsUtil;
 import com.github.ibole.microservice.common.utils.HashCodeUtil;
 import com.github.ibole.microservice.common.utils.ToStringUtil;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -49,7 +49,7 @@ import java.util.Date;
  * @author bwang
  *
  */
-public class RegisterEntry implements TransferObject {
+public class RegisterEntry implements Serializable {
 
   private static final long serialVersionUID = 1L;
   //the specified service for discovery

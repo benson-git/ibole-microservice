@@ -26,6 +26,38 @@ public class Constants {
   public static final String PROPERTY_REGISTRY_HOSTS = "ibole.registry.hosts";
   public static final String PROPERTY_REGISTRY_ROOT_PATH = "ibole.registry.rootPath";
   public static final String PROPERTY_REGISTRY_ZONE = "ibole.registry.zone";
+  public static final String CACHE_REDIS_SERVER = "redis.host";
+
+  public static final String CACHE_REDIS_PORT = "redis.port";
+  
+  public static final String CACHE_REDIS_PASSWORD = "redis.password";
+  
+  //client and user identifier: loginId and clientId
+  public static final String USER_PRINCINPAL = "user.principal";
+  
+  public static final String MINI_DEVICE_INFO = "mini.device.info";
+
+  public static final String AUTH_ID = "loginId";
+  
+  public static final String CLIENT_ID = "ClientId";
+  
+  public static final String ANONYMOUS_ID = "Anonymous";
+  
+  public static final String REFRESH_TOKEN_KEY_PREFIX = "auth.refresh.token.";
+  
+  public static final String ACCESS_TOKEN_KEY_PREFIX = "auth.access.token.";
+  
+  public static final String REFRESH_TOKEN = "RefreshToken";
+  
+  public static final String ACCESS_TOKEN = "AccessToken";
+  
+  public static final String REFRESH_TOKEN_TTL = "auth.refreshToken.ttl";
+  
+  public static final String ACCESS_TOKEN_TTL = "auth.accessToken.ttl";
+  
+  public static final String SENDER_JWK_PATH = "/META-INF/cert/jwt/senderKey.json";
+  
+  public static final String RECEIVER_JWK_PATH = "/META-INF/cert/jwt/receiverKey.json";
 
   public enum RpcServerEnum {
 

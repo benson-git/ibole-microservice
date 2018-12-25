@@ -5,7 +5,8 @@ package com.github.ibole.microservice.config.spring.support;
 
 import com.github.ibole.microservice.config.annotation.Reference;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -52,7 +53,7 @@ public class RpcAnnotation implements DisposableBean, BeanFactoryPostProcessor, 
   
   public void setAnnotationPackage(String annotationPackage) {
     this.annotationPackage = annotationPackage;
-    if (!StringUtils.isEmpty(this.annotationPackage))
+    if (!Strings.isNullOrEmpty(this.annotationPackage))
       this.annotationPackages = this.annotationPackage.split(this.COMMA_SPLIT_PATTERN);
   }
   
@@ -117,7 +118,7 @@ public class RpcAnnotation implements DisposableBean, BeanFactoryPostProcessor, 
   @Override
   public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
       throws BeansException {
-    if (StringUtils.isEmpty(annotationPackage)) {
+    if (Strings.isNullOrEmpty(annotationPackage)) {
       return;
     }
     if (beanFactory instanceof BeanDefinitionRegistry) {

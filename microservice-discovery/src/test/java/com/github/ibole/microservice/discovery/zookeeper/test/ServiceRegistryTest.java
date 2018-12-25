@@ -14,7 +14,6 @@
 
 package com.github.ibole.microservice.discovery.zookeeper.test;
 
-import com.beust.jcommander.internal.Lists;
 import com.github.ibole.microservice.common.ServerIdentifier;
 import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.RegisterEntry;
@@ -22,6 +21,7 @@ import com.github.ibole.microservice.registry.AbstractRegistryFactory;
 import com.github.ibole.microservice.registry.ServiceRegistry;
 import com.github.ibole.microservice.registry.ServiceRegistryProvider;
 
+import com.google.common.collect.Lists;
 import com.google.common.net.HostAndPort;
 
 import org.apache.curator.framework.CuratorFramework;

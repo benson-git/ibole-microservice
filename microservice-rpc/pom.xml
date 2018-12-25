@@ -18,18 +18,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github.ibole</groupId>
-			<artifactId>infrastructure-common</artifactId>
-		</dependency>	
-		<dependency>
-			<groupId>com.github.ibole</groupId>
-			<artifactId>infrastructure-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.ibole</groupId>
-			<artifactId>infrastructure-cache</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.ibole</groupId>
 			<artifactId>microservice-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
@@ -53,6 +41,11 @@
             <artifactId>microservice-metrics</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.ibole</groupId>
+            <artifactId>microservice-security</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>               
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-tcnative-boringssl-static</artifactId>

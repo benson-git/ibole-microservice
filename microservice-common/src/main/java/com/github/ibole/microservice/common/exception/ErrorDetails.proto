@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "com.github.ibole.microservice.common.exception";
+option java_outer_classname = "ErrorDetailsProto";
+option objc_class_prefix = "RTG";
+
+// The request message containing the generalCode/specificCode/specificMessage/details
+message ErrorDetails {
+
+  string generalCode = 1;
+  string specificCode = 2;
+  string specificMessage = 3;
+  repeated string detailedMessage = 4;
+}

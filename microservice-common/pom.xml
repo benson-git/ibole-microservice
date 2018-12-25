@@ -7,7 +7,7 @@
 		<version>1.0.8</version>
 	</parent>
 	<artifactId>microservice-common</artifactId>
-	<packaging>jar</packaging>  
+	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	<description>The http common module of microservice project</description>
 	<properties>
@@ -39,12 +39,20 @@
 			<artifactId>commons-logging-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,18 +1,20 @@
 package com.github.ibole.microservice.rpc.server.grpc;
-import com.github.ibole.infrastructure.common.UserPrincipalProto.AuthTokenInfo;
-import com.github.ibole.infrastructure.common.UserPrincipalProto.UserPrincipal;
-import com.github.ibole.infrastructure.common.exception.ErrorDetailsProto.ErrorDetails;
-import com.github.ibole.infrastructure.common.exception.ErrorReporter;
-import com.github.ibole.infrastructure.common.i18n.MessageErrorCode;
-import com.github.ibole.infrastructure.common.properties.ConfigurationHolder;
-import com.github.ibole.infrastructure.common.utils.Constants;
-import com.github.ibole.infrastructure.security.jwt.JwtProvider;
-import com.github.ibole.infrastructure.security.jwt.TokenAuthenticator;
-import com.github.ibole.infrastructure.security.jwt.TokenHandlingException;
-import com.github.ibole.infrastructure.security.jwt.TokenStatus;
-import com.github.ibole.infrastructure.spi.cache.redis.RedisSimpleTempalte;
+
+import com.github.ibole.cache.Cache;
+import com.github.ibole.cache.provider.CacheProvider;
+import com.github.ibole.microservice.common.UserPrincipalProto.AuthTokenInfo;
+import com.github.ibole.microservice.common.UserPrincipalProto.UserPrincipal;
+import com.github.ibole.microservice.common.exception.ErrorDetailsProto.ErrorDetails;
+import com.github.ibole.microservice.common.exception.ErrorReporter;
+import com.github.ibole.microservice.common.i18n.MessageErrorCode;
+import com.github.ibole.microservice.common.utils.Constants;
+import com.github.ibole.microservice.config.property.ConfigurationHolder;
 import com.github.ibole.microservice.rpc.core.RpcContext;
 import com.github.ibole.microservice.rpc.server.RpcServerInterceptor;
+import com.github.ibole.microservice.security.auth.jwt.JwtProvider;
+import com.github.ibole.microservice.security.auth.jwt.TokenAuthenticator;
+import com.github.ibole.microservice.security.auth.jwt.TokenHandlingException;
+import com.github.ibole.microservice.security.auth.jwt.TokenStatus;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
@@ -58,8 +60,6 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
   public static final Context.Key<UserPrincipal> USER_PRINCINPAL =
       Context.key(Constants.USER_PRINCINPAL);
 
-  private static RedisSimpleTempalte redisTemplate;
-
   private static Metadata.Key<UserPrincipal> userPrincipalKey =
       ProtoUtils.keyForProto(UserPrincipal.getDefaultInstance());
 
@@ -75,11 +75,10 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
    */
   public AuthGrpcServerInterceptor() {
     // 连接redis服务
-    String redisHost = ConfigurationHolder.get().get(Constants.CACHE_REDIS_SERVER);
-    int redisPort = Integer.parseInt(ConfigurationHolder.get().get(Constants.CACHE_REDIS_PORT));
-    String password = ConfigurationHolder.get().get(Constants.CACHE_REDIS_PASSWORD);
-    redisTemplate = new RedisSimpleTempalte(redisHost, redisPort, password);
-    tokenAuthenticator =JwtProvider.provider().createTokenGenerator(redisTemplate);
+    //String redisHost = ConfigurationHolder.get().get(Constants.CACHE_REDIS_SERVER);
+    //int redisPort = Integer.parseInt(ConfigurationHolder.get().get(Constants.CACHE_REDIS_PORT));
+    //String password = ConfigurationHolder.get().get(Constants.CACHE_REDIS_PASSWORD);
+    tokenAuthenticator =JwtProvider.provider().createTokenGenerator();
   }
 
   @Override
@@ -90,7 +89,7 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
     if (userPrincipal == null || Strings.isNullOrEmpty(userPrincipal.getClientId())) {
       Metadata trailers = new Metadata();
       trailers.put(errorDetailsKey, ErrorReporter.UNAUTHENTICATED
-          .withSpecificErrorMsg(MessageErrorCode.CLIENT_ID_REQUIRED_KEY, true).toErrorDetails());
+          .withErrorMsg(MessageErrorCode.CLIENT_ID_REQUIRED_KEY, true).toErrorDetails());
       call.close(Status.UNAUTHENTICATED, trailers);
       return new ServerCall.Listener<ReqT>() {};
     }
@@ -119,7 +118,7 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
             logger.error("Failed to renew access token", ex);
             trailers.put(errorDetailsKey,
                 ErrorReporter.UNAUTHENTICATED
-                    .withSpecificErrorMsg(MessageErrorCode.ACCESS_TOKEN_RENEW_FAILED_KEY, true)
+                    .withErrorMsg(MessageErrorCode.ACCESS_TOKEN_RENEW_FAILED_KEY, true)
                     .toErrorDetails());
             userPrincipal = userPrincipal.toBuilder()
                 .setAuthToken(AuthTokenInfo.newBuilder().setLoginRequired(true)).build();
@@ -190,7 +189,7 @@ public class AuthGrpcServerInterceptor implements ServerInterceptor, RpcServerIn
     if (TokenStatus.INVALID.getCode().equals(tokenStatus.getCode())
         || TokenStatus.EXPIRED.getCode().equals(tokenStatus.getCode())) {
       trailers.put(errorDetailsKey, ErrorReporter.UNAUTHENTICATED
-          .withSpecificErrorMsg(MessageErrorCode.ERROR_UNAUTHENTICATED_KEY, true).toErrorDetails());
+          .withErrorMsg(MessageErrorCode.ERROR_UNAUTHENTICATED_KEY, true).toErrorDetails());
       call.close(Status.UNAUTHENTICATED, trailers);
     }
     return new ServerCall.Listener<ReqT>() {};

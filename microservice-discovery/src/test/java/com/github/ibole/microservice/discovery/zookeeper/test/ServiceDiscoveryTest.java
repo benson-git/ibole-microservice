@@ -16,11 +16,12 @@
 
 package com.github.ibole.microservice.discovery.zookeeper.test;
 
-import com.beust.jcommander.internal.Lists;
 import com.github.ibole.microservice.common.ServerIdentifier;
 import com.github.ibole.microservice.discovery.HostMetadata;
 import com.github.ibole.microservice.discovery.ServiceDiscovery;
 import com.github.ibole.microservice.discovery.ServiceDiscoveryProvider;
+
+import com.google.common.collect.Lists;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,15 +1,15 @@
 package com.github.ibole.microservice.discovery;
 
+import com.github.ibole.microservice.common.utils.EqualsUtil;
+import com.github.ibole.microservice.common.utils.HashCodeUtil;
+import com.github.ibole.microservice.common.utils.ToStringUtil;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.io.Serializable;
 import java.net.URI;
-
-import com.github.ibole.infrastructure.common.dto.TransferObject;
-import com.github.ibole.microservice.common.utils.EqualsUtil;
-import com.github.ibole.microservice.common.utils.HashCodeUtil;
-import com.github.ibole.microservice.common.utils.ToStringUtil;
 
 /**
  * Host Metadata.
@@ -21,7 +21,7 @@ import com.github.ibole.microservice.common.utils.ToStringUtil;
  * @author bwang
  *
  */
-public class HostMetadata implements TransferObject {
+public class HostMetadata implements Serializable {
 
   private static final long serialVersionUID = 1L;
   

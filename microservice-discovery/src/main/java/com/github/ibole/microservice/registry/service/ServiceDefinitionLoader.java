@@ -16,7 +16,7 @@
 
 package com.github.ibole.microservice.registry.service;
 
-import com.github.ibole.infrastructure.common.exception.ProviderNotFoundException;
+import com.github.ibole.microservice.common.exception.ProviderNotFoundException;
 
 import java.util.List;
 import java.util.ServiceLoader;

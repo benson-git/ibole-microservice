@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_package = "com.github.ibole.microservice.common";
+option java_outer_classname = "UserPrincipalProto";
+option objc_class_prefix = "RTG";
+
+// The request message containing the clientId/loginId/AuthTokenInfo
+message UserPrincipal {
+  string clientId = 1;
+  string loginId = 2;
+  string userName = 3;
+  AuthTokenInfo authToken = 4;
+}
+
+// The request message containing the loginRequired/renewAccessToken/refresh token/access token
+message AuthTokenInfo {
+  //identify whether the token that user provided is authenticated or not,
+  // user need to login if loginRequired is true.
+  bool loginRequired = 1;
+  //if the access token has renewed
+  bool renewAccessToken = 2;
+  string refreshToken = 3;
+  string accessToken = 4;
+}

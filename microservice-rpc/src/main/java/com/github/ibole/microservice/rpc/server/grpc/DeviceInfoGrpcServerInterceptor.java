@@ -1,4 +1,10 @@
 package com.github.ibole.microservice.rpc.server.grpc;
+import com.github.ibole.microservice.common.MiniDeviceInfoProto.MiniDeviceInfo;
+import com.github.ibole.microservice.common.exception.ErrorReporter;
+import com.github.ibole.microservice.common.exception.TechnicalException;
+import com.github.ibole.microservice.common.utils.Constants;
+import com.github.ibole.microservice.rpc.server.RpcServerInterceptor;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import io.grpc.Context;
@@ -7,11 +13,6 @@ import io.grpc.Metadata;
 import io.grpc.ServerCall;
 import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
-import com.github.ibole.infrastructure.common.MiniDeviceInfoProto.MiniDeviceInfo;
-import com.github.ibole.infrastructure.common.exception.ErrorReporter;
-import com.github.ibole.infrastructure.common.exception.TechnicalException;
-import com.github.ibole.infrastructure.common.utils.Constants;
-import com.github.ibole.microservice.rpc.server.RpcServerInterceptor;
 
 
 /**

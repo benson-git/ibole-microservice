@@ -1,6 +1,5 @@
 package com.github.ibole.microservice.registry.service.grpc;
 
-import com.github.ibole.infrastructure.common.io.IOUtils;
 import com.github.ibole.microservice.common.utils.ClassHelper;
 import com.github.ibole.microservice.common.utils.ConcurrentSet;
 import com.github.ibole.microservice.registry.service.BuzzServiceInstanceProvider;
@@ -12,6 +11,7 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto;
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet;
 import com.google.protobuf.Descriptors.FileDescriptor;
 
+import org.apache.curator.utils.CloseableUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +65,7 @@ public final class GrpcDescriptorServiceDefinitionLoader extends ServiceDefiniti
       throw new RuntimeException(ex);
 
     } finally {
-      IOUtils.closeInputStream(in);
+      CloseableUtils.closeQuietly(in);
     }
   }
 

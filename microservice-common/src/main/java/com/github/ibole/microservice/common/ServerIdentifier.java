@@ -1,6 +1,5 @@
 package com.github.ibole.microservice.common;
 
-import com.github.ibole.infrastructure.common.dto.TransferObject;
 import com.github.ibole.microservice.common.utils.EqualsUtil;
 import com.github.ibole.microservice.common.utils.HashCodeUtil;
 import com.github.ibole.microservice.common.utils.ToStringUtil;
@@ -9,6 +8,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.net.HostAndPort;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @author bwang
  *
  */
-public class ServerIdentifier implements TransferObject {
+public class ServerIdentifier implements Serializable {
 
   private static final long serialVersionUID = 1L;
 

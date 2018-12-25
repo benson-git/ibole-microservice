@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "com.github.ibole.microservice.common";
+option java_outer_classname = "MiniDeviceInfoProto";
+option objc_class_prefix = "RTG";
+
+// The request message containing the device model/osVersion/versionCode/imei/ip address.
+message MiniDeviceInfo {
+  //手机型号
+  string model = 1;
+  //OS版本信息
+  string osVersion = 2;
+  //当前APP的版本号
+  string versionCode = 3;
+  //本机串号imei
+  string imei = 4;
+  //IP address
+  string ipAddress = 5;
+}

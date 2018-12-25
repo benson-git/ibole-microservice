@@ -1,4 +1,11 @@
 package com.github.ibole.microservice.rpc.client.grpc;
+import com.github.ibole.microservice.common.MiniDeviceInfoProto.MiniDeviceInfo;
+import com.github.ibole.microservice.common.MiniDeviceInfoTo;
+import com.github.ibole.microservice.common.UserPrincipalProto.UserPrincipal;
+import com.github.ibole.microservice.common.exception.ErrorDetailsProto.ErrorDetails;
+import com.github.ibole.microservice.common.utils.Constants;
+import com.github.ibole.microservice.rpc.core.RpcContext;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.slf4j.Logger;
@@ -13,12 +20,6 @@ import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import io.grpc.Status;
 import io.grpc.protobuf.ProtoUtils;
-import com.github.ibole.infrastructure.common.MiniDeviceInfoProto.MiniDeviceInfo;
-import com.github.ibole.infrastructure.common.UserPrincipalProto.UserPrincipal;
-import com.github.ibole.infrastructure.common.dto.MiniDeviceInfoTo;
-import com.github.ibole.infrastructure.common.exception.ErrorDetailsProto.ErrorDetails;
-import com.github.ibole.infrastructure.common.utils.Constants;
-import com.github.ibole.microservice.rpc.core.RpcContext;
 
 
 /**
